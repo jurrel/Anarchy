@@ -4,8 +4,11 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+from flask_socketio import SocketIO, send, join_room, leave_room, emit
 
-from .models import db, User
+
+
+from .models import db, User, Message
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 
@@ -14,6 +17,7 @@ from .seeds import seed_commands
 from .config import Config
 
 app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Setup login manager
 login = LoginManager(app)
@@ -70,3 +74,52 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_static_file('favicon.ico')
     return app.send_static_file('index.html')
+
+
+
+@socketio.on('connect')
+def connection():
+    print('Connection success!')
+
+    @socketio.on('message')
+    def handleMessage(msg):
+        print('MESSAGE')
+        message = Message(
+            message=msg['message'], person_id=msg['person_id'], server_id=msg['server_id'])
+        db.session.add(message)
+        db.session.commit()
+        returnMessage = {'id': message.id,
+                         'message': message.message,
+                         'person_id': message.person_id,
+                         'server_id': message.server_id}
+        send(returnMessage, broadcast=True)
+        return None
+
+    @socketio.on('typing')
+    def typing_func(serverId):
+        emit('typing', serverId, broadcast=True)
+        return None
+
+    @socketio.on('user-connected')
+    def new_connection(serverId, senderId):
+        print('NEW CONNECTION')
+
+    @socketio.on('join')
+    def room(peerId):
+        print('JOINING')
+        emit('join', peerId, broadcast=True, include_self=False)
+        return None
+
+    @socketio.on('hang_up')
+    def hang_up(serverId, userId):
+        print('LEAVING', serverId, userId)
+        room = serverId
+        leave_room(room)
+        data = {'userId': userId, 'roomId': serverId}
+        emit('hang_up', data, broadcast=True)
+        return None
+
+    @socketio.on('disconnect')
+    def disconnection():
+        print('Terminated connection')
+        return None
