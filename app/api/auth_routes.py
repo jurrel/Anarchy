@@ -3,6 +3,10 @@ from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+from app.aws_s3 import upload_file_to_s3
+from app.config import Config
+from datetime import datetime
+
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -62,10 +66,21 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        print(f'{[file for file in request.files]}\n\n\n\n\n\n\n\n\n\n')
+        file = request.files["file"]
+        file = None
+
+        if file:
+          file_url = upload_file_to_s3(file, Config.S3_BUCKET)
+        else:
+          file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
+
         user = User(
             username=form.data['username'],
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
+            profile_picture=file_url,
+            createdAt=datetime.now()
         )
         db.session.add(user)
         db.session.commit()
