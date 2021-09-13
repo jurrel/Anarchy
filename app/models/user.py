@@ -16,12 +16,15 @@ class User(db.Model, UserMixin):
         500), nullable=False, default='https://townsquare.media/site/694/files/2019/01/GettyImages-868643608.jpg')
     hashed_password = db.Column(db.String(255), nullable=False)
     online = db.Column(db.Boolean, default=False)
-    created_at = db.Column(
-        db.String(), nullable=False, default=now.strftime("%d/%m/%Y %H:%M:%S"))
+    createdAt = db.Column(db.DateTime, nullable=False)
+
 
     role = db.relationship("Role", secondary='user_roles', back_populates="user")
-    #still needs proper mapping to message table and servers table
-    
+    messages = db.relationship("Message", back_populates="user")
+    servers = db.relationship("Server", secondary="server_users", back_populates="user")
+    server = db.relationship("Server", back_populates="owner")
+
+
     @property
     def password(self):
         return self.hashed_password

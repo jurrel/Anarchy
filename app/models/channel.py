@@ -8,8 +8,8 @@ class Channel(db.Model):
     name = db.Column(db.String(30), nullable=False)
     type = db.Column(db.Integer, nullable=False)
     server_id = db.Column(db.Integer, db.ForeignKey("servers.id"), nullable=False)
-    createdAt = db.Column(db.DateTime, nullable=False, default=db.func.now())
-    updatedAt = db.Column(db.DateTime, nullable=False, default=db.func.now(), onupdate=db.func.now())
+    createdAt = db.Column(db.DateTime, nullable=False)
+    updatedAt = db.Column(db.DateTime, nullable=False)
 
     server = db.relationship("Server", back_populates="channels")
     messages = db.relationship("Message", back_populates="channel")
