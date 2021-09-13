@@ -11,8 +11,8 @@ class Channel(db.Model):
     createdAt = db.Column(db.DateTime, nullable=False, default=db.func.now())
     updatedAt = db.Column(db.DateTime, nullable=False, default=db.func.now(), onupdate=db.func.now())
 
-    server = db.relationship("Server", back_populates="channel")
-    message = db.relationship("Message", back_populates="channel")
+    server = db.relationship("Server", back_populates="channels")
+    messages = db.relationship("Message", back_populates="channel")
 
     def to_dict(self):
         return {

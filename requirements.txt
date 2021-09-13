@@ -27,3 +27,8 @@ six==1.15.0
 sqlalchemy==1.4.19
 werkzeug==2.0.1
 wtforms==2.3.3
+pycodestyle==2.7.0
+pylint==2.10.2
+rope==0.19.0
+flask-socketio==5.1.1
+eventlet==0.32.0

@@ -1,6 +1,9 @@
 from .db import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
+
+now = datetime.now()
 
 
 class User(db.Model, UserMixin):
@@ -9,7 +12,12 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
+    profile_picture = db.Column(db.String(
+        500), nullable=False, default='https://townsquare.media/site/694/files/2019/01/GettyImages-868643608.jpg')
     hashed_password = db.Column(db.String(255), nullable=False)
+    online = db.Column(db.Boolean, default=False)
+    created_at = db.Column(
+        db.String(), nullable=False, default=now.strftime("%d/%m/%Y %H:%M:%S"))
 
     role = db.relationship("Role", secondary='user_roles', back_populates="user")
     #still needs proper mapping to message table and servers table

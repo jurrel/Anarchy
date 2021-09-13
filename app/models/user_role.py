@@ -3,8 +3,8 @@ from .db import db
 
 user_roles = db.Table(
     'user_roles', # name of table
-    db.Column('role_id', db.Integer, db.ForeignKey('roles.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
+    role_id = db.Column('role_id', db.Integer, db.ForeignKey('roles.id')),
+    user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
 )
    
   
