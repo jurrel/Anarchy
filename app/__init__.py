@@ -84,8 +84,21 @@ def connection():
     @socketio.on('message')
     def handleMessage(msg):
         print('MESSAGE')
-        message = Message(
-            message=msg['message'], person_id=msg['person_id'], server_id=msg['server_id'])
+        if msg.imageUrl:
+            message = Message(
+                message=msg['message'], 
+                user_id=msg['user_id'],
+                receiver_id=msg['receiver_id'],
+                channel_id=msg['channel_id'],
+                imageUrl=msg['imageUrl']
+            )
+        else:
+            message = Message(
+                message=msg['message'],
+                user_id=msg['user_id'],
+                receiver_id=msg['receiver_id'],
+                channel_id=msg['channel_id']
+            )
         db.session.add(message)
         db.session.commit()
         returnMessage = {'id': message.id,
