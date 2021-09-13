@@ -6,9 +6,9 @@ function Menu({setShowModal}) {
 
     return (
         <div className='menu-modal'>
-            <button id='close-modal' onClick={() => setShowModal(false)}><i className="fas fa-times"/></button>
-            <NavLink className='links' to='/' exact={true} activeClassName='active'>Home</NavLink>
-            <NavLink className='links' to='/users' exact={true} activeClassName='active'>Users</NavLink>
+            <button id='close-modal' onClick={() => setShowModal(false)}><i className="fas fa-times fa-2x"/></button>
+            <NavLink className='links' to='/servers' exact={true} activeClassName='active'>Servers</NavLink>
+            <NavLink className='links' to='/' exact={true} activeClassName='active'>About</NavLink>
             <LogoutButton />
         </div>
     )
