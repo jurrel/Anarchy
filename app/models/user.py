@@ -16,10 +16,10 @@ class User(db.Model, UserMixin):
         500), nullable=False, default='https://townsquare.media/site/694/files/2019/01/GettyImages-868643608.jpg')
     hashed_password = db.Column(db.String(255), nullable=False)
     online = db.Column(db.Boolean, default=False)
-    createdAt = db.Column(db.DateTime, nullable=False)
+    createdAt = db.Column(db.DateTime, nullable=True)
 
 
-    role = db.relationship("Role", secondary='user_roles', back_populates="user")
+    roles = db.relationship("Role", secondary='user_roles', back_populates="user")
     messages = db.relationship("Message", back_populates="user")
     servers = db.relationship("Server", secondary="server_users", back_populates="user")
     server = db.relationship("Server", back_populates="owner")
@@ -42,4 +42,3 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
- 
