@@ -12,6 +12,11 @@ def seed_user_roles():
     role_id=7, user_id=1,
   )
 
+  db.session.add(demo1)
+  db.session.add(demo2)
+  db.session.add(demo3)
+
+  db.session.commit()
 
 def undo_user_roles():
   db.session.execute('TRUNCATE user_roles RESTART IDENTITY CASCADE;')

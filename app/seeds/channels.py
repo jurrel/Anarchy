@@ -27,6 +27,16 @@ def seed_channels():
     name="Voice Chat", type=0, server_id=3, createdAt=now, updatedAt=now
   )
 
+  db.session.add(general1)
+  db.session.add(test1)
+  db.session.add(voice1)
+  db.session.add(general2)
+  db.session.add(voice2)
+  db.session.add(general3)
+  db.session.add(voice3)
+
+  db.session.commit()
+
 def undo_channels():
   db.session.execute('TRUNCATE channels RESTART IDENTITY CASCADE;')
   db.session.commit()
