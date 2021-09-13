@@ -1,5 +1,4 @@
 from .db import db
-from .user_role import user_roles
 
 
 class Role(db.Model):
