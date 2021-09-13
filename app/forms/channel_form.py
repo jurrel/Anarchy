@@ -4,7 +4,7 @@ from wtforms import IntegerField, StringField, SubmitField
 from wtforms.validators import DataRequired
 
 
-class channelForm(FlaskForm):
+class ChannelForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     type = IntegerField('Type', validators=[DataRequired()])
     submit = SubmitField("Submit")
