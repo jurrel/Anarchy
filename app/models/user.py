@@ -19,6 +19,9 @@ class User(db.Model, UserMixin):
     created_at = db.Column(
         db.String(), nullable=False, default=now.strftime("%d/%m/%Y %H:%M:%S"))
 
+    role = db.relationship("Role", secondary='user_roles', back_populates="user")
+    #still needs proper mapping to message table and servers table
+    
     @property
     def password(self):
         return self.hashed_password
@@ -36,3 +39,4 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
+ 
