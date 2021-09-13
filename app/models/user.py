@@ -19,8 +19,9 @@ class User(db.Model, UserMixin):
     createdAt = db.Column(db.DateTime, nullable=False)
 
 
-    role = db.relationship("Role", secondary='user_roles', back_populates="user")
-    messages = db.relationship("Message", back_populates="user")
+    roles = db.relationship("Role", secondary='user_roles', back_populates="user")
+    messages = db.relationship("Message", back_populates="user", foreign_keys='Message.user_id')
+    private_messages = db.relationship("Message", back_populates="receiver", foreign_keys='Message.receiver_id')
     servers = db.relationship("Server", secondary="server_users", back_populates="user")
     server = db.relationship("Server", back_populates="owner")
 
