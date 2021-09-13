@@ -1,8 +1,16 @@
 .nav-bar {
     height: 10vh;
-    width: 100vw;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
+}
+
+.nav-bar > * {
+    margin-right: 25px;
+    margin-bottom: 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 1.3rem;
 }

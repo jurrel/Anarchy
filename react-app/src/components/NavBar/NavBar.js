@@ -7,6 +7,7 @@ import './nav.css';
 const NavBar = () => {
 
   const user = useSelector(state => state.session.user);
+
   return (
     <nav className='nav-bar'>
       { user && (
@@ -17,7 +18,6 @@ const NavBar = () => {
           <NavLink to='/' exact={true} activeClassName='active'>Home</NavLink>
           <NavLink to='/login' exact={true} activeClassName='active'>Login</NavLink>
           <NavLink to='/sign-up' exact={true} activeClassName='active'>Sign Up</NavLink>
-          <NavLink to='/users' exact={true} activeClassName='active'>Users</NavLink>
         </>
       )}
     </nav>
