@@ -88,6 +88,28 @@ def connection():
             message = Message(
                 message=msg['message'], 
                 user_id=msg['user_id'],
+                channel_id=msg['channel_id'],
+                imageUrl=msg['imageUrl']
+            )
+        else:
+            message = Message(
+                message=msg['message'],
+                user_id=msg['user_id'],
+                channel_id=msg['channel_id']
+            )
+        db.session.add(message)
+        db.session.commit()
+        returnMessage = message.to_dict()
+        send(returnMessage, broadcast=True)
+        return None
+
+    @socketio.on('private-message')
+    def handlePrivateMessage(msg):
+
+        if msg.imageUrl:
+            message = Message(
+                message=msg['message'],
+                user_id=msg['user_id'],
                 receiver_id=msg['receiver_id'],
                 channel_id=msg['channel_id'],
                 imageUrl=msg['imageUrl']
@@ -96,17 +118,11 @@ def connection():
             message = Message(
                 message=msg['message'],
                 user_id=msg['user_id'],
-                receiver_id=msg['receiver_id'],
-                channel_id=msg['channel_id']
+                receiver_id=msg['receiver_id']
             )
-        db.session.add(message)
-        db.session.commit()
-        returnMessage = {'id': message.id,
-                         'message': message.message,
-                         'person_id': message.person_id,
-                         'server_id': message.server_id}
+        returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
-        return None
+        return None 
 
     @socketio.on('typing')
     def typing_func(serverId):

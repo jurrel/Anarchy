@@ -8,7 +8,7 @@ class Message(db.Model):
     message = db.Column(db.String(2000), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False) 
     receiver_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
-    channel_id = db.Column(db.Integer, db.ForeignKey('channels.id'), nullable=False) 
+    channel_id = db.Column(db.Integer, db.ForeignKey('channels.id')) 
     imageUrl = db.Column(db.String(500), nullable=True) 
     isRead = db.Column(db.Boolean, nullable=False, default=False)
     createdAt = db.Column(db.DateTime, nullable=False)
