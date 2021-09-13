@@ -9,7 +9,7 @@ class Role(db.Model):
     perm_level = db.Column(db.Integer, nullable=False) 
     server_id = db.Column(db.Integer, db.ForeignKey('servers.id'), nullable=False) 
 
-    users = db.relationship("User", secondary='user_roles', back_populates="roles") #roles can have many users, userse can have many roles
+    user = db.relationship("User", secondary='user_roles', back_populates="roles") #roles can have many users, userse can have many roles
     server = db.relationship("Server", back_populates="roles")
 
     def to_dict(self):

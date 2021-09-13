@@ -7,7 +7,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     message = db.Column(db.String(2000), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False) 
-    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False) 
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
     channel_id = db.Column(db.Integer, db.ForeignKey('channels.id'), nullable=False) 
     imageUrl = db.Column(db.String(500), nullable=True) 
     isRead = db.Column(db.Boolean, nullable=False, default=False)
@@ -15,7 +15,8 @@ class Message(db.Model):
     updatedAt = db.Column(db.DateTime, nullable=False)
     
     channel = db.relationship("Channel", back_populates="messages") #roles can have many users, userse can have many roles
-    user = db.relationship("User", back_populates="messages")
+    user = db.relationship("User", back_populates="messages", foreign_keys='Message.user_id')
+    receiver = db.relationship("User", back_populates="private_messages", foreign_keys='Message.receiver_id')
 
     def to_dict(self):
         return {
