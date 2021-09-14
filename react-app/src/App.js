@@ -38,7 +38,7 @@ function App() {
         <Route path='/account'>
           <LogInOut />
         </Route>
-        <ProtectedRoute path='/' exact={true} >
+        <ProtectedRoute path='/' >
           <Main />
         </ProtectedRoute>
         <ProtectedRoute path='/users' exact={true} >
