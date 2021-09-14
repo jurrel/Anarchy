@@ -8,7 +8,7 @@ from flask_socketio import SocketIO, send, join_room, leave_room, emit
 
 
 
-from .models import db, User, Message
+from .models import db, User, Message, Server, Channel
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.server_routes import server_route  ###
@@ -83,25 +83,82 @@ def react_root(path):
 
 
 
+from datetime import datetime
+
+now = datetime.now()
+
+#sockets 
+
 @socketio.on('connect')
 def connection():
     print('Connection success!')
+
+    @socketio.on('edit-server')
+    def edit_server(data):
+        server = Server.query.get(data.id)
+        server.name = data.name
+        server.imageUrl = data.imageUrl
+        db.session.commit()
+        emit('edit-server', server.to_dict(), broadcast=True)
+        return None 
+
+    @socketio.on('delete-server')
+    def delete_server(id):
+        server = Server.query.get(id)
+        db.session.delete(server)
+        db.session.commit()
+        emit('delete-server', id, broadcast=True)
+        return None
+
+    @socketio.on('post-channel')
+    def post_channel(data):
+        channel = Channel(
+            name = data.name,
+            type = data.type,
+            server_id = data.server_id,
+            createdAt = now,
+            updatedAt = now 
+        )
+        db.session.add(channel)
+        db.session.commit()
+        emit('post-channel', channel.to_dict(), broadcast=True)
+        return None
+
+    @socketio.on('edit-channel')
+    def edit_channel(data):
+        channel = Channel.query.get(data.id)
+        channel.name = data.name
+        channel.updatedAt = now 
+        db.session.commit()
+        emit('edit-channel', channel.to_dict(), broadcast=True)
+
+    @socketio.on('delete-channel')
+    def delete_channel(id):
+        channel = Channel.query.get(id)
+        db.session.delete(channel)
+        db.session.commit()
+        emit('delete-channel', id, broadcast=True)
+        return None
 
     @socketio.on('message')
     def handleMessage(msg):
         print('MESSAGE')
         if msg.imageUrl:
             message = Message(
-                message=msg['message'], 
-                user_id=msg['user_id'],
-                channel_id=msg['channel_id'],
-                imageUrl=msg['imageUrl']
+                message = msg['message'], 
+                user_id = msg['user_id'],
+                channel_id = msg['channel_id'],
+                imageUrl = msg['imageUrl'],
+                createdAt = now,
+                updatedAt = now 
             )
         else:
             message = Message(
-                message=msg['message'],
-                user_id=msg['user_id'],
-                channel_id=msg['channel_id']
+                message = msg['message'],
+                user_id = msg['user_id'],
+                channel_id = msg['channel_id'],
+                createdAt = now,
+                updatedAt = now 
             )
         db.session.add(message)
         db.session.commit()
@@ -118,13 +175,17 @@ def connection():
                 user_id=msg['user_id'],
                 receiver_id=msg['receiver_id'],
                 channel_id=msg['channel_id'],
-                imageUrl=msg['imageUrl']
+                imageUrl=msg['imageUrl'],
+                createdAt = now,
+                updatedAt = now 
             )
         else:
             message = Message(
                 message=msg['message'],
                 user_id=msg['user_id'],
-                receiver_id=msg['receiver_id']
+                receiver_id=msg['receiver_id'],
+                createdAt = now,
+                updatedAt = now 
             )
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
