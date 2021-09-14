@@ -43,67 +43,45 @@ const SignUpForm = () => {
 		setFile(e.target.value);
 	};
 
-	if (user) {
-		return <Redirect to="/" />;
-	}
-
-	return (
-		<form onSubmit={onSignUp} encType="multipart/form-data">
-			<div>
-				{errors.map((error, ind) => (
-					<div key={ind}>{error}</div>
-				))}
-			</div>
-			<div>
-				<label>User Name</label>
-				<input
-					type="text"
-					name="username"
-					onChange={updateUsername}
-					value={username}
-				></input>
-			</div>
-			<div>
-				<label>Email</label>
-				<input
-					type="text"
-					name="email"
-					onChange={updateEmail}
-					value={email}
-				></input>
-			</div>
-			<div>
-				<label>Password</label>
-				<input
-					type="password"
-					name="password"
-					onChange={updatePassword}
-					value={password}
-				></input>
-			</div>
-			<div>
-				<label>Repeat Password</label>
-				<input
-					type="password"
-					name="repeat_password"
-					onChange={updateRepeatPassword}
-					value={repeatPassword}
-					required={true}
-				></input>
-			</div>
-			<div>
-				<label>Profile Picture</label>
-				<input
-					type="file"
-					name="file"
-					onChange={updateFile}
-					value={file}
-					required={false}
-				></input>
-			</div>
-			<button type="submit">Sign Up</button>
-		</form>
-	);
+  return (
+    <form className='log-form' onSubmit={onSignUp}>
+      <div>
+        {errors.map((error, ind) => (
+          <div key={ind}>{error}</div>
+        ))}
+      </div>
+        <label>User Name</label>
+        <input
+          type='text'
+          name='username'
+          onChange={updateUsername}
+          value={username}
+        ></input>
+        <label>Email</label>
+        <input
+          type='text'
+          name='email'
+          onChange={updateEmail}
+          value={email}
+        ></input>
+        <label>Password</label>
+        <input
+          type='password'
+          name='password'
+          onChange={updatePassword}
+          value={password}
+        ></input>
+        <label>Repeat Password</label>
+        <input
+          type='password'
+          name='repeat_password'
+          onChange={updateRepeatPassword}
+          value={repeatPassword}
+          required={true}
+        ></input>
+      <button type='submit'>Sign Up</button>
+    </form>
+  );
 };
 
 export default SignUpForm;
