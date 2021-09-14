@@ -14,5 +14,8 @@ class Friend(db.Model):
     return {
       'id': self.id,
       'sender_id': self.sender_id,
-      'receiver_id': self.receiver_id
+      'receiver_id': self.receiver_id,
+      'isFriend': self.isFriend,
+      'createdAt': self.createdAt,
+      'updatedAt': self.updatedAt
     }

@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from app.models import Channel, db
 from app.forms.channel_form import ChannelForm
 
