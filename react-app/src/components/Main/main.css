@@ -1,38 +1,43 @@
-body,
-html,
-:root {
-	background-color: rgb(24, 26, 27);
-	background-image: rgb(24, 26, 27);
+@media screen and (min-width: 760px) {
+	body,
+	html,
+	:root {
+		background-color: rgb(24, 26, 27);
+		background-image: rgb(24, 26, 27);
+	}
+
+	.main-content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 626px;
+		background-image: url('https://anarchybucket.s3.us-east-2.amazonaws.com/resources/Splash-Background.png');
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+		text-align: center;
+	}
+
+	.motto {
+		position: absolute;
+		top: 30%;
+	}
+
+	.motto-big {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		letter-spacing: 2px;
+		font-size: 48px;
+		margin-bottom: 10px;
+	}
+
+	.motto-small {
+		font-family: monospace;
+		width: 800px;
+		font-size: 18px;
+	}
 }
 
-.main-content {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 626px;
-	background-image: url('https://anarchybucket.s3.us-east-2.amazonaws.com/resources/Splash-Background.png');
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-	text-align: center;
-}
-
-.motto {
-	position: absolute;
-	top: 30%;
-}
-
-.motto-big {
-	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-	letter-spacing: 2px;
-	font-size: 48px;
-	margin-bottom: 10px;
-}
-
-.motto-small {
-	font-family: monospace;
-	width: 800px;
-	font-size: 18px;
+@media screen and (max-width: 760px) {
 }
