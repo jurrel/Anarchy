@@ -1,0 +1,107 @@
+.logout {
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.splash-log {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px;
+    align-items: center;
+    word-wrap: break-word;
+    box-shadow: inset 5px 5px 10px #da6969,
+    inset -5px -5px 10px rgb(140, 140, 242);
+    border-radius: 10px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.logs {
+    display: flex;
+    gap: 25px;
+}
+
+.log-buttons {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 5px lightgray;
+}
+
+.log-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.log-form > label {
+    border-bottom: 1px solid gray;
+}
+
+.log-form > input {
+    border-radius: 15px;
+    padding: 5px;
+    width: 20vw;
+    text-align: center;
+}
+
+.log-form > input:focus {
+    outline: none;
+}
+
+.log-form > button {
+    background-color: transparent;
+    box-shadow: inset 5px 5px 10px #da6969,
+                inset -5px -5px 10px rgb(140, 140, 242);
+    border-radius: 15px;
+    border: none;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.log-form > button:hover {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 760px) {
+
+    .splash-log {
+        height: 80%;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        word-wrap: break-word;
+        box-shadow: inset 5px 5px 10px #da6969,
+        inset -5px -5px 10px rgb(140, 140, 242);
+        border-radius: 10px;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+
+    .log-form>input {
+        border-radius: 15px;
+        padding: 5px;
+        width: 40vw;
+        height: 25px;
+        text-align: center;
+    }
+
+    .log-form > input:focus {
+        outline: none;
+        font-size: 16px;
+    }
+}

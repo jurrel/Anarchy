@@ -27,17 +27,14 @@ const LoginForm = () => {
   };
 
   if (user) {
-    return <Redirect to='/servers' />;
+    return <Redirect to='/' />;
   }
 
   return (
-    <form onSubmit={onLogin}>
-      <div>
+    <form className='log-form' onSubmit={onLogin}>
         {errors.map((error, ind) => (
           <div key={ind}>{error}</div>
         ))}
-      </div>
-      <div>
         <label htmlFor='email'>Email</label>
         <input
           name='email'
@@ -46,8 +43,6 @@ const LoginForm = () => {
           value={email}
           onChange={updateEmail}
         />
-      </div>
-      <div>
         <label htmlFor='password'>Password</label>
         <input
           name='password'
@@ -56,8 +51,7 @@ const LoginForm = () => {
           value={password}
           onChange={updatePassword}
         />
-        <button type='submit'>Login</button>
-      </div>
+        <button type='submit'>Submit</button>
     </form>
   );
 };

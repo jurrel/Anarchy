@@ -15,14 +15,14 @@ function Home() {
                     us at one of the links below!
                 </p>
                 <div className='dev-team'>
-                    <div class='dev'>
+                    <div className='dev'>
                         <h2>Walker Williams</h2>
                         <div className='dev-links'>
                             <a className='links' href='https://github.com/walkerwilliamsx'><i className="fab fa-github fa-2x"/></a>
                         </div>
 
                     </div>
-                    <div class='dev'>
+                    <div className='dev'>
                         <h2>Gerryl Esparacion</h2>
                         <div className='dev-links'>
                             <a className='links' href='https://www.linkedin.com/in/gerryle/'><i className="fab fa-linkedin fa-2x" /></a>
@@ -30,7 +30,7 @@ function Home() {
                         </div>
 
                     </div>
-                    <div class='dev'>
+                    <div className='dev'>
                         <h2>Sean Cotter</h2>
                         <div className='dev-links'>
                             <a className='links' href='https://www.linkedin.com/in/sean-cotter-43572417/'><i className="fab fa-linkedin fa-2x" /></a>

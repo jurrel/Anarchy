@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import React from 'react';
 import MenuModal from './Menu';
 import './nav.css';
+import Anarchy from '../auth/anarchy';
 
 const NavBar = () => {
 
@@ -15,9 +16,8 @@ const NavBar = () => {
       )}
       { !user && (
         <>
-          <NavLink to='/' exact={true} activeClassName='active'>Home</NavLink>
-          <NavLink to='/login' exact={true} activeClassName='active'>Login</NavLink>
-          <NavLink to='/sign-up' exact={true} activeClassName='active'>Sign Up</NavLink>
+          <Anarchy />
+          <NavLink to='/about' exact={true} activeClassName='active'>About</NavLink>
         </>
       )}
     </nav>

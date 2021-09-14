@@ -10,7 +10,7 @@ function MenuModal() {
 
   return (
     <>
-      <button id='menu' onClick={() => {setShowModal(!showModal)}}><i className="fas fa-bars fa-3x" /></button>
+      <button id='menu' onClick={() => {setShowModal(!showModal)}}><i className="fas fa-bars fa-2x" /></button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <>

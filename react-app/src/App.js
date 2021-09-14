@@ -9,6 +9,8 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import Home from './components/HomePage/home';
+import LogInOut from './components/auth/login/login-logout';
+import Main from './components/Main/main';
 
 
 function App() {
@@ -30,17 +32,14 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Switch>
-        <Route path='/login' exact={true}>
-          <LoginForm />
+        <Route path='/anarchy'>
+          <LogInOut />
         </Route>
-        <Route path='/' exact={true} >
+        <Route path='/about'>
           <Home />
         </Route>
-        <Route path='/sign-up' exact={true}>
-          <SignUpForm />
-        </Route>
-        <ProtectedRoute path='servers' exact={true} >
-          
+        <ProtectedRoute path='/' exact={true} >
+          <Main />
         </ProtectedRoute>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList/>
