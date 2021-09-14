@@ -1,34 +1,50 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import Peer from 'peerjs';
+
+import './main.css';
+import OnlineFriends from './OnlineFriends/onlineFriends';
 
 
 let endPoint = 'http://127.0.0.1:5000/';
 
 let socket = io.connect(`${endPoint}`);
 
+
 const myPeer = new Peer(undefined, {
-      host: 'localhost',
-      port: 9000,
-      path: '/myapp'
+    host: 'localhost',
+    port: 9000,
+    path: '/myapp'
 });
 
-function Main() {
 
-    const [data, setData] = useState(false);
-    const [serverId, setServerId] = useState(false);
+function Main() {
+    
+    const user = useSelector(state => state.session.user);
+    const servers = useSelector(state => state.session.servers);
+    const friends = useSelector(state => state.session.friends);
+    
+    socket.emit('online', user.id)
+
+    const [serverId, setServerId] = useState('');
+    const [channelId, setChannelId] = useState('');
+
     const [message, setMessage] = useState('');
     const [sender, setSender] = useState(1);
     const [messages, setMessages] = useState([]);
     const [typing, setTyping] = useState(false);
+
     const [members, setMembers] = useState(0);
-    const [stateStream, setStream] = useState();
     const [video, setVideo] = useState(true);
     const [audio, setAudio] = useState(true);
 
     return (
-        <h1>Main Page</h1>
+        <div className='main-container'>
+            <h1>Main Page</h1>
+            <OnlineFriends socket={socket} />
+        </div>
     )
 }
 

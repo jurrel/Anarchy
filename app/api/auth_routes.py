@@ -30,6 +30,7 @@ def authenticate():
     """
     Authenticates a user.
     """
+    print('CURRENT USER', current_user)
     if current_user.is_authenticated:
 
         server_users = ServerUser.query.filter(current_user.id == ServerUser.user_id).all()
@@ -175,3 +176,5 @@ def unauthorized():
     Returns unauthorized JSON when flask-login authentication fails
     """
     return {'errors': ['Unauthorized']}, 401
+
+
