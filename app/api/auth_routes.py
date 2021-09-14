@@ -1,5 +1,6 @@
+from operator import or_
 from flask import Blueprint, jsonify, session, request
-from app.models import User, db, Channel, Server, Message, Role, ServerUser, UserRoles
+from app.models import User, db, Channel, Server, Message, Role, ServerUser, UserRoles, Friend
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
@@ -7,6 +8,7 @@ from app.aws_s3 import upload_file_to_s3
 from app.config import Config
 from datetime import datetime
 from sqlalchemy.orm import joinedload
+from sqlalchemy import or_
 
 
 auth_routes = Blueprint('auth', __name__)
@@ -29,7 +31,44 @@ def authenticate():
     Authenticates a user.
     """
     if current_user.is_authenticated:
-        return current_user.to_dict()
+
+        server_users = ServerUser.query.filter(user.id == ServerUser.user_id).all()
+        servers = [ Server.query.get(server.server_id) for server in server_users ]
+        serverIds = [server.id for server in servers ]
+
+        data = {
+            'user': user.to_dict(),
+            'servers': [ server.to_dict() for server in servers ],
+            'friends': None,
+        }
+
+        for server in data['servers']:
+            channel_list = Channel.query.filter(Channel.server_id == server['id']).all()
+            server['channels'] = [ channel.to_dict() for channel in channel_list ]
+
+            for channel in server['channels']:
+                message_list = Message.query.filter(Message.channel_id == channel['id']).all()
+                channel['messages'] = [ message.to_dict() for message in message_list ]
+
+            user_id_list = ServerUser.query.filter(ServerUser.server_id == server['id']).all()
+            users = []
+            for server_user in user_id_list:
+                user_list = User.query.filter(User.id == server_user.user_id).all()
+                users.append( *[ user.to_dict() for user in user_list ] )
+            server['users'] = users 
+
+            for user in users:
+                roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == user['id']).all()
+                if len(roles) > 0:
+                    for role in roles:
+                        if role.server_id == server['id']:
+                            user['role'] = role.to_dict()
+                            break
+
+        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == user['id'])).all()
+        data['friends'] = [ friend.to_dict() for friend in friends ]
+
+        return data
     return {'errors': ['Unauthorized']}
 
 
@@ -48,19 +87,44 @@ def login():
         user.online = True 
         login_user(user)
         db.session.commit()
+
         server_users = ServerUser.query.filter(user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
-        # channels = Channel.query.filter( for server in servers).all()
-        print(servers)
+        serverIds = [server.id for server in servers ]
+
         data = {
-            'servers': None,
-            'channels': None,
-            'messages': None,
-            'roles': None,
+            'user': user.to_dict(),
+            'servers': [ server.to_dict() for server in servers ],
             'friends': None,
         }
-        
-        return user.to_dict()
+
+        for server in data['servers']:
+            channel_list = Channel.query.filter(Channel.server_id == server['id']).all()
+            server['channels'] = [ channel.to_dict() for channel in channel_list ]
+
+            for channel in server['channels']:
+                message_list = Message.query.filter(Message.channel_id == channel['id']).all()
+                channel['messages'] = [ message.to_dict() for message in message_list ]
+
+            user_id_list = ServerUser.query.filter(ServerUser.server_id == server['id']).all()
+            users = []
+            for server_user in user_id_list:
+                user_list = User.query.filter(User.id == server_user.user_id).all()
+                users.append( *[ user.to_dict() for user in user_list ] )
+            server['users'] = users 
+
+            for user in users:
+                roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == user['id']).all()
+                if len(roles) > 0:
+                    for role in roles:
+                        if role.server_id == server['id']:
+                            user['role'] = role.to_dict()
+                            break
+
+        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == user['id'])).all()
+        data['friends'] = [ friend.to_dict() for friend in friends ]
+
+        return data
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
