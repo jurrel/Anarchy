@@ -81,9 +81,9 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        print(f'{[file for file in request.files]}\n\n\n\n\n\n\n\n\n\n')
-        file = request.files["file"]
         file = None
+        if len(request.files) > 0:
+          file = request.files["file"]
 
         if file:
           file_url = upload_file_to_s3(file, Config.S3_BUCKET)
