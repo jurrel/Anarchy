@@ -20,11 +20,3 @@ def create_server():
         return server.to_dict()
     return{'error': 'BIG OOOOOOOOOfff'}
 
-
-@server_route.route('/', methods=["DELETE"])
-def deleteServer(id):
-    server = Server.query.get(id)
-    db.session.delete(server)
-    db.session.commit()
-
-    return server.to_dict()

@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import User, db
+from app.models import User, db, Channel, Server, Message, Role, ServerUser, UserRoles
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.aws_s3 import upload_file_to_s3
 from app.config import Config
 from datetime import datetime
+from sqlalchemy.orm import joinedload
 
 
 auth_routes = Blueprint('auth', __name__)
@@ -44,7 +45,21 @@ def login():
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
+        user.online = True 
         login_user(user)
+        db.session.commit()
+        server_users = ServerUser.query.filter(user.id == ServerUser.user_id).all()
+        servers = [ Server.query.get(server.server_id) for server in server_users ]
+        # channels = Channel.query.filter( for server in servers).all()
+        print(servers)
+        data = {
+            'servers': None,
+            'channels': None,
+            'messages': None,
+            'roles': None,
+            'friends': None,
+        }
+        
         return user.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
