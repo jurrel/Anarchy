@@ -32,12 +32,12 @@ def authenticate():
     """
     if current_user.is_authenticated:
 
-        server_users = ServerUser.query.filter(user.id == ServerUser.user_id).all()
+        server_users = ServerUser.query.filter(current_user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
         serverIds = [server.id for server in servers ]
 
         data = {
-            'user': user.to_dict(),
+            'user': current_user.to_dict(),
             'servers': [ server.to_dict() for server in servers ],
             'friends': None,
         }
@@ -65,9 +65,10 @@ def authenticate():
                             user['role'] = role.to_dict()
                             break
 
-        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == user['id'])).all()
+        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         data['friends'] = [ friend.to_dict() for friend in friends ]
 
+        print(data.keys())
         return data
     return {'errors': ['Unauthorized']}
 
