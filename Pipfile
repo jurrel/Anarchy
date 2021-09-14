@@ -30,6 +30,7 @@ pylint = "==2.10.2"
 rope = "==0.19.0"
 eventlet = "==0.32.0"
 Flask-SocketIO = "==5.1.1"
+boto3 = "*"
 
 [dev-packages]
 psycopg2-binary = "==2.9.1"
