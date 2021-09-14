@@ -2,7 +2,7 @@ from flask import Blueprint
 from app.models import Channel, db
 from app.forms.channel_form import ChannelForm
 
-channel_route = Blueprint('server', __name__)
+channel_route = Blueprint('channel', __name__)
 
 @channel_route.route('/id', methods=["POST"])
 def create_channel():
