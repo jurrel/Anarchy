@@ -9,14 +9,14 @@ function LogInOut() {
         <div className='home'>
             <div className='splash-log'>
                 <div className='logs'>
-                    <NavLink to='/anarchy/login' className='log-buttons'>Login</NavLink>
-                    <NavLink to='/anarchy/sign-up' className='log-buttons'>Sign Up</NavLink> 
+                    <NavLink to='/account/login' className='log-buttons'>Login</NavLink>
+                    <NavLink to='/account/sign-up' className='log-buttons'>Sign Up</NavLink> 
                 </div>
                 <Switch>
-                    <Route path='/anarchy/login'>
+                    <Route path='/account/login'>
                         <LoginForm />
                     </Route>
-                    <Route path='/anarchy/sign-up'>
+                    <Route path='/account/sign-up'>
                         <SignUpForm />
                     </Route>
                 </Switch>
