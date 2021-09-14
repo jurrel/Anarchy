@@ -5,7 +5,7 @@ function Anarchy() {
 
     return (
         <div className='anarchy'>
-            <NavLink activeClassName='active' className='links' to='/anarchy/login'>Anarchy</NavLink>
+            <NavLink activeClassName='active' className='links' to='/account/login'>Anarchy</NavLink>
         </div>
     )
 }
