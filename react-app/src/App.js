@@ -32,11 +32,11 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Switch>
-        <Route path='/anarchy'>
-          <LogInOut />
-        </Route>
         <Route path='/about'>
           <Home />
+        </Route>
+        <Route path='/account'>
+          <LogInOut />
         </Route>
         <ProtectedRoute path='/' exact={true} >
           <Main />
