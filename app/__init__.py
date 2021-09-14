@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, send, join_room, leave_room, emit
 
 
@@ -92,6 +92,10 @@ now = datetime.now()
 @socketio.on('connect')
 def connection():
     print('Connection success!')
+
+    @socketio.on('online')
+    def login(userId):
+        emit('online', userId, broadcast=True, include_self=False)
 
     @socketio.on('edit-server')
     def edit_server(data):

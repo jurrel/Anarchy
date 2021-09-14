@@ -95,7 +95,6 @@ const initialState = { user: null };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
-			console.log(action.payload.data)
 			return { 
 				user: action.payload.user, 
 				servers: action.payload.servers, 
