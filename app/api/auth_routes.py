@@ -55,7 +55,7 @@ def authenticate():
             users = []
             for server_user in user_id_list:
                 user_list = User.query.filter(User.id == server_user.user_id).all()
-                users.append( *[ user.to_dict() for user in user_list ] )
+                users.append(*[user.to_dict() for user in user_list])
             server['users'] = users
 
             for user in users:
@@ -68,12 +68,12 @@ def authenticate():
 
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        users = [ user.to_dict() for user in users_list ]
-    
+        users = [user.to_dict() for user in users_list]
+
         for user in users:
             for friend in friends:
                 if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
-                    user['isFriend'] = friend.isFriend 
+                    user['isFriend'] = friend.isFriend
                     user['sender_id'] = friend.sender_id
                     user['receiver_id'] = friend.receiver_id
 
@@ -135,11 +135,11 @@ def login():
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users = [ user.to_dict() for user in users_list ]
-    
+
         for user in users:
             for friend in friends:
                 if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
-                    user['isFriend'] = friend.isFriend 
+                    user['isFriend'] = friend.isFriend
                     user['sender_id'] = friend.sender_id
                     user['receiver_id'] = friend.receiver_id
 
@@ -197,5 +197,3 @@ def unauthorized():
     Returns unauthorized JSON when flask-login authentication fails
     """
     return {'errors': ['Unauthorized']}, 401
-
-

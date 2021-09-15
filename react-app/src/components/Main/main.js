@@ -10,6 +10,7 @@ import './main.css';
 import OnlineFriends from './OnlineFriends/onlineFriends';
 import Friends from './OnlineFriends/friends';
 import Message from './Messages/messages';
+import Servers from './Servers/servers';
 
 let endPoint = 'http://127.0.0.1:5000/';
 
@@ -49,11 +50,44 @@ function Main() {
 		<div className="main-container">
 			<h1>Main Page</h1>
 			<Friends socket={socket} />
+			<div className="sidebar_server_list">
+				<Servers />
+			</div>
 			<Route path="/:serverId/:channelId" exact={true}>
 				<Message socket={socket} />
 			</Route>
 		</div>
 	);
 }
+// 	const user = useSelector((state) => state.session.user);
+// 	const servers = useSelector((state) => state.session.servers);
+// 	const friends = useSelector((state) => state.session.friends);
+
+// 	const [serverId, setServerId] = useState('');
+// 	const [channelId, setChannelId] = useState('');
+// 	const [online, setOnline] = useState(false);
+
+// 	const [message, setMessage] = useState('');
+// 	const [sender, setSender] = useState(1);
+// 	const [messages, setMessages] = useState([]);
+// 	const [typing, setTyping] = useState(false);
+
+// 	const [members, setMembers] = useState(0);
+// 	const [video, setVideo] = useState(true);
+// 	const [audio, setAudio] = useState(true);
+
+// 	useEffect(() => {
+// 		if (online) return;
+// 		socket.emit('online', user.id);
+// 		setOnline(true);
+// 	}, [online, user.id]);
+
+// 	return (
+// 		<div className="main-container">
+// 			<h1>Main Page</h1>
+// 			<Friends socket={socket} />
+// 		</div>
+// 	);
+// }
 
 export default Main;
