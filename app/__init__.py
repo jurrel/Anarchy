@@ -5,8 +5,8 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, send, join_room, leave_room, emit
-from sqlalchemy import or_
-from operator import or_
+from sqlalchemy.orm.attributes import flag_modified
+import eventlet
 
 
 
@@ -24,7 +24,7 @@ from .seeds import seed_commands
 from .config import Config
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 
 # Setup login manager
 login = LoginManager(app)
@@ -102,18 +102,29 @@ def connection():
         emit('online', userId, broadcast=True, include_self=False)
 
     @socketio.on('confirm-friend')
-    def confirm_friend(sender_id, receiver_id):
+    def confirm_friend(friend):
+        print('CONFIRM FRIEND', friend)
 
-        friend = Friend.query.filter(Friend.receiver_id == receiver_id).filter(Friend.sender_id == sender_id).one_or_none()
-        if friend:
-            friend.isFriend = True 
+        db_friend = Friend.query.filter(Friend.receiver_id == friend['receiver_id']).filter(Friend.sender_id == friend['sender_id']).one_or_none()
+        user = User.query.get(friend['receiver_id'])
+        if db_friend:
+            db_friend.isFriend = True
+            friend['isFriend'] = True
+            db.session.add(db_friend)
         db.session.commit()
-        data = {
-            'sender_id': sender_id,
-            'receiver_id': receiver_id
-        }
-        emit('friend-confirmed', data, broadcast=True)
+        print(db_friend.to_dict(), user.to_dict(), friend)
+        
+        emit('confirm-friend', friend, broadcast=True)
         return None
+
+    @socketio.on('deny-friend')
+    def deny_friend(friend):
+        goodbye = Friend.query.filter(Friend.sender_id == friend['id']).one_or_none()
+        # db.session.delete(goodbye)
+        # db.session.commit()
+        print('GOODBYE', goodbye.to_dict())
+        emit('deny-friend', friend, broadcast=True)
+        return None 
 
     @socketio.on('edit-server')
     def edit_server(data):
@@ -241,3 +252,7 @@ def connection():
     def disconnection():
         print('Terminated connection')
         return None
+
+
+if __name__ == '__main__':
+    socketio.run(app)

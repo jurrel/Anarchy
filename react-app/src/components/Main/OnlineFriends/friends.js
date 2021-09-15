@@ -7,21 +7,24 @@ import PendingFriends from './pending-friends';
 
 function Friends({ socket }) {
 
-    const friends = useSelector(state => state.session.friends);
     const user = useSelector(state => state.session.user);
+    const friends = useSelector(state => state.session.friends);
         
-    const [ pendingFriends, setPendingFriends ] = useState(friends.filter(friend => friend.isFriend === false && +friend.receiver_id === +user.id));
     const [ onlineFriends, setOnlineFriends ] = useState(friends.filter(friend => friend.online === true && friend.isFriend === true));
+    const [ pendingFriends, setPendingFriends ] = useState(friends.filter(friend => friend.isFriend === false && +friend.receiver_id === +user.id));
+    const [ offlineFriends, setOfflineFriends ] = useState(friends.filter(friend => friend.online === false && friend.isFriend === true));
 
 
     useEffect(() => {
-
-        if (!friends) return;
         
         socket.on('online', (userId) => {
+            
             const friend = friends.find(friend => friend.id === userId);
-            if (friend && friend.isFriend) {
-                setOnlineFriends([ ...onlineFriends, friend ])
+            const isOnline = onlineFriends.find(onlineFriend => onlineFriend.id === userId);
+
+            if ((friend && friend.isFriend) && !isOnline) {
+                setOnlineFriends([ ...onlineFriends, friend ]);
+                setOfflineFriends(friends.filter(offlineFriend => offlineFriend.online === false && offlineFriend.isFriend === true && offlineFriend !== friend));
             } 
         })
 
@@ -31,19 +34,41 @@ function Friends({ socket }) {
 
     useEffect(() => {
 
-        socket.on('friend-confirmed', ({ sender_id, receiver_id }) => {
+        socket.on('confirm-friend', friend => {
 
-            const friend = pendingFriends.find(friend => friend.sender_id === sender_id && friend.receiver_id === receiver_id);
-            friend.isFriend = true;
-            
-            setPendingFriends(friends.filter(friend => friend.isFriend === false && +friend.receiver_id === +user.id));
-            if (friend.online) {
-                setOnlineFriends([ ...onlineFriends, friend ])
+            if (friend.id === user.id) {
+                const newFriend = friends.find(newFriend => newFriend.id === friend.current_user);
+                newFriend.isFriend = true;
+                setOnlineFriends([ ...onlineFriends, newFriend ])
+                return;
+            }
+
+            if (friend && (friend.sender_id === user.id || friend.receiver_id === user.id)) {
+
+                friend.isFriend = true;
+                setPendingFriends(pendingFriends.filter(pendingFriends => pendingFriends.id !== friend.id));
+                const isOnline = onlineFriends.find(onlineFriend => onlineFriend.id === friend.id);
+
+                if(friend.online && !isOnline) {
+                    setOnlineFriends([ ...onlineFriends, friend ])
+                } else {
+                    setOfflineFriends([ ...offlineFriends, friend ])
+                }
             }
         })
 
         return () => socket.off('friend-confirmed')
-    }, [friends, onlineFriends, pendingFriends, socket, user.id])
+    }, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user, user.id])
+
+    useEffect(() => {
+
+        socket.on('deny-friend', (friend) => {
+            const pendingFriend = pendingFriends.find(pending => pending.id === friend.id);
+            console.log(pendingFriend)
+        })
+
+        return () => socket.off('deny-friend')
+    })
 
     return (
         <div className='friends-container'>
@@ -54,7 +79,7 @@ function Friends({ socket }) {
             </div>
             <Switch>
                 <Route exact path='/'>
-                    <OnlineFriends socket={socket} onlineFriends={onlineFriends} friends={friends} />
+                    <OnlineFriends socket={socket} onlineFriends={onlineFriends} friends={friends} offlineFriends={offlineFriends} />
                 </Route>
                 <Route exact path='/pending'>
                     <PendingFriends user={user} pendingFriends={pendingFriends} socket={socket} />

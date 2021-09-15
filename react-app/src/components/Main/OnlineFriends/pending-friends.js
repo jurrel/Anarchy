@@ -3,17 +3,15 @@
 function PendingFriends({ pendingFriends, socket, user }) {
 
 
-    const confirmFriend = (sender_id, receiver_id) => {
-        const data = {
-            sender_id,
-            receiver_id
-        }
-        socket.emit('confirm-friend', sender_id, receiver_id);
+    const confirmFriend = (friend) => {
+        friend.current_user = user.id
+        socket.emit('confirm-friend', friend);
     }
 
-    const denyFriend = () => {
+    const denyFriend = (friend) => {
         // make socket for denying friend
         console.log('DENY FRIEND')
+        socket.emit('deny-friend', friend)
     }
 
 
@@ -25,8 +23,8 @@ function PendingFriends({ pendingFriends, socket, user }) {
                     <div className='friend-info'>
                         <h3>{friend.username}</h3>
                         <div className='friend-buttons'>
-                            <button onClick={() => confirmFriend(friend.sender_id, user.id)} type='button'><i className="fas fa-check" /></button>
-                            <button onClick={() => denyFriend()} type='button'><i className="fas fa-times" /></button>
+                            <button onClick={() => confirmFriend(friend)} type='button'><i className="fas fa-check" /></button>
+                            <button onClick={() => denyFriend(friend)} type='button'><i className="fas fa-times" /></button>
                         </div>
                     </div>
                 </div>

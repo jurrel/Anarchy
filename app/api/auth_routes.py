@@ -32,6 +32,11 @@ def authenticate():
     """
     if current_user.is_authenticated:
 
+        user = User.query.get(current_user.id)
+        user.online = True 
+        db.session.add(user)
+        db.session.commit()
+
         server_users = ServerUser.query.filter(current_user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
         serverIds = [server.id for server in servers ]
@@ -41,6 +46,7 @@ def authenticate():
             'servers': [ server.to_dict() for server in servers ],
             'friends': None,
         }
+        data['user']['online'] = True
 
         for server in data['servers']:
             channel_list = Channel.query.filter(Channel.server_id == server['id']).all()
@@ -95,8 +101,9 @@ def login():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
         user.online = True 
-        login_user(user)
+        db.session.add(user)
         db.session.commit()
+        login_user(user)
 
         server_users = ServerUser.query.filter(user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
@@ -153,6 +160,10 @@ def logout():
     """
     Logs a user out
     """
+    user = User.query.get(current_user.id)
+    user.online = False
+    db.session.commit()
+    print('CURRENT USER', user.to_dict())
     logout_user()
     return {'message': 'User logged out'}
 
@@ -179,6 +190,7 @@ def sign_up():
             email=form.data['email'],
             password=form.data['password'],
             profile_picture=file_url,
+            online=True,
             createdAt=datetime.now()
         )
         db.session.add(user)
