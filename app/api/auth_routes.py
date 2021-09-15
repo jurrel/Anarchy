@@ -67,9 +67,18 @@ def authenticate():
                             break
 
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        data['friends'] = [ friend.to_dict() for friend in friends ]
+        users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
+        users = [ user.to_dict() for user in users_list ]
+    
+        for user in users:
+            for friend in friends:
+                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
+                    user['isFriend'] = friend.isFriend 
+                    user['sender_id'] = friend.sender_id
+                    user['receiver_id'] = friend.receiver_id
 
-        print(data.keys())
+        data['friends'] = users
+
         return data
     return {'errors': ['Unauthorized']}
 
@@ -123,8 +132,18 @@ def login():
                             user['role'] = role.to_dict()
                             break
 
-        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == user['id'])).all()
-        data['friends'] = [ friend.to_dict() for friend in friends ]
+        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
+        users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
+        users = [ user.to_dict() for user in users_list ]
+    
+        for user in users:
+            for friend in friends:
+                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
+                    user['isFriend'] = friend.isFriend 
+                    user['sender_id'] = friend.sender_id
+                    user['receiver_id'] = friend.receiver_id
+
+        data['friends'] = users
 
         return data
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
@@ -178,3 +197,5 @@ def unauthorized():
     Returns unauthorized JSON when flask-login authentication fails
     """
     return {'errors': ['Unauthorized']}, 401
+
+
