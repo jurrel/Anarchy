@@ -6,6 +6,7 @@ import Peer from 'peerjs';
 
 import './main.css';
 import OnlineFriends from './OnlineFriends/onlineFriends';
+import Friends from './OnlineFriends/friends';
 
 
 let endPoint = 'http://127.0.0.1:5000/';
@@ -26,24 +27,31 @@ function Main() {
     const servers = useSelector(state => state.session.servers);
     const friends = useSelector(state => state.session.friends);
     
-    socket.emit('online', user.id)
-
     const [serverId, setServerId] = useState('');
     const [channelId, setChannelId] = useState('');
-
+    const [online, setOnline] = useState(false);
+    
     const [message, setMessage] = useState('');
     const [sender, setSender] = useState(1);
     const [messages, setMessages] = useState([]);
     const [typing, setTyping] = useState(false);
-
+    
     const [members, setMembers] = useState(0);
     const [video, setVideo] = useState(true);
     const [audio, setAudio] = useState(true);
+    
+    useEffect(() => {
+
+        if (online) return;
+        socket.emit('online', user.id);
+        setOnline(true);
+
+    }, [online, user.id])
 
     return (
         <div className='main-container'>
             <h1>Main Page</h1>
-            <OnlineFriends socket={socket} />
+            <Friends socket={socket} />
         </div>
     )
 }
