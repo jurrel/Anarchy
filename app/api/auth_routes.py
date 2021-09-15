@@ -55,7 +55,7 @@ def authenticate():
             users = []
             for server_user in user_id_list:
                 user_list = User.query.filter(User.id == server_user.user_id).all()
-                users.append( *[ user.to_dict() for user in user_list ] )
+                users.append(*[user.to_dict() for user in user_list])
             server['users'] = users 
 
             for user in users:
@@ -68,12 +68,12 @@ def authenticate():
 
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        users = [ user.to_dict() for user in users_list ]
+        users = [user.to_dict() for user in users_list]
     
         for user in users:
             for request in friends:
                 if (request.receiver_id == user['id'] or request.sender_id == user['id']) and user['id'] != current_user.id:
-                    user['isFriend'] = request.isFriend 
+                    user['isFriend'] = request.isFriend
 
         data['friends'] = users
 

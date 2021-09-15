@@ -7,6 +7,7 @@ import Peer from 'peerjs';
 import './main.css';
 import OnlineFriends from './OnlineFriends/onlineFriends';
 import Friends from './OnlineFriends/friends';
+import Servers from './Servers/servers';
 
 
 let endPoint = 'http://127.0.0.1:5000/';
@@ -52,6 +53,9 @@ function Main() {
         <div className='main-container'>
             <h1>Main Page</h1>
             <Friends socket={socket} />
+            <div className='sidebar_server_list'>
+                <Servers />
+            </div>
         </div>
     )
 }
