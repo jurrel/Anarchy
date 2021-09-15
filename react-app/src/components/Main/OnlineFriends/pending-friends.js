@@ -12,7 +12,7 @@ function PendingFriends({ pendingFriends, socket, user }) {
     }
 
     const denyFriend = () => {
-        // make thunk for denying friend
+        // make socket for denying friend
         console.log('DENY FRIEND')
     }
 
