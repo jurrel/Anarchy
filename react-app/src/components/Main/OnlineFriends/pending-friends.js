@@ -9,8 +9,6 @@ function PendingFriends({ pendingFriends, socket, user }) {
     }
 
     const denyFriend = (friend) => {
-        // make socket for denying friend
-        console.log('DENY FRIEND')
         socket.emit('deny-friend', friend)
     }
 

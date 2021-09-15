@@ -21,17 +21,17 @@ const Messages = ({ socket }) => {
 	const dateConverter = (dateStr) => {
 		const msgDay = new Date(dateStr).getTime();
 		const nowDay = new Date(Date.now()).getTime();
-		console.log(nowDay - msgDay);
+		// console.log(nowDay - msgDay);
 		if (nowDay - msgDay < 86400000) {
-			console.log('MESSAGE TODAY');
+			// console.log('MESSAGE TODAY');
 		} else if (nowDay - msgDay < 86400000 * 2) {
-			console.log('MESSAGE YESTERDAY');
+			// console.log('MESSAGE YESTERDAY');
 		}
 	};
 
 	useEffect(() => {
 		socket.on('message', (message) => {
-			console.log(message);
+			// console.log(message);
 			setMessages([...messages, message]);
 		});
 

@@ -20,6 +20,7 @@ function Friends({ socket }) {
         socket.on('online', (userId) => {
             
             const friend = friends.find(friend => friend.id === userId);
+            console.log('ONLINE', friend)
             const isOnline = onlineFriends.find(onlineFriend => onlineFriend.id === userId);
 
             if ((friend && friend.isFriend) && !isOnline) {
@@ -42,14 +43,16 @@ function Friends({ socket }) {
                 setOnlineFriends([ ...onlineFriends, newFriend ])
                 return;
             }
+            console.log(friend)
 
-            if (friend && (friend.sender_id === user.id || friend.receiver_id === user.id)) {
+            if (friend.receiver_id === user.id) {
 
-                friend.isFriend = true;
-                setPendingFriends(pendingFriends.filter(pendingFriends => pendingFriends.id !== friend.id));
+                setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id));
                 const isOnline = onlineFriends.find(onlineFriend => onlineFriend.id === friend.id);
+                console.log(isOnline)
 
                 if(friend.online && !isOnline) {
+                    console.log('SETTING ONLINE FRIEND')
                     setOnlineFriends([ ...onlineFriends, friend ])
                 } else {
                     setOfflineFriends([ ...offlineFriends, friend ])
@@ -65,9 +68,21 @@ function Friends({ socket }) {
         socket.on('deny-friend', (friend) => {
             const pendingFriend = pendingFriends.find(pending => pending.id === friend.id);
             console.log(pendingFriend)
+            if (pendingFriend) {
+                setPendingFriends(pendingFriends.filter(filterFriend => filterFriend.id !== friend.id))
+            }
         })
 
         return () => socket.off('deny-friend')
+    })
+
+    useEffect(() => {
+
+        socket.on('log-out', (userId) => {
+            setOnlineFriends(onlineFriends.filter(friend => friend.id !== userId))
+        })
+
+        return () => socket.off('log-out')
     })
 
     return (

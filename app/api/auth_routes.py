@@ -10,6 +10,7 @@ from datetime import datetime
 from sqlalchemy.orm import joinedload
 from sqlalchemy import or_
 from random import randint
+from flask_socketio import emit
 
 
 auth_routes = Blueprint('auth', __name__)
@@ -163,8 +164,8 @@ def logout():
     """
     user = User.query.get(current_user.id)
     user.online = False
+    db.session.add(user)
     db.session.commit()
-    print('CURRENT USER', user.to_dict())
     logout_user()
     return {'message': 'User logged out'}
 

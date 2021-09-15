@@ -6,11 +6,11 @@ import './servers.css'
 
 function Servers() {
     const servers = useSelector(state => state.session.servers);
-    console.log('THIS IS SERVERS FROM SERVERS', servers)
+    // console.log('THIS IS SERVERS FROM SERVERS', servers)
     const user = useSelector(state => state.session.user);
-    console.log("THIS IS USER", user)
+    // console.log("THIS IS USER", user)
     const channels = useSelector(state => state.session.channels);
-    console.log("THIS IS Channels FROM SERVERS[0]", servers[0].channels)
+    // console.log("THIS IS Channels FROM SERVERS[0]", servers[0].channels)
 
 
     return (
