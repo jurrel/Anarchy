@@ -7,8 +7,7 @@ html,
 	min-height: 100% !important;
 	padding: 0;
 	margin: 0;
-	/* background-image: linear-gradient(to right, #434343 0%, black 100%); gradient */
-	background-image: rgb(24, 26, 27);
+	background-image: linear-gradient(to right, #434343 0%, black 100%);
 	color: white;
 }
 
