@@ -1,4 +1,5 @@
 from operator import or_
+from shlex import join
 from flask import Blueprint, jsonify, session, request
 from app.models import User, db, Channel, Server, Message, Role, ServerUser, UserRoles, Friend
 from app.forms import LoginForm
@@ -30,7 +31,6 @@ def authenticate():
     """
     Authenticates a user.
     """
-    print('CURRENT USER', current_user)
     if current_user.is_authenticated:
 
         server_users = ServerUser.query.filter(current_user.id == ServerUser.user_id).all()
@@ -67,9 +67,16 @@ def authenticate():
                             break
 
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        data['friends'] = [ friend.to_dict() for friend in friends ]
+        users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
+        users = [ user.to_dict() for user in users_list ]
+    
+        for user in users:
+            for request in friends:
+                if (request.receiver_id == user['id'] or request.sender_id == user['id']) and user['id'] != current_user.id:
+                    user['isFriend'] = request.isFriend 
 
-        print(data.keys())
+        data['friends'] = users
+
         return data
     return {'errors': ['Unauthorized']}
 
@@ -123,8 +130,16 @@ def login():
                             user['role'] = role.to_dict()
                             break
 
-        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == user['id'])).all()
-        data['friends'] = [ friend.to_dict() for friend in friends ]
+        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
+        users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
+        users = [ user.to_dict() for user in users_list ]
+    
+        for user in users:
+            for request in friends:
+                if (request.receiver_id == user['id'] or request.sender_id == user['id']) and user['id'] != current_user.id:
+                    user['isFriend'] = request.isFriend 
+
+        data['friends'] = users
 
         return data
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
