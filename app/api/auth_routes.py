@@ -1,5 +1,4 @@
 from operator import or_
-from shlex import join
 from flask import Blueprint, jsonify, session, request
 from app.models import User, db, Channel, Server, Message, Role, ServerUser, UserRoles, Friend
 from app.forms import LoginForm
@@ -71,9 +70,11 @@ def authenticate():
         users = [user.to_dict() for user in users_list]
     
         for user in users:
-            for request in friends:
-                if (request.receiver_id == user['id'] or request.sender_id == user['id']) and user['id'] != current_user.id:
-                    user['isFriend'] = request.isFriend
+            for friend in friends:
+                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
+                    user['isFriend'] = friend.isFriend 
+                    user['sender_id'] = friend.sender_id
+                    user['receiver_id'] = friend.receiver_id
 
         data['friends'] = users
 
@@ -135,9 +136,11 @@ def login():
         users = [ user.to_dict() for user in users_list ]
     
         for user in users:
-            for request in friends:
-                if (request.receiver_id == user['id'] or request.sender_id == user['id']) and user['id'] != current_user.id:
-                    user['isFriend'] = request.isFriend 
+            for friend in friends:
+                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
+                    user['isFriend'] = friend.isFriend 
+                    user['sender_id'] = friend.sender_id
+                    user['receiver_id'] = friend.receiver_id
 
         data['friends'] = users
 

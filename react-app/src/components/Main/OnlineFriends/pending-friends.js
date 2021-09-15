@@ -1,20 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 
-function PendingFriends() {
+function PendingFriends({ pendingFriends, socket, user }) {
 
-    const friends = useSelector(state => state.session.friends);
-        
-    const [ pendingFriends, setPendingFriends ] = useState(friends.filter(friend => friend.isFriend === false));
 
-    const confirmFriend = () => {
-        // make socket route for confirming friend
-        console.log('CONFIRM FRIEND')
+    const confirmFriend = (sender_id, receiver_id) => {
+        const data = {
+            sender_id,
+            receiver_id
+        }
+        socket.emit('confirm-friend', sender_id, receiver_id);
     }
 
     const denyFriend = () => {
-        // make thunk for denying friend
+        // make socket for denying friend
         console.log('DENY FRIEND')
     }
 
@@ -27,7 +25,7 @@ function PendingFriends() {
                     <div className='friend-info'>
                         <h3>{friend.username}</h3>
                         <div className='friend-buttons'>
-                            <button onClick={() => confirmFriend()} type='button'><i className="fas fa-check" /></button>
+                            <button onClick={() => confirmFriend(friend.sender_id, user.id)} type='button'><i className="fas fa-check" /></button>
                             <button onClick={() => denyFriend()} type='button'><i className="fas fa-times" /></button>
                         </div>
                     </div>
