@@ -1,28 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 
-function OnlineFriends({ socket }) {
+function OnlineFriends({ socket, onlineFriends, friends }) {
 
-    const friends = useSelector(state => state.session.friends);
-
-    const [ onlineFriends, setOnlineFriends ] = useState(friends.filter(friend => friend.online === true && friend.isFriend === true));
-
-
-    useEffect(() => {
-
-        if (!friends) return;
-        
-        socket.on('online', (userId) => {
-            const friend = friends.find(friend => friend.id === userId);
-            if (friend && friend.isFriend) {
-                setOnlineFriends([ ...onlineFriends, friend ])
-            } 
-        })
-
-        return () => socket.off('online')
-    }, [friends, onlineFriends, onlineFriends.length, socket])
-
+    
     return (
         <>
             <div className='online-friends'>
@@ -51,7 +31,7 @@ function OnlineFriends({ socket }) {
             <div className='offline-friends'>
                 <div className='friends'>
                     <h3>Offline:</h3>
-                    { friends.filter(friend => friend.isFriend === true).map(friend => (
+                    { friends.filter(friend => friend.isFriend === true && friend.online === false).map(friend => (
                         <div key={friend.id} className='friend'>
                             <img alt='profile' src={friend.profile_picture}></img>
                             <div className='friend-info'>
