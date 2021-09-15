@@ -1,28 +1,29 @@
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Channels from '../Channels/channels'
 import './servers.css'
 
 function Servers() {
     const servers = useSelector(state => state.session.servers);
-    console.log('THIS IS SERVERS', servers)
+    console.log('THIS IS SERVERS FROM SERVERS', servers)
     const user = useSelector(state => state.session.user);
     console.log("THIS IS USER", user)
-    // console.log(servers.imageUrl) //There is no imageUrl for server
-    const friends = useSelector(state => state.session.friends);
-    console.log('THIS IS FRIENDS',friends)
-    // console.log('UUUUUHHHHH', servers[channel])
-    // const [userServer, setUserServer] = useState(servers.filter(server => server.channel === true && friend.isFriend === true));
-    console.log(servers.channels)
+    const channels = useSelector(state => state.session.channels);
+    console.log("THIS IS Channels FROM SERVERS[0]", servers[0].channels)
+
+
     return (
         <>
             <h1>Servers/Main page</h1>
             {servers?.map((server) => (
                 <div key={server.id}>
-                    <NavLink to={`/api/servers/${server.id}}`}>
-                        {/* <h3>{server.channels}</h3> */}
+                    <NavLink to={`/api/servers/${server.id}`}>
                         <img src={server.imageUrl} alt="" />
                     </NavLink>
+                    <Switch>
+                        <Route path={`/api/servers/${server.id}`}><Channels channels={server.channels}/></Route>
+                    </Switch>
                 </div>
             ))}
         </>
@@ -30,17 +31,3 @@ function Servers() {
 }
 
 export default Servers;
-
-{/* <div className='friends-nav'>
-                <Link className='links' to='/'>Friends</Link>
-                <p> | </p>
-                <Link className='links' to='/pending'>Pending</Link>
-            </div>
-            <Switch>
-                <Route exact path='/'>
-                    <OnlineFriends socket={socket} onlineFriends={onlineFriends} friends={friends} />
-                </Route>
-                <Route exact path='/pending'>
-                    <PendingFriends user={user} pendingFriends={pendingFriends} socket={socket} />
-                </Route>
-            </Switch> */}
