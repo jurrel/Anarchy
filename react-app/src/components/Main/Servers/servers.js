@@ -19,7 +19,7 @@ function Servers() {
             {servers?.map((server) => (
                 <div key={server.id}>
                     <NavLink to={`/api/servers/${server.id}`}>
-                        <img src={server.imageUrl} alt="" />
+                        <img src={server.imageUrl} alt="" className='server_img_container'/>
                     </NavLink>
                     <Switch>
                         <Route path={`/api/servers/${server.id}`}><Channels channels={server.channels}/></Route>
