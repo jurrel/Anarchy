@@ -7,6 +7,7 @@ from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, send, join_room, leave_room, emit
 from sqlalchemy import or_
 from operator import or_
+import json
 
 
 
@@ -91,7 +92,7 @@ from datetime import datetime
 
 now = datetime.now()
 
-#sockets 
+#sockets
 
 @socketio.on('connect')
 def connection():
@@ -106,7 +107,7 @@ def connection():
 
         friend = Friend.query.filter(Friend.receiver_id == receiver_id).filter(Friend.sender_id == sender_id).one_or_none()
         if friend:
-            friend.isFriend = True 
+            friend.isFriend = True
         db.session.commit()
         data = {
             'sender_id': sender_id,
@@ -122,7 +123,7 @@ def connection():
         server.imageUrl = data.imageUrl
         db.session.commit()
         emit('edit-server', server.to_dict(), broadcast=True)
-        return None 
+        return None
 
     @socketio.on('delete-server')
     def delete_server(id):
@@ -139,7 +140,7 @@ def connection():
             type = data.type,
             server_id = data.server_id,
             createdAt = now,
-            updatedAt = now 
+            updatedAt = now
         )
         db.session.add(channel)
         db.session.commit()
@@ -150,7 +151,7 @@ def connection():
     def edit_channel(data):
         channel = Channel.query.get(data.id)
         channel.name = data.name
-        channel.updatedAt = now 
+        channel.updatedAt = now
         db.session.commit()
         emit('edit-channel', channel.to_dict(), broadcast=True)
 
@@ -165,23 +166,14 @@ def connection():
     @socketio.on('message')
     def handleMessage(msg):
         print('MESSAGE')
-        if msg.imageUrl:
-            message = Message(
-                message = msg['message'], 
-                user_id = msg['user_id'],
-                channel_id = msg['channel_id'],
-                imageUrl = msg['imageUrl'],
-                createdAt = now,
-                updatedAt = now 
-            )
-        else:
-            message = Message(
+        message = Message(
                 message = msg['message'],
                 user_id = msg['user_id'],
                 channel_id = msg['channel_id'],
+                imageUrl = None,
                 createdAt = now,
-                updatedAt = now 
-            )
+                updatedAt = now
+        )
         db.session.add(message)
         db.session.commit()
         returnMessage = message.to_dict()
@@ -191,7 +183,7 @@ def connection():
     @socketio.on('private-message')
     def handlePrivateMessage(msg):
 
-        if msg.imageUrl:
+        if msg.has_key('imageUrl'):
             message = Message(
                 message=msg['message'],
                 user_id=msg['user_id'],
@@ -199,7 +191,7 @@ def connection():
                 channel_id=msg['channel_id'],
                 imageUrl=msg['imageUrl'],
                 createdAt = now,
-                updatedAt = now 
+                updatedAt = now
             )
         else:
             message = Message(
@@ -207,11 +199,11 @@ def connection():
                 user_id=msg['user_id'],
                 receiver_id=msg['receiver_id'],
                 createdAt = now,
-                updatedAt = now 
+                updatedAt = now
             )
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
-        return None 
+        return None
 
     @socketio.on('typing')
     def typing_func(serverId):
