@@ -90,7 +90,7 @@ def react_root(path):
 
 from datetime import datetime
 
-now = datetime.now()
+
 
 #sockets
 
@@ -139,8 +139,8 @@ def connection():
             name = data.name,
             type = data.type,
             server_id = data.server_id,
-            createdAt = now,
-            updatedAt = now
+            createdAt = datetime.now(),
+            updatedAt = datetime.now()
         )
         db.session.add(channel)
         db.session.commit()
@@ -151,7 +151,7 @@ def connection():
     def edit_channel(data):
         channel = Channel.query.get(data.id)
         channel.name = data.name
-        channel.updatedAt = now
+        channel.updatedAt = datetime.now()
         db.session.commit()
         emit('edit-channel', channel.to_dict(), broadcast=True)
 
@@ -171,8 +171,8 @@ def connection():
                 user_id = msg['user_id'],
                 channel_id = msg['channel_id'],
                 imageUrl = None,
-                createdAt = now,
-                updatedAt = now
+                createdAt = datetime.now(),
+                updatedAt = datetime.now()
         )
         db.session.add(message)
         db.session.commit()
@@ -190,16 +190,16 @@ def connection():
                 receiver_id=msg['receiver_id'],
                 channel_id=msg['channel_id'],
                 imageUrl=msg['imageUrl'],
-                createdAt = now,
-                updatedAt = now
+                createdAt = datetime.now(),
+                updatedAt = datetime.now()
             )
         else:
             message = Message(
                 message=msg['message'],
                 user_id=msg['user_id'],
                 receiver_id=msg['receiver_id'],
-                createdAt = now,
-                updatedAt = now
+                createdAt = datetime.now(),
+                updatedAt = datetime.now()
             )
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
