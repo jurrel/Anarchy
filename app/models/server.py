@@ -23,5 +23,6 @@ class Server(db.Model):
             'id': self.id,
             'name': self.name,
             'owner_id': self.owner_id,
+            'imageUrl': self.imageUrl,
             'createdAt': self.createdAt,
         }
