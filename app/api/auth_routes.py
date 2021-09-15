@@ -9,6 +9,7 @@ from app.config import Config
 from datetime import datetime
 from sqlalchemy.orm import joinedload
 from sqlalchemy import or_
+from random import randint
 
 
 auth_routes = Blueprint('auth', __name__)
@@ -148,12 +149,14 @@ def sign_up():
     if form.validate_on_submit():
         file = None
         if len(request.files) > 0:
-          file = request.files["file"]
+			      file = request.files["file"]
+			      file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
+
 
         if file:
-          file_url = upload_file_to_s3(file, Config.S3_BUCKET)
+          	file_url = upload_file_to_s3(file, Config.S3_BUCKET)
         else:
-          file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
+          	file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
 
         user = User(
             username=form.data['username'],
