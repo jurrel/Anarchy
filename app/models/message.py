@@ -6,10 +6,10 @@ class Message(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(2000), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False) 
-    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
-    channel_id = db.Column(db.Integer, db.ForeignKey('channels.id')) 
-    imageUrl = db.Column(db.String(500), nullable=True) 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    channel_id = db.Column(db.Integer, db.ForeignKey('channels.id'))
+    imageUrl = db.Column(db.String(500), nullable=True)
     isRead = db.Column(db.Boolean, nullable=False, default=False)
     createdAt = db.Column(db.DateTime, nullable=False)
     updatedAt = db.Column(db.DateTime, nullable=False)
@@ -27,6 +27,6 @@ class Message(db.Model):
             'channel_id': self.channel_id,
             'imageUrl': self.imageUrl,
             'isRead': self.isRead,
-            'createdAt': self.createdAt,
-            'updatedAt': self.updatedAt
+            'createdAt': self.createdAt.strftime("%Y/%m/%d %H:%M:%S"),
+            'updatedAt': self.updatedAt.strftime("%Y/%m/%d %H:%M:%S")
         }

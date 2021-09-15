@@ -1,28 +1,25 @@
 /* TODO Add site wide styles */
-body, html, #root {
-    height: 100% !important;
-    width: 100% !important;
-    min-height: 100% !important;
-    padding: 0;
-    margin: 0;
-    background-image: linear-gradient(to right, #434343 0%, black 100%);
-    color: white;
+body,
+html,
+#root {
+	height: 100% !important;
+	width: 100% !important;
+	min-height: 100% !important;
+	padding: 0;
+	margin: 0;
+	background-image: linear-gradient(to right, #434343 0%, black 100%);
+	color: white;
 }
 
 ::-webkit-scrollbar {
-    display: none;
+	display: none;
 }
 
-
 #modal {
-
 }
 
 #modal-background {
-
 }
 
 #modal-content {
-
 }
-

@@ -9,6 +9,7 @@ from app.config import Config
 from datetime import datetime
 from sqlalchemy.orm import joinedload
 from sqlalchemy import or_
+from random import randint
 
 
 auth_routes = Blueprint('auth', __name__)
@@ -60,8 +61,8 @@ def authenticate():
             users = []
             for server_user in user_id_list:
                 user_list = User.query.filter(User.id == server_user.user_id).all()
-                users.append( *[ user.to_dict() for user in user_list ] )
-            server['users'] = users 
+                users.append(*[user.to_dict() for user in user_list])
+            server['users'] = users
 
             for user in users:
                 roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == user['id']).all()
@@ -73,12 +74,12 @@ def authenticate():
 
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        users = [ user.to_dict() for user in users_list ]
-    
+        users = [user.to_dict() for user in users_list]
+
         for user in users:
             for friend in friends:
                 if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
-                    user['isFriend'] = friend.isFriend 
+                    user['isFriend'] = friend.isFriend
                     user['sender_id'] = friend.sender_id
                     user['receiver_id'] = friend.receiver_id
 
@@ -128,7 +129,7 @@ def login():
             for server_user in user_id_list:
                 user_list = User.query.filter(User.id == server_user.user_id).all()
                 users.append( *[ user.to_dict() for user in user_list ] )
-            server['users'] = users 
+            server['users'] = users
 
             for user in users:
                 roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == user['id']).all()
@@ -141,11 +142,11 @@ def login():
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users = [ user.to_dict() for user in users_list ]
-    
+
         for user in users:
             for friend in friends:
                 if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
-                    user['isFriend'] = friend.isFriend 
+                    user['isFriend'] = friend.isFriend
                     user['sender_id'] = friend.sender_id
                     user['receiver_id'] = friend.receiver_id
 
@@ -178,12 +179,14 @@ def sign_up():
     if form.validate_on_submit():
         file = None
         if len(request.files) > 0:
-          file = request.files["file"]
+			      file = request.files["file"]
+			      file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
+
 
         if file:
-          file_url = upload_file_to_s3(file, Config.S3_BUCKET)
+          	file_url = upload_file_to_s3(file, Config.S3_BUCKET)
         else:
-          file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
+          	file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
 
         user = User(
             username=form.data['username'],
@@ -206,5 +209,3 @@ def unauthorized():
     Returns unauthorized JSON when flask-login authentication fails
     """
     return {'errors': ['Unauthorized']}, 401
-
-
