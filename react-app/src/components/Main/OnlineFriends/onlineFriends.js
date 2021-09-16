@@ -2,6 +2,10 @@
 
 function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
 
+
+    const ruinFriendShip = (friend) => {
+        console.log(friend)
+    }
     
     return (
         <>
@@ -15,7 +19,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
                                 <h3>{friend.username}</h3>
                                 <div className='friend-buttons'>
                                     <button type='button'><i className="fas fa-comment-dots" /></button>
-                                    <button type='button'><i className="far fa-trash-alt" /></button>
+                                    <button onClick={() => ruinFriendShip(friend)} type='button'><i className="far fa-trash-alt" /></button>
                                 </div>
                             </div>
                         </div>

@@ -78,7 +78,8 @@ def authenticate():
 
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users_list = User.query.filter(User.id != current_user.id).all()
-        users = [user.to_dict() for user in users_list]
+        users = [ user.to_dict() for user in users_list ]
+        friends_list = []
 
         for user in users:
             for friend in friends:
@@ -87,9 +88,9 @@ def authenticate():
                     user['sender_id'] = friend.sender_id
                     user['receiver_id'] = friend.receiver_id
                     user['friend_id'] = friend.id
-                    user['refresh'] = True
+                    friends_list.append(user)
 
-        data['friends'] = users
+        data['friends'] = friends_list
         #  and user['id'] != current_user.id
         db.session.commit()
 
@@ -151,6 +152,7 @@ def login():
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
         users_list = User.query.filter(User.id != current_user.id).all()
         users = [ user.to_dict() for user in users_list ]
+        friends_list = []
 
         for user in users:
             for friend in friends:
@@ -159,8 +161,9 @@ def login():
                     user['sender_id'] = friend.sender_id
                     user['receiver_id'] = friend.receiver_id
                     user['friend_id'] = friend.id
+                    friends_list.append(user)
 
-        data['friends'] = users
+        data['friends'] = friends_list
         db.session.commit()
         emit('online', current_user.id, broadcast=True, namespace='/')
 
@@ -212,6 +215,7 @@ def sign_up():
         )
         db.session.add(user)
         db.session.commit()
+
         serverUser = ServerUser(
             user_id = User.query.filter(User.email == user.email).first().id,
             server_id = 1
@@ -219,9 +223,12 @@ def sign_up():
         db.session.add(serverUser)
         db.session.commit()
 
-        queryUser = User.query.filter(User.email == user.email).first()
+        server = Server.query.get(1)
+        queryUser = User.query.get(user.id)
+
         data = {
-            'user': queryUser.to_dict()
+            'user': queryUser.to_dict(),
+            'servers': [server.to_dict()]
         }
 
         login_user(user)

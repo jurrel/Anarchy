@@ -19,13 +19,13 @@ function Friends({ socket }) {
         
         socket.on('online', (userId) => {
             
-            const friend = friends.find(friend => friend.id === userId);
+            const friend = friends?.find(friend => friend.id === userId);
             console.log('ONLINE', friend)
             const isOnline = onlineFriends.find(onlineFriend => onlineFriend.id === userId);
 
             if ((friend && friend.isFriend) && !isOnline) {
                 setOnlineFriends([ ...onlineFriends, friend ]);
-                setOfflineFriends(friends.filter(offlineFriend => offlineFriend.online === false && offlineFriend.isFriend === true && offlineFriend !== friend));
+                setOfflineFriends(friends?.filter(offlineFriend => offlineFriend.online === false && offlineFriend.isFriend === true && offlineFriend !== friend));
             } 
         })
 
@@ -38,7 +38,7 @@ function Friends({ socket }) {
         socket.on('confirm-friend', friend => {
 
             if (friend.id === user.id) {
-                const newFriend = friends.find(newFriend => newFriend.id === friend.current_user);
+                const newFriend = friends?.find(newFriend => newFriend.id === friend.current_user);
                 newFriend.isFriend = true;
                 setOnlineFriends([ ...onlineFriends, newFriend ])
                 return;
@@ -47,8 +47,8 @@ function Friends({ socket }) {
 
             if (friend.receiver_id === user.id) {
 
-                setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id));
-                const isOnline = onlineFriends.find(onlineFriend => onlineFriend.id === friend.id);
+                setPendingFriends(pendingFriends?.filter(pendingFriend => pendingFriend.id !== friend.id));
+                const isOnline = onlineFriends?.find(onlineFriend => onlineFriend.id === friend.id);
                 console.log(isOnline)
 
                 if(friend.online && !isOnline) {
@@ -66,10 +66,10 @@ function Friends({ socket }) {
     useEffect(() => {
 
         socket.on('deny-friend', (friend) => {
-            const pendingFriend = pendingFriends.find(pending => pending.id === friend.id);
+            const pendingFriend = pendingFriends?.find(pending => pending.id === friend.id);
             console.log(pendingFriend)
             if (pendingFriend) {
-                setPendingFriends(pendingFriends.filter(filterFriend => filterFriend.id !== friend.id))
+                setPendingFriends(pendingFriends?.filter(filterFriend => filterFriend.id !== friend.id))
             }
         })
 
@@ -79,7 +79,7 @@ function Friends({ socket }) {
     useEffect(() => {
 
         socket.on('log-out', (userId) => {
-            setOnlineFriends(onlineFriends.filter(friend => friend.id !== userId))
+            setOnlineFriends(onlineFriends?.filter(friend => friend.id !== userId))
         })
 
         return () => socket.off('log-out')
