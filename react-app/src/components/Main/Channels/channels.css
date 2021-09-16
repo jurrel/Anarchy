@@ -59,21 +59,21 @@
 	height: 3em;
 }
 
-.channel {
+/* .channel {
 	background-image: linear-gradient(red, blue);
 
 	height: fit-content;
-}
+} */
 
-.channel.hidden {
+/* .channel.hidden {
 	display: none;
-	/* visibility: hidden; */
+	visibility: hidden;
 }
 
 .channel.visible {
-	/* flex-direction: column; */
-	/* display: inline-block; */
-	/* visibility: visible; */
+	flex-direction: column;
+	display: inline-block;
+	visibility: visible;
 	position: absolute;
 	z-index: 100;
-}
+} */

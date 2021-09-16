@@ -31,3 +31,27 @@
 	background-color: blueviolet;
 	z-index: 2;
 }
+
+.server-icon {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-top: 5px;
+}
+
+.home-icon-container {
+	border-bottom: 1px solid gray;
+	padding-bottom: 5px;
+}
+
+.home-icon {
+	align-items: center;
+	height: 65px;
+	width: 65px;
+	border-radius: 50%;
+	background-image: linear-gradient(rgb(108, 1, 203), rgb(196, 39, 39));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
