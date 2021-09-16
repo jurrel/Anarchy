@@ -1,0 +1,47 @@
+.channel_list {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 100px;
+  /* flex:0.75; */
+  height: 100%;
+  width: 240px;
+  /* background-color: green; */
+  background-color: #2f3136;
+}
+
+.user_profile_name {
+  background-color: #292b2e;
+  padding: 5px 5px 0px 10px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 0px;
+  box-sizing: border-box;
+  height: 75px;
+  width: 240px;
+  display: flex;
+  font-size: 20px;
+  font-weight: bolder;
+  /* padding: 10px; */
+  flex: 1;
+}
+
+.user_profile_photo{
+  height: 40px;
+  border-radius: 70%;
+  padding: 15px;
+}
+
+.settings_icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 70px;
+  flex:1;
+  
+}
+
+.settings_icon:hover {
+  color: gray;
+}

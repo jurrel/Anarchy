@@ -8,26 +8,35 @@ function Servers() {
     const servers = useSelector(state => state.session.servers);
     console.log('THIS IS SERVERS FROM SERVERS', servers)
     const user = useSelector(state => state.session.user);
-    console.log("THIS IS USER", user)
-    const channels = useSelector(state => state.session.channels);
-    console.log("THIS IS Channels FROM SERVERS[0]", servers[0].channels)
+    console.log("THIS IS USER.username", user.username)
 
 
     return (
-        <>
-            <h1>Servers/Main page</h1>
-            {servers?.map((server) => (
-                <div key={server.id}>
-                    <NavLink to={`/api/servers/${server.id}`}>
-                        <img src={server.imageUrl} alt="" />
-                    </NavLink>
-                    <Switch>
-                        <Route path={`/api/servers/${server.id}`}><Channels channels={server.channels}/></Route>
-                    </Switch>
+        <div className='TEST'>
+            <div className="side_bar_main">
+                <div className='align_the_side_bar'>
+                        {servers?.map((server) => (
+                            <div key={server.id}>
+                                <NavLink to={`/api/servers/${server.id}`}>
+                                    <img src={server.imageUrl} alt="" className='server_img_container'/>
+                                </NavLink>
+                                <Switch>
+                                    <Route path={`/api/servers/${server.id}`}>
+                                        <div className="server_name_header">
+                                            <Channels channels={server.channels}/>
+                                        </div>
+                                    </Route>
+                                </Switch>
+                            </div>
+                        ))}
                 </div>
-            ))}
-        </>
+            </div>
+        </div>
     )
 }
 
 export default Servers;
+
+{/* <div className="server_img_name_container">
+    <p> {server.name} </p>
+</div> */}
