@@ -32,3 +32,16 @@
   border-radius: 70%;
   padding: 15px;
 }
+
+.settings_icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 70px;
+  flex:1;
+  
+}
+
+.settings_icon:hover {
+  color: gray;
+}

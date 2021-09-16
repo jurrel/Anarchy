@@ -12,22 +12,24 @@ function Servers() {
 
 
     return (
-        <div className="side_bar_main">
-            <div className='align_the_side_bar'>
-                    {servers?.map((server) => (
-                        <div key={server.id}>
-                            <NavLink to={`/api/servers/${server.id}`}>
-                                <img src={server.imageUrl} alt="" className='server_img_container'/>
-                            </NavLink>
-                            <Switch>
-                                <Route path={`/api/servers/${server.id}`}>
-                                    <div className="server_name_header">
-                                        <Channels channels={server.channels}/>
-                                    </div>
-                                </Route>
-                            </Switch>
-                        </div>
-                    ))}
+        <div className='TEST'>
+            <div className="side_bar_main">
+                <div className='align_the_side_bar'>
+                        {servers?.map((server) => (
+                            <div key={server.id}>
+                                <NavLink to={`/api/servers/${server.id}`}>
+                                    <img src={server.imageUrl} alt="" className='server_img_container'/>
+                                </NavLink>
+                                <Switch>
+                                    <Route path={`/api/servers/${server.id}`}>
+                                        <div className="server_name_header">
+                                            <Channels channels={server.channels}/>
+                                        </div>
+                                    </Route>
+                                </Switch>
+                            </div>
+                        ))}
+                </div>
             </div>
         </div>
     )
