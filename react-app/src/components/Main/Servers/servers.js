@@ -23,7 +23,7 @@ function Servers() {
                                 <Switch>
                                     <Route path={`/api/servers/${server.id}`}>
                                         <div className="server_name_header">
-                                            <Channels channels={server.channels}/>
+                                            <Channels serverId={server.id} channels={server.channels}/>
                                         </div>
                                     </Route>
                                 </Switch>
