@@ -1,29 +1,33 @@
 .server_img_container {
-    padding: 5px;
-    border-radius: 50%;
-    width: 65px;
+	padding: 5px;
+	border-radius: 50%;
+	width: 65px;
 }
 
 .side_bar_main {
-  position: absolute;
-  display: flex;
-  flex-direction:column;
-  justify-content: center;
-  flex:1.25;
-  top: 0; 
-  left: 0; 
-  bottom: 0;
-  z-index: 1;
-  width: 100px;
-  /* background-color: yellow; */
-  background-color: #202225;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	flex: 1.25;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1;
+	width: 100px;
+	/* background-color: yellow; */
+	background-color: #202225;
+}
+
+.server-icon:hover {
+	cursor: pointer;
 }
 
 .align_the_side_bar {
-    flex: 1
+	flex: 1;
 }
-.server_name_header{
-  flex: 1;
-  background-color: blueviolet;
-  z-index: 2;
+.server_name_header {
+	flex: 1;
+	background-color: blueviolet;
+	z-index: 2;
 }

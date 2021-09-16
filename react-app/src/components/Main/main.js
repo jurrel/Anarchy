@@ -48,14 +48,13 @@ function Main() {
 
 	return (
 		<div className="main-container">
-			<h1>Main Page</h1>
 			<Friends socket={socket} />
 			<div className="sidebar_server_list">
 				<Servers />
 			</div>
-			<Route path="/:serverId/:channelId" exact={true}>
+			{/* <Route path="/:serverId/:channelId" exact={true}>
 				<Message socket={socket} />
-			</Route>
+			</Route> */}
 		</div>
 	);
 }
