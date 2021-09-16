@@ -40,6 +40,21 @@ def seed_server_users():
   twelve = ServerUser(
     user_id=6, server_id=3
   )
+  welcome1 = ServerUser(
+    user_id=2, server_id=1
+  )
+  welcome2 = ServerUser(
+    user_id=3, server_id=1
+  )
+  welcome3 = ServerUser(
+    user_id=4, server_id=1
+  )
+  welcome4 = ServerUser(
+    user_id=5, server_id=1
+  )
+  welcome5 = ServerUser(
+    user_id=6, server_id=1
+  )
 
   db.session.add(demoMain)
   db.session.add(one)
@@ -54,6 +69,11 @@ def seed_server_users():
   db.session.add(ten)
   db.session.add(eleven)
   db.session.add(twelve)
+  db.session.add(welcome1)
+  db.session.add(welcome2)
+  db.session.add(welcome3)
+  db.session.add(welcome4)
+  db.session.add(welcome5)
 
   db.session.commit()
 

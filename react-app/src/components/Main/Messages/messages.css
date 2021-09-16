@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Roboto+Mono&display=swap');
+
 .message-user-profile-pic {
 	width: 40px;
 	border-radius: 100%;
@@ -32,13 +34,13 @@
 
 .messages-container {
 	font-family: sans-serif;
-	height: 800px;
+	height: 87.5vh;
 	width: 1110px;
 	position: absolute;
 	overflow: scroll;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	top: 10%;
+	top: 5%;
 	left: 20%;
 	background-color: #36393f;
 }
@@ -73,4 +75,26 @@
 
 #message-box:focus {
 	outline: none;
+}
+
+.channel-header {
+	position: absolute;
+	z-index: 1000;
+	top: -1%;
+	left: 20%;
+	color: #dcddde;
+	font-family: 'Roboto Mono', monospace;
+	letter-spacing: 2px;
+	font-size: 14px;
+	width: 1110px;
+	padding: 0;
+	margin-bottom: 0px;
+}
+
+.channel-header-text::before {
+	font-family: 'Oswald', sans-serif;
+	content: '#';
+	color: #72767d;
+	margin-right: 5px;
+	width: 1110px;
 }

@@ -37,7 +37,7 @@ def authenticate():
 
         user = User.query.get(current_user.id)
         # User.query.filter(User.id == current_user.id).update({'online': True})
-        user.online = True 
+        user.online = True
         # db.session.merge(user)
         db.session.add(user)
         db.session.commit()
@@ -110,7 +110,7 @@ def login():
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
-        user.online = True 
+        user.online = True
         # db.session.merge(user)
         # db.session.add(user)
         db.session.commit()
@@ -232,7 +232,7 @@ def sign_up():
         }
 
         login_user(user)
-        return data 
+        return data
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

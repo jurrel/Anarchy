@@ -71,6 +71,9 @@ const Messages = ({ socket }) => {
 
 	return (
 		<>
+			<div class="channel-header">
+				<h3 class="channel-header-text">{`${channel.name}`}</h3>
+			</div>
 			<div class="messages-container">
 				<ul class="messages">
 					{messages &&
@@ -83,19 +86,32 @@ const Messages = ({ socket }) => {
 											alt="temp"
 											src={
 												server.users.find((user) => user.id == message.user_id)
-													.profile_picture
+													?.profile_picture
 											}
 										/>
 										<h3>
 											{
 												server.users.find((user) => user.id == message.user_id)
-													.username
+													?.username
 											}
 										</h3>
 										<p>{dateConverter(message.createdAt)}</p>
 									</div>
 									<div class="message-content">
 										<p>{message.message}</p>
+										<i class="fa-solid fa-ellipsis"></i>
+									</div>
+									<div class="edit-buttons">
+										{Number(user.id) === Number(message.user_id) && (
+											<>
+												{/* <button class="del-message" id={message.id}>
+													Delete Message
+												</button>
+												<button class="edit-message" id={message.id}>
+													Edit Message
+												</button> */}
+											</>
+										)}
 									</div>
 								</li>
 							</>
@@ -106,7 +122,7 @@ const Messages = ({ socket }) => {
 				<input
 					id="message-box"
 					type="text"
-					placeholder={`Message ${channel.name}`}
+					placeholder={`Message #${channel.name}`}
 					value={message}
 					onChange={updateMessage}
 				></input>
