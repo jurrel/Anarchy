@@ -17,7 +17,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
                         <div key={friend.id} className='friend'>
                             <img alt='profile' src={friend.profile_picture}></img>
                             <div className='friend-info'>
-                                <h3>{friend.username}</h3>
+                                <p>{friend.username}</p>
                                 <div className='friend-buttons'>
                                     <button type='button'><i className="fas fa-comment-dots" /></button>
                                     <button onClick={() => ruinFriendship(friend)} type='button'><i className="far fa-trash-alt" /></button>
@@ -40,7 +40,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
                         <div key={friend.id} className='friend'>
                             <img alt='profile' src={friend.profile_picture}></img>
                             <div className='friend-info'>
-                                <h3>{friend.username}</h3>
+                                <p>{friend.username}</p>
                                 <div className='friend-buttons'>
                                     <button type='button'><i className="fas fa-comment-dots" /></button>
                                     <button onClick={() => ruinFriendship(friend)} type='button'><i className="far fa-trash-alt" /></button>

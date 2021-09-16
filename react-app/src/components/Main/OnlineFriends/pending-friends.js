@@ -19,7 +19,7 @@ function PendingFriends({ pendingFriends, socket, user }) {
                 <div key={friend.id} className='friend'>
                     <img alt='profile' src={friend.profile_picture}></img>
                     <div className='friend-info'>
-                        <h3>{friend.username}</h3>
+                        <p>{friend.username}</p>
                         <div className='friend-buttons'>
                             <button onClick={() => confirmFriend(friend)} type='button'><i className="fas fa-check" /></button>
                             <button onClick={() => denyFriend(friend)} type='button'><i className="fas fa-times" /></button>
