@@ -67,6 +67,7 @@ def connection():
         db.session.delete(goodbye)
         # db.session.merge(goodbye)
         db.session.commit()
+        print(friend)
 
 
         emit('deny-friend', friend, broadcast=True)

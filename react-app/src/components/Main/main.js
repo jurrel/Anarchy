@@ -11,7 +11,6 @@ import OnlineFriends from './OnlineFriends/onlineFriends';
 import Friends from './OnlineFriends/friends';
 import Message from './Messages/messages';
 import Servers from './Servers/servers';
-import Channels from './Channels/channels'
 
 let endPoint = 'http://127.0.0.1:5000/';
 
@@ -54,7 +53,6 @@ function Main() {
 			<div className="sidebar_server_list">
 				<Servers />
 			</div>
-            <Channels />
 			<Route path="/:serverId/:channelId" exact={true}>
 				<Message socket={socket} />
 			</Route>
