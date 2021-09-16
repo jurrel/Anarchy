@@ -48,7 +48,7 @@ function Main() {
 
 	return (
 		<div className="main-container">
-			<Friends socket={socket} />
+			{/* <Friends socket={socket} /> */}
 			<div className="sidebar_server_list">
 				<Servers socket={socket} />
 			</div>

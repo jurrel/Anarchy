@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import OnlineFriends from './onlineFriends';
 import PendingFriends from './pending-friends';
 
+import './friends.css';
+
 function Friends({ socket }) {
 	const user = useSelector((state) => state.session.user);
 	const friends = useSelector((state) => state.session.friends);
@@ -137,7 +139,7 @@ function Friends({ socket }) {
 		return () => {
 			socket.disconnect();
 		};
-	}, [friends, offlineFriends, onlineFriends, pendingFriends, user.id]);
+	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]);
 
 	const toggleFriends = (e) => {
 		if (!showFriends) {
