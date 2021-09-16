@@ -10,9 +10,9 @@ function Friends({ socket }) {
     const user = useSelector(state => state.session.user);
     const friends = useSelector(state => state.session.friends);
         
-    const [ onlineFriends, setOnlineFriends ] = useState(friends.filter(friend => friend.online === true && friend.isFriend === true));
-    const [ pendingFriends, setPendingFriends ] = useState(friends.filter(friend => friend.isFriend === false && +friend.receiver_id === +user.id));
-    const [ offlineFriends, setOfflineFriends ] = useState(friends.filter(friend => friend.online === false && friend.isFriend === true));
+    const [ onlineFriends, setOnlineFriends ] = useState(friends? friends.filter(friend => friend.online === true && friend.isFriend === true) : '');
+    const [ pendingFriends, setPendingFriends ] = useState(friends? friends.filter(friend => friend.isFriend === false && +friend.receiver_id === +user.id) : '');
+    const [ offlineFriends, setOfflineFriends ] = useState(friends? friends.filter(friend => friend.online === false && friend.isFriend === true) : '');
 
 
     useEffect(() => {

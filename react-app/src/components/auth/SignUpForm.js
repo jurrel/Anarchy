@@ -43,6 +43,10 @@ const SignUpForm = () => {
 		setFile(e.target.files[0]);
 	};
 
+	if (user) {
+    	return <Redirect to='/' />;
+  	}
+
 	return (
 		<form className="log-form" onSubmit={onSignUp}>
 			<div>

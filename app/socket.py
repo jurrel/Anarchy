@@ -1,5 +1,6 @@
 from flask_socketio import SocketIO, send, join_room, leave_room, emit, disconnect
 import os
+from flask_login import current_user
 
 from .models import db, User, Message, Server, Channel, Friend
 

@@ -9,7 +9,7 @@ html,
 	margin: 0;
 	background-image: linear-gradient(to right, #434343 0%, black 100%);
 	color: white;
-	/* overflow: hidden; */
+	overflow: hidden;
 }
 
 ::-webkit-scrollbar {
