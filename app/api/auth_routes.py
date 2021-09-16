@@ -208,13 +208,24 @@ def sign_up():
             email=form.data['email'],
             password=form.data['password'],
             profile_picture=file_url,
-            online=True,
             createdAt=datetime.now()
         )
         db.session.add(user)
         db.session.commit()
+        serverUser = ServerUser(
+            user_id = User.query.filter(User.email == user.email).first().id,
+            server_id = 1
+        )
+        db.session.add(serverUser)
+        db.session.commit()
+
+        queryUser = User.query.filter(User.email == user.email).first()
+        data = {
+            'user': queryUser.to_dict()
+        }
+
         login_user(user)
-        return user.to_dict()
+        return data 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
