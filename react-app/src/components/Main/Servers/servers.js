@@ -10,32 +10,29 @@ function Servers() {
 	const user = useSelector((state) => state.session.user);
 	console.log('THIS IS USER.username', user.username);
 
-	return (
-		<div className="TEST">
-			<div className="side_bar_main">
-				<div className="align_the_side_bar">
-					{servers?.map((server) => (
-						<div key={server.id}>
-							<NavLink to={`/api/servers/${server.id}`}>
-								<img
-									src={server.imageUrl}
-									alt=""
-									className="server_img_container"
-								/>
-							</NavLink>
-							<Switch>
-								<Route path={`/api/servers/${server.id}`}>
-									<div className="server_name_header">
-										<Channels channels={server.channels} />
-									</div>
-								</Route>
-							</Switch>
-						</div>
-					))}
-				</div>
-			</div>
-		</div>
-	);
+
+    return (
+        <div className='TEST'>
+            <div className="side_bar_main">
+                <div className='align_the_side_bar'>
+                        {servers?.map((server) => (
+                            <div key={server.id}>
+                                <NavLink to={`/api/servers/${server.id}`}>
+                                    <img src={server.imageUrl} alt="" className='server_img_container'/>
+                                </NavLink>
+                                <Switch>
+                                    <Route path={`/api/servers/${server.id}`}>
+                                        <div className="server_name_header">
+                                            <Channels serverId={server.id} channels={server.channels}/>
+                                        </div>
+                                    </Route>
+                                </Switch>
+                            </div>
+                        ))}
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default Servers;

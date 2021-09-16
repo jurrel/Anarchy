@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 
 
 import './channels.css';
+import VideoModal from '../../videoModal';
 
-const Channels = ({ channels }) => {
+const Channels = ({ channels, serverId }) => {
 	
 	const user = useSelector(state => state.session.user);
 	console.log("THIS IS USER.usernamessssssss", user)
@@ -22,6 +23,7 @@ const Channels = ({ channels }) => {
 								</NavLink>
 							</div>
 						))}
+						<VideoModal serverId={serverId} />
 				</div>
 				<div className='user_profile_name'>
 					<img src={user.profile_picture} className='user_profile_photo'/>
