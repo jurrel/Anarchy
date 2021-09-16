@@ -4,13 +4,12 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, current_user, login_required
-from flask_socketio import SocketIO, send, join_room, leave_room, emit
-from sqlalchemy.orm.attributes import flag_modified
+from flask_socketio import SocketIO, send, join_room, leave_room, emit, disconnect
+from sqlalchemy import or_
 import eventlet
+# eventlet.monkey_patch()
 
-
-
-
+from .socket import socketio 
 
 from .models import db, User, Message, Server, Channel, Friend
 from .api.user_routes import user_routes
@@ -24,6 +23,10 @@ from .seeds import seed_commands
 from .config import Config
 
 app = Flask(__name__)
+socketio.init_app(app)
+
+# socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
+# , async_mode="eventlet"
 
 # Setup login manager
 login = LoginManager(app)
@@ -33,8 +36,6 @@ login.login_view = 'auth.unauthorized'
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 
 
 # Tell flask about our seed commands
@@ -88,34 +89,45 @@ def react_root(path):
 
 
 
-# from datetime import datetime
+from datetime import datetime
 
-# now = datetime.now()
+now = datetime.now()
 
-# #sockets
+#sockets
 # socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 
 # @socketio.on('connect')
 # def connection():
 #     print('Connection success!')
 
-# if current_user.is_authenticated:
 #     @socketio.on('online')
 #     def login(userId):
+#         friends = Friend.query.filter(Friend.receiver_id == userId).all()
+#         print(friends)
+#         user = User.query.get(userId)
+#         print(user.to_dict())
+#         # # db.session.merge(user)
+#         user.online = True 
+#         db.session.commit()
 #         emit('online', userId, broadcast=True, include_self=False)
 
 #     @socketio.on('confirm-friend')
 #     def confirm_friend(friend):
 #         print('CONFIRM FRIEND', friend)
 
-#         db_friend = Friend.query.filter(Friend.receiver_id == friend['receiver_id']).filter(Friend.sender_id == friend['sender_id']).one_or_none()
+#         db_friend = Friend.query.get(friend['friend_id'])
 #         user = User.query.get(friend['receiver_id'])
 
+#         db.session.commit() 
+        
 #         db_friend.isFriend = True
 #         friend['isFriend'] = True
 
-#         db.session.add(db_friend)
+#         # db.session.merge(db_friend)
+#         # db.session.add(db_friend)
+#         # db.session.update(db_friend)
 #         db.session.commit()
+#         # session.commit()
         
 #         emit('confirm-friend', friend, broadcast=True)
 #         return None
@@ -125,10 +137,25 @@ def react_root(path):
 #         goodbye = Friend.query.filter(Friend.sender_id == friend['id']).one_or_none()
 
 #         db.session.delete(goodbye)
+#         # db.session.merge(goodbye)
 #         db.session.commit()
+
 
 #         emit('deny-friend', friend, broadcast=True)
 #         return None 
+
+#     @socketio.on('ruin-friendship')
+#     def ruin_friendship(friend):
+#         db_friend = Friend.query.get(friend['friend_id'])
+     
+#         db.session.delete(db_friend)
+#         # # db.session.merge(db_friend)
+#         db.session.commit()
+#         print('WUT')
+
+#         emit('ruin-friendship', friend, broadcast=True)
+#         return None
+
 
 #     @socketio.on('edit-server')
 #     def edit_server(data):
@@ -245,9 +272,10 @@ def react_root(path):
 
 #     @socketio.on('disconnect')
 #     def disconnection():
-#         print('Terminated connection')
+#         print('Terminated connection', current_user.id)
+#         emit('log-out', current_user.id, broadcast=True)
 #         return None
 
 
-# if __name__ == '__main__':
-#     socketio.run(app)
+if __name__ == '__main__':
+    socketio.run(app)
