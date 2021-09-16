@@ -1,6 +1,6 @@
 
 
-function OnlineFriends({ socket, onlineFriends, friends }) {
+function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
 
     
     return (
@@ -8,7 +8,7 @@ function OnlineFriends({ socket, onlineFriends, friends }) {
             <div className='online-friends'>
                 <div className='friends'>
                     <h3>Online:</h3>
-                    { onlineFriends && onlineFriends.map(friend => (
+                    { onlineFriends && onlineFriends && onlineFriends.map(friend => (
                         <div key={friend.id} className='friend'>
                             <img alt='profile' src={friend.profile_picture}></img>
                             <div className='friend-info'>
@@ -31,7 +31,7 @@ function OnlineFriends({ socket, onlineFriends, friends }) {
             <div className='offline-friends'>
                 <div className='friends'>
                     <h3>Offline:</h3>
-                    { friends.filter(friend => friend.isFriend === true && friend.online === false).map(friend => (
+                    { offlineFriends && offlineFriends.map(friend => (
                         <div key={friend.id} className='friend'>
                             <img alt='profile' src={friend.profile_picture}></img>
                             <div className='friend-info'>

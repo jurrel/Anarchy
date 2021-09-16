@@ -6,7 +6,7 @@ import './servers.css'
 
 function Servers() {
     const servers = useSelector(state => state.session.servers);
-    console.log('THIS IS SERVERS FROM SERVERS', servers)
+    // console.log('THIS IS SERVERS FROM SERVERS', servers)
     const user = useSelector(state => state.session.user);
     console.log("THIS IS USER.username", user.username)
 
