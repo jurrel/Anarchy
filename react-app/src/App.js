@@ -47,9 +47,6 @@ function App() {
 				<ProtectedRoute path="/users/:userId" exact={true}>
 					<User />
 				</ProtectedRoute>
-				{/* <ProtectedRoute path="/:serverId/:channelId">
-					<Messages />
-				</ProtectedRoute> */}
 			</Switch>
 		</BrowserRouter>
 	);
