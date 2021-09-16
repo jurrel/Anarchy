@@ -1,9 +1,7 @@
 import { useSelector } from 'react-redux';
 import { NavLink, Switch, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import SettingsIcon from '@material-ui/icons/Settings';
-import HeadsetIcon from '@material-ui/icons/Headset';
-import MicIcon from '@material-ui/icons/Mic';
+
 
 import './channels.css';
 
@@ -29,7 +27,6 @@ const Channels = ({ channels }) => {
 					<img src={user.profile_picture} className='user_profile_photo'/>
 					<p>{user.username}</p>
 					<div className='settings_icon'>
-						<SettingsIcon />
 					</div>
 				</div>
 		</div>	
