@@ -86,13 +86,13 @@ const Messages = ({ socket }) => {
 											alt="temp"
 											src={
 												server.users.find((user) => user.id == message.user_id)
-													.profile_picture
+													?.profile_picture
 											}
 										/>
 										<h3>
 											{
 												server.users.find((user) => user.id == message.user_id)
-													.username
+													?.username
 											}
 										</h3>
 										<p>{dateConverter(message.createdAt)}</p>
