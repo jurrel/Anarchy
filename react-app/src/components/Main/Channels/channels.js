@@ -5,14 +5,12 @@ import { useEffect, useState } from 'react';
 import './channels.css';
 import VideoModal from '../../videoModal';
 
-const Channels = ({ channels, serverName }) => {
-	const user = useSelector((state) => state.session.user);
+const Channels = ({ channels, server }) => {
 
-	console.log('THIS IS USER.usernamessssssss', user);
 	return (
 		<>
 			<div className="server_name_header">
-				<p>{serverName}</p>
+				<p>{server.name}</p>
 			</div>
 			{channels?.map(channel => (
 				<div key={channel.id} className="align_the_side_bar_channel">
@@ -21,11 +19,11 @@ const Channels = ({ channels, serverName }) => {
 
 			))}
 			{/* <VideoModal serverId={serverId} /> */}
-			<div className="user_profile_name">
+			{/* <div className="user_profile_name">
 				<img alt='profile' src={user.profile_picture} className="user_profile_photo" />
 				<p>{user.username}</p>
 				<div className="settings_icon"></div>
-			</div>
+			</div> */}
 		</>
 	);
 };

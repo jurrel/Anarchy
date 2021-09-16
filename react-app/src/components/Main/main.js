@@ -50,7 +50,7 @@ function Main() {
 		<div className="main-container">
 			<Friends socket={socket} />
 			<div className="sidebar_server_list">
-				<Servers />
+				<Servers socket={socket} />
 			</div>
 			{/* <Route path="/:serverId/:channelId" exact={true}>
 				<Message socket={socket} />
