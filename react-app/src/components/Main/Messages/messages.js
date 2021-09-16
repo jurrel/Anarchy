@@ -106,7 +106,7 @@ const Messages = ({ socket }) => {
 				<input
 					id="message-box"
 					type="text"
-					placeholder={`Message ${channel.name}`}
+					placeholder={`Message #${channel.name}`}
 					value={message}
 					onChange={updateMessage}
 				></input>
