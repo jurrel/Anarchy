@@ -10,6 +10,8 @@ from datetime import datetime
 from sqlalchemy.orm import joinedload
 from sqlalchemy import or_
 from random import randint
+from flask_socketio import emit
+
 
 
 auth_routes = Blueprint('auth', __name__)
@@ -33,6 +35,13 @@ def authenticate():
     """
     if current_user.is_authenticated:
 
+        user = User.query.get(current_user.id)
+        # User.query.filter(User.id == current_user.id).update({'online': True})
+        user.online = True 
+        # db.session.merge(user)
+        db.session.add(user)
+        db.session.commit()
+
         server_users = ServerUser.query.filter(current_user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
         serverIds = [server.id for server in servers ]
@@ -42,6 +51,7 @@ def authenticate():
             'servers': [ server.to_dict() for server in servers ],
             'friends': None,
         }
+        data['user']['online'] = True
 
         for server in data['servers']:
             channel_list = Channel.query.filter(Channel.server_id == server['id']).all()
@@ -67,17 +77,21 @@ def authenticate():
                             break
 
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
+        users_list = User.query.filter(User.id != current_user.id).all()
         users = [user.to_dict() for user in users_list]
 
         for user in users:
             for friend in friends:
-                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
+                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']):
                     user['isFriend'] = friend.isFriend
                     user['sender_id'] = friend.sender_id
                     user['receiver_id'] = friend.receiver_id
+                    user['friend_id'] = friend.id
+                    user['refresh'] = True
 
         data['friends'] = users
+        #  and user['id'] != current_user.id
+        db.session.commit()
 
         return data
     return {'errors': ['Unauthorized']}
@@ -95,9 +109,11 @@ def login():
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
-        user.online = True
-        login_user(user)
+        user.online = True 
+        # db.session.merge(user)
+        # db.session.add(user)
         db.session.commit()
+        login_user(user)
 
         server_users = ServerUser.query.filter(user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
@@ -133,17 +149,20 @@ def login():
                             break
 
         friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        users_list = User.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
+        users_list = User.query.filter(User.id != current_user.id).all()
         users = [ user.to_dict() for user in users_list ]
 
         for user in users:
             for friend in friends:
-                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']) and user['id'] != current_user.id:
+                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']):
                     user['isFriend'] = friend.isFriend
                     user['sender_id'] = friend.sender_id
                     user['receiver_id'] = friend.receiver_id
+                    user['friend_id'] = friend.id
 
         data['friends'] = users
+        db.session.commit()
+        emit('online', current_user.id, broadcast=True, namespace='/')
 
         return data
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
@@ -154,7 +173,14 @@ def logout():
     """
     Logs a user out
     """
+    user = User.query.get(current_user.id)
+    # User.query.filter(User.id == user.id).update({'online': False})
+    user.online = False
+    # db.session.merge(user)
+    db.session.commit()
     logout_user()
+    emit('log-out', user.to_dict(), broadcast=True, namespace='/')
+    db.session.close()
     return {'message': 'User logged out'}
 
 
@@ -182,6 +208,7 @@ def sign_up():
             email=form.data['email'],
             password=form.data['password'],
             profile_picture=file_url,
+            online=True,
             createdAt=datetime.now()
         )
         db.session.add(user)
