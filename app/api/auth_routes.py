@@ -95,6 +95,7 @@ def login():
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
+        print(f'{user}\n\n\n\n\n\n\n\n\n\n')
         user.online = True
         login_user(user)
         db.session.commit()
@@ -185,6 +186,12 @@ def sign_up():
             createdAt=datetime.now()
         )
         db.session.add(user)
+        db.session.commit()
+        serverUser = ServerUser(
+            user_id = User.query.filter(User.email == user.email).first().id,
+            server_id = 1
+        )
+        db.session.add(serverUser)
         db.session.commit()
         login_user(user)
         return user.to_dict()
