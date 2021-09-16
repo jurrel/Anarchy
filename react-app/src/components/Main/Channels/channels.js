@@ -5,35 +5,28 @@ import { useEffect, useState } from 'react';
 import './channels.css';
 import VideoModal from '../../videoModal';
 
-const Channels = ({ channels, serverId }) => {
+const Channels = ({ channels, serverName }) => {
 	const user = useSelector((state) => state.session.user);
 
 	console.log('THIS IS USER.usernamessssssss', user);
 	return (
-		<div className="channel_list">
-			{/* <div className="server_name_header">
-				<p>{server.name}</p>
-			</div> */}
-			{channels?.map((channel) => (
-				<div className="align_the_side_bar_channel">
-					<div
-						key={channel.id}
-						className={
-							'channel ' +
-							(channel.server_id === serverId ? 'visible' : 'hidden')
-						}
-					>
-						<h2>{channel.name}</h2>
-					</div>
+		<>
+			<div className="server_name_header">
+				<p>{serverName}</p>
+			</div>
+			{channels?.map(channel => (
+				<div key={channel.id} className="align_the_side_bar_channel">
+					<h2>{channel.name}</h2>
 				</div>
+
 			))}
-			<VideoModal serverId={serverId} />
+			{/* <VideoModal serverId={serverId} /> */}
 			<div className="user_profile_name">
-				<img src={user.profile_picture} className="user_profile_photo" />
+				<img alt='profile' src={user.profile_picture} className="user_profile_photo" />
 				<p>{user.username}</p>
 				<div className="settings_icon"></div>
 			</div>
-		</div>
+		</>
 	);
 };
 
