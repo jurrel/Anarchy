@@ -10,7 +10,9 @@ function Servers() {
 	const user = useSelector((state) => state.session.user);
 	console.log('THIS IS USER.username', user.username);
 
-	const [serverId, setServerId] = useState(1);
+	const [serverId, setServerId] = useState('');
+    const [serverName, setServerName] = useState('');
+    const [channels, setChannels] = useState([]);
 
 	return (
 		<div className="TEST">
@@ -20,7 +22,11 @@ function Servers() {
 						<div
 							class="server-icon"
 							key={server.id}
-							onClick={(e) => setServerId(server.id)}
+							onClick={(e) => {
+                                setServerId(server.id);
+                                setServerName(server.name);
+                                setChannels(server.channels);
+                            }}
 						>
 							<div className={serverId === server.id ? 'active' : ''}>
 								<img
@@ -29,9 +35,11 @@ function Servers() {
 									className="server_img_container"
 								/>
 							</div>
-							<div className="server_name_header">
-								<Channels serverId={serverId} channels={server.channels} />
-							</div>
+                            <div className="channel_list">
+							{ serverId && (
+                                <Channels serverId={serverId} serverName={serverName} channels={channels} />
+                            )}
+                            </div>
 						</div>
 					))}
 				</div>
