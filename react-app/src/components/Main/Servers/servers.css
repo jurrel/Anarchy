@@ -98,7 +98,7 @@
 	background-clip: border-box;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-	text-align: center; 
+	text-align: center;
 }
 
 .server-name-header {
@@ -114,7 +114,7 @@
   color: #87909c;
   font-size: 20px;
   font-weight: bolder;
-  font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;	
+  font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 .channel_photo_upload_modal {
 	transform: translate(20%, -150%);
@@ -140,4 +140,3 @@
   font-size: 20px;
   transform: translate(175%, -45%);
 }
-

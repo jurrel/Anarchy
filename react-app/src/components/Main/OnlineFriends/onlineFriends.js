@@ -1,6 +1,5 @@
 import VideoModal from "../../videoModal";
 
-
 function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
 
 
@@ -8,7 +7,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
         // console.log(friend)
         socket.emit('ruin-friendship', friend)
     }
-    
+
     return (
         <>
             <div className='online-friends'>

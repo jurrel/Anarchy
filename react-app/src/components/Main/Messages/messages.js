@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { useParams } from 'react-router';
+import EditFormModal from './EditFormModal';
 
 import './messages.css';
 
@@ -11,7 +12,14 @@ const Messages = ({ socket, channel, server }) => {
 	const servers = useSelector((state) => state.session.servers);
 	const user = useSelector((state) => state.session.user);
 
-	const [messages, setMessages] = useState(channel ? channel.messages : []);
+	const [messages, setMessages] = useState(
+		channel
+			? channel.messages.sort(
+					(a, b) =>
+						new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+			  )
+			: []
+	);
 	const [message, setMessage] = useState('');
 
 	const dateConverter = (dateStr) => {
@@ -34,6 +42,16 @@ const Messages = ({ socket, channel, server }) => {
 		}
 	};
 
+	const editCheck = (message) => {
+		if (
+			new Date(message.createdAt).getTime() !==
+			new Date(message.updatedAt).getTime()
+		) {
+			return '(edited)';
+		}
+		return '';
+	};
+
 	useEffect(() => {
 		socket.on('message', (message) => {
 			if (message.channel_id === channel.id) {
@@ -42,7 +60,7 @@ const Messages = ({ socket, channel, server }) => {
 		});
 
 		return () => socket.off('message');
-	}, [messages, messages.length, socket]);
+	}, [channel?.id, messages, messages.length, socket]);
 
 	useEffect(() => {
 		setMessages(channel ? channel.messages : []);
@@ -71,9 +89,29 @@ const Messages = ({ socket, channel, server }) => {
 			channel_id: channelId,
 			imageUrl: null,
 		};
-		console.log(newMessage);
 		socket.emit('message', newMessage);
 		setMessage('');
+	};
+
+	const handleDelete = (e) => {
+		e.preventDefault();
+		const messageId = +e.target.id.split('-')[1];
+		const newMessages = messages.filter((message) => message.id !== messageId);
+		socket.emit('del-message', messageId);
+		setMessages([...newMessages]);
+	};
+
+	const handleButtonClick = (e) => {
+		e.preventDefault();
+		const messageId = e.target.id.split('-')[1];
+		const buttons = document.querySelector(`.a${messageId}`);
+		if (buttons) {
+			if (buttons && buttons.style.display === 'inline') {
+				buttons.style.display = 'none';
+			} else {
+				buttons.style.display = 'inline';
+			}
+		}
 	};
 
 	const updateMessage = (e) => {
@@ -92,35 +130,56 @@ const Messages = ({ socket, channel, server }) => {
 							<div key={message.id}>
 								<li className="message" key={message.id}>
 									<div className="message-info">
-										<img
-											className="message-user-profile-pic"
-											alt="temp"
-											src={
-												server?.users.find((user) => user.id == message.user_id)
-													?.profile_picture
-											}
-										/>
+										<div className="image-container">
+											<img
+												className="message-user-profile-pic"
+												alt="temp"
+												src={
+													server?.users.find(
+														(user) => user.id == message.user_id
+													)?.profile_picture
+												}
+											/>
+										</div>
 										<h3>
 											{
 												server?.users.find((user) => user.id == message.user_id)
 													?.username
 											}
 										</h3>
-										<p>{dateConverter(message?.createdAt)}</p>
+										<p>
+											{dateConverter(message?.createdAt) +
+												' ' +
+												editCheck(message)}
+										</p>
+										{user.id === message.user_id && (
+											<i
+												className="fas fa-ellipsis-h message-elipsis"
+												id={`elipsis-${message.id}`}
+												onClick={handleButtonClick}
+											></i>
+										)}
 									</div>
 									<div className="message-content">
 										<p>{message?.message}</p>
-										<i className="fa-solid fa-ellipsis"></i>
 									</div>
-									<div className="edit-buttons">
+									<div className={`edit-buttons a${message.id}`}>
 										{Number(user?.id) === Number(message?.user_id) && (
 											<>
-												{/* <button className="del-message" id={message.id}>
-													Delete Message
+												<EditFormModal
+													oldMessage={message}
+													socket={socket}
+													messages={messages}
+													setMessages={setMessages}
+												/>
+												<button
+													className="del-message"
+													onClick={handleDelete}
+													id={`del-${message.id}`}
+												>
+													<i class="fas fa-trash-alt m2"></i>
+													Delete
 												</button>
-												<button className="edit-message" id={message.id}>
-													Edit Message
-												</button> */}
 											</>
 										)}
 									</div>
