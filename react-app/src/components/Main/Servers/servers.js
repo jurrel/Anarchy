@@ -12,7 +12,7 @@ function Servers({ socket }) {
     console.log('SSS', user)
 
     const [selectedServer, setServer] = useState('');
-    const [createServer, setCreateServer] = useState('');
+    // const [createServer, setCreateServer] = useState('');
     // const [allServers, setAllServers] = useState(servers);
 
     // useEffect(() => {
@@ -73,13 +73,10 @@ function Servers({ socket }) {
                     ))}
                     <div
                         class="server-icon plus-icon-container " onClick={(e) => setServer('')}>
-                        <div className='plus-icon'>
-                                <i class="fa fa-plus" />
-                            {/* <CreateServerModal socket={socket}>
-                            </CreateServerModal> */}
+                        <div className='plus-icon'>  
+                            <CreateServerModal socket={socket}/>
                         </div>
-                    </div>
-                   
+                    </div>   
                 </>
             </div>
         </div>

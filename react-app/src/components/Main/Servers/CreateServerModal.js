@@ -14,7 +14,9 @@ function CreateServerModal({ socket }) {
         socket.on('new-server', (server) => {
             setAllServers([...allServers, server])
         });
-        return () => socket.disconnect()
+        return () => {
+            socket.disconnect();
+        };
 
     }, [allServers, socket]);
 
@@ -37,7 +39,8 @@ function CreateServerModal({ socket }) {
 
     return (
         <>
-            <button onClick={() => setShowModal(true)}><i className="fa fa-plus" /></button>
+
+            <i className="fa fa-plus" onClick={() => setShowModal(true)} title="Create Channel" />
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <form onSubmit={handleCreateServer}>

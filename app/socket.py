@@ -95,6 +95,27 @@ def connection():
         emit('edit-server', server.to_dict(), broadcast=True)
         return None
 
+
+    @socket.io('new-server') 
+    def new_server(data):
+        default_picture = 'https://mymusicdb.s3.us-east-2.amazonaws.com/anarchy/profiles/default.png'
+        if data in ('imageUrl'):
+            server = Server(
+                name=data.name,
+                owner_id=data.owner_id,
+                imageUrl=data.imageUrl,
+            )
+        else:
+            server = Server(
+                name=data.name,
+                owner_id=data.owner_id,
+                imageUrl=default_picture,
+            )
+        db.session.add(server)
+        db.session.commit()
+        emit('new-server', server.to_dict(), broadcast=True)
+        return None
+
     @socketio.on('delete-server')
     def delete_server(id):
         server = Server.query.get(id)
