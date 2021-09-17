@@ -150,6 +150,15 @@ def connection():
         send(returnMessage, broadcast=True)
         return None
 
+    @socketio.on('del-message')
+    def handleDeleteMessage(msgId):
+        print('DELETE')
+        message = Message.query.get(msgId)
+        db.session.delete(message)
+        db.session.commit()
+        emit('delete-message', msgId, broadcast=True)
+        return None
+
     @socketio.on('private-message')
     def handlePrivateMessage(msg):
 

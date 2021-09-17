@@ -71,9 +71,16 @@ const Messages = ({ socket, channel, server }) => {
 			channel_id: channelId,
 			imageUrl: null,
 		};
-		console.log(newMessage);
 		socket.emit('message', newMessage);
 		setMessage('');
+	};
+
+	const handleDelete = (e) => {
+		e.preventDefault();
+		const messageId = +e.target.id;
+		const newMessages = messages.filter((message) => message.id !== messageId);
+		socket.emit('del-message', messageId);
+		setMessages([...newMessages]);
 	};
 
 	const updateMessage = (e) => {
@@ -115,12 +122,16 @@ const Messages = ({ socket, channel, server }) => {
 									<div className="edit-buttons">
 										{Number(user?.id) === Number(message?.user_id) && (
 											<>
-												{/* <button className="del-message" id={message.id}>
+												<button
+													className="del-message"
+													onClick={handleDelete}
+													id={message.id}
+												>
 													Delete Message
 												</button>
 												<button className="edit-message" id={message.id}>
 													Edit Message
-												</button> */}
+												</button>
 											</>
 										)}
 									</div>
