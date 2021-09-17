@@ -1,3 +1,4 @@
+import VideoModal from "../../videoModal";
 
 
 function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
@@ -20,6 +21,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
                                 <p>{friend.username}</p>
                                 <div className='friend-buttons'>
                                     <button type='button'><i className="fas fa-comment-dots" /></button>
+                                    <VideoModal friend={friend} socket={socket} />
                                     <button onClick={() => ruinFriendship(friend)} type='button'><i className="far fa-trash-alt" /></button>
                                 </div>
                             </div>

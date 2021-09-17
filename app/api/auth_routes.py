@@ -68,27 +68,27 @@ def authenticate():
                 users.append(*[user.to_dict() for user in user_list])
             server['users'] = users
 
-            for user in users:
-                roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == user['id']).all()
+            for person in users:
+                roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == person['id']).all()
                 if len(roles) > 0:
                     for role in roles:
                         if role.server_id == server['id']:
-                            user['role'] = role.to_dict()
+                            person['role'] = role.to_dict()
                             break
-
-        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        users_list = User.query.filter(User.id != current_user.id).all()
-        users = [ user.to_dict() for user in users_list ]
+                        
+        friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
+        users_list = User.query.filter(User.id != user.id).all()
+        users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
-        for user in users:
+        for dude in users:
             for friend in friends:
-                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']):
-                    user['isFriend'] = friend.isFriend
-                    user['sender_id'] = friend.sender_id
-                    user['receiver_id'] = friend.receiver_id
-                    user['friend_id'] = friend.id
-                    friends_list.append(user)
+                if (friend.receiver_id == dude['id'] or friend.sender_id == dude['id']):
+                    dude['isFriend'] = friend.isFriend
+                    dude['sender_id'] = friend.sender_id
+                    dude['receiver_id'] = friend.receiver_id
+                    dude['friend_id'] = friend.id
+                    friends_list.append(dude)
 
         data['friends'] = friends_list
         #  and user['id'] != current_user.id
@@ -141,27 +141,27 @@ def login():
                 users.append( *[ user.to_dict() for user in user_list ] )
             server['users'] = users
 
-            for user in users:
-                roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == user['id']).all()
+            for person in users:
+                roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == person['id']).all()
                 if len(roles) > 0:
                     for role in roles:
                         if role.server_id == server['id']:
-                            user['role'] = role.to_dict()
+                            person['role'] = role.to_dict()
                             break
 
-        friends = Friend.query.filter(or_(Friend.sender_id == user['id'], Friend.receiver_id == current_user.id)).all()
-        users_list = User.query.filter(User.id != current_user.id).all()
-        users = [ user.to_dict() for user in users_list ]
+        friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
+        users_list = User.query.filter(User.id != user.id).all()
+        users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
-        for user in users:
+        for dude in users:
             for friend in friends:
-                if (friend.receiver_id == user['id'] or friend.sender_id == user['id']):
-                    user['isFriend'] = friend.isFriend
-                    user['sender_id'] = friend.sender_id
-                    user['receiver_id'] = friend.receiver_id
-                    user['friend_id'] = friend.id
-                    friends_list.append(user)
+                if (friend.receiver_id == dude['id'] or friend.sender_id == dude['id']):
+                    dude['isFriend'] = friend.isFriend
+                    dude['sender_id'] = friend.sender_id
+                    dude['receiver_id'] = friend.receiver_id
+                    dude['friend_id'] = friend.id
+                    friends_list.append(dude)
 
         data['friends'] = friends_list
         db.session.commit()

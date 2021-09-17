@@ -78,7 +78,6 @@ export const signUp = (username, email, password, file) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		console.log(data, 'DATA FROM BACK END')
 		dispatch(setUser(data));
 		return null;
 	} else if (response.status < 500) {
@@ -96,7 +95,6 @@ const initialState = { user: null };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
-			console.log(action.payload, 'ACTION PAYLOAD')
 			return { 
 				user: action.payload.user, 
 				servers: action.payload.servers, 

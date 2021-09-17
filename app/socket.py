@@ -1,6 +1,6 @@
 from flask_socketio import SocketIO, send, join_room, leave_room, emit, disconnect
 import os
-from flask_login import current_user
+# from flask_login import current_user
 
 from .models import db, User, Message, Server, Channel, Friend
 
@@ -36,6 +36,7 @@ def connection():
         print(user.to_dict())
         # # db.session.merge(user)
         user.online = True 
+        db.session.add(user)
         db.session.commit()
         emit('online', userId, broadcast=True, include_self=False)
 
@@ -46,14 +47,13 @@ def connection():
         db_friend = Friend.query.get(friend['friend_id'])
         user = User.query.get(friend['receiver_id'])
 
-        db.session.commit() 
+        # db.session.commit() 
         
         db_friend.isFriend = True
         friend['isFriend'] = True
 
         # db.session.merge(db_friend)
-        # db.session.add(db_friend)
-        # db.session.update(db_friend)
+        db.session.add(db_friend)
         db.session.commit()
         # session.commit()
         
@@ -183,6 +183,13 @@ def connection():
     @socketio.on('user-connected')
     def new_connection(serverId, senderId):
         print('NEW CONNECTION')
+        return None 
+
+    @socketio.on('call')
+    def broadcast_call(peerId):
+        print('CALL HAPPENING')
+        emit('join', peerId, broadcast=True, include_self=False)
+        return None 
 
     @socketio.on('join')
     def room(peerId):
@@ -191,16 +198,13 @@ def connection():
         return None
 
     @socketio.on('hang_up')
-    def hang_up(serverId, userId):
-        print('LEAVING', serverId, userId)
-        room = serverId
-        leave_room(room)
-        data = {'userId': userId, 'roomId': serverId}
-        emit('hang_up', data, broadcast=True)
+    def hang_up(peerId):
+        print('LEAVING', peerId)
+        emit('hang_up', peerId, broadcast=True)
         return None
 
     @socketio.on('disconnect')
     def disconnection():
-        print('Terminated connection', current_user.id)
-        emit('log-out', current_user.id, broadcast=True)
+        print('Terminated connection')
+        # emit('log-out', broadcast=True)
         return None

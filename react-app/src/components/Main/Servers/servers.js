@@ -17,7 +17,7 @@ function Servers({ socket }) {
 				<div className="align_the_side_bar">
                     <>
                         <div
-                            class={"server-icon home-icon-container " + ( !selectedServer? 'active' : '')}
+                            className={"server-icon home-icon-container " + ( !selectedServer? 'active' : '')}
                             onClick={(e) => setServer('')}
                         >
                             <div className='home-icon'>
@@ -27,10 +27,9 @@ function Servers({ socket }) {
                         </div>
 
                         {servers?.map((server) => (
-                            <>
+                            <div key={server.id}>
                                 <div
-                                    class="server-icon"
-                                    key={server.id}
+                                    className="server-icon"
                                     onClick={(e) => setServer(server)}
                                 >
                                     <div className={selectedServer.id === server.id ? 'active' : ''}>
@@ -54,7 +53,7 @@ function Servers({ socket }) {
                                         <div className="settings_icon"></div>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         ))}
                     </>
 				</div>
