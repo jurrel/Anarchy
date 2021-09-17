@@ -39,7 +39,7 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 	top: 5%;
-	left: 20%;
+	left: 120%;
 	background-color: #36393f;
 }
 
@@ -52,7 +52,7 @@
 .message-box {
 	position: absolute;
 	bottom: 3%;
-	left: 20%;
+	left: 120%;
 	width: 1110px;
 }
 
@@ -79,7 +79,7 @@
 	position: absolute;
 	z-index: 1000;
 	top: -1%;
-	left: 20%;
+	left: 120%;
 	color: #dcddde;
 	font-family: 'Roboto Mono', monospace;
 	letter-spacing: 2px;

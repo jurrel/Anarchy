@@ -56,7 +56,18 @@
 }
 
 .align_the_side_bar_channel {
-	height: 3em;
+	height: 1em;
+	font-size: 0.75em;
+	font-family: 'Roboto Mono', monospace;
+	font-weight: 300;
+	cursor: pointer;
+}
+
+.align_the_side_bar_channel > h2::before {
+	content: '#';
+	color: #72767d;
+	font-weight: 0;
+	margin-right: 10px;
 }
 
 /* .channel {
@@ -65,10 +76,10 @@
 	height: fit-content;
 } */
 
-/* .channel.hidden {
+/* /* .channel.hidden {
 	display: none;
 	visibility: hidden;
-}
+} */
 
 .channel.visible {
 	flex-direction: column;
@@ -76,4 +87,4 @@
 	visibility: visible;
 	position: absolute;
 	z-index: 100;
-} */
+}

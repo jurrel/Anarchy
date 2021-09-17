@@ -8,7 +8,8 @@ html,
 	min-height: 100% !important;
 	padding: 0;
 	margin: 0;
-	background-image: linear-gradient(to right, #434343 0%, black 100%);
+	/* background-image: linear-gradient(to right, #434343 0%, black 100%); */
+	background-color: #36393f;
 	color: white;
 	overflow: hidden;
 }
@@ -24,4 +25,8 @@ html,
 }
 
 #modal-content {
+}
+
+.friends-nav {
+	display: none;
 }

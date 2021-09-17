@@ -56,7 +56,7 @@ def connection():
         db.session.add(db_friend)
         db.session.commit()
         # session.commit()
-        
+
         emit('confirm-friend', friend, broadcast=True)
         return None
 
@@ -71,12 +71,12 @@ def connection():
 
 
         emit('deny-friend', friend, broadcast=True)
-        return None 
+        return None
 
     @socketio.on('ruin-friendship')
     def ruin_friendship(friend):
         db_friend = Friend.query.get(friend['friend_id'])
-     
+
         db.session.delete(db_friend)
         # # db.session.merge(db_friend)
         db.session.commit()
@@ -146,6 +146,7 @@ def connection():
         )
         db.session.add(message)
         db.session.commit()
+        print(f'{message.to_dict()}\n\n\n\n\n\n\n\n')
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
         return None

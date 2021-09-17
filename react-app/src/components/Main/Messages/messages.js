@@ -5,8 +5,8 @@ import { useParams } from 'react-router';
 
 import './messages.css';
 
-const Messages = ({ socket }) => {
-	const { serverId, channelId } = useParams();
+const Messages = ({ socket, channel }) => {
+	const [serverId, channelId] = [channel?.server_id, channel?.id];
 
 	const servers = useSelector((state) => state.session.servers);
 	const user = useSelector((state) => state.session.user);
@@ -14,10 +14,7 @@ const Messages = ({ socket }) => {
 	const [server, setServer] = useState(
 		servers.find((server) => server.id == serverId)
 	);
-	const [channel, setChannel] = useState(
-		server.channels.find((channel) => channel.id == channelId)
-	);
-	const [messages, setMessages] = useState(channel.messages);
+	const [messages, setMessages] = useState(channel ? channel.messages : []);
 	const [message, setMessage] = useState('');
 
 	const dateConverter = (dateStr) => {
@@ -45,13 +42,27 @@ const Messages = ({ socket }) => {
 			setMessages([...messages, message]);
 		});
 
-		const box = document.querySelectorAll('.messages-container')[0];
-		if (box) {
-			box.scrollTo(0, box.scrollHeight);
-		}
-
 		return () => socket.off('message');
 	}, [messages, messages.length, socket]);
+
+	useEffect(() => {
+		setMessages(channel ? channel.messages : []);
+		const boxes = document.querySelectorAll('.messages-container');
+		if (boxes) {
+			for (let i = 0; i < boxes.length; i++) {
+				boxes[i].scrollTo(0, boxes[i].scrollHeight);
+			}
+		}
+	}, [channel, channelId, serverId]);
+
+	useEffect(() => {
+		const boxes = document.querySelectorAll('.messages-container');
+		if (boxes) {
+			for (let i = 0; i < boxes.length; i++) {
+				boxes[i].scrollTo(0, boxes[i].scrollHeight);
+			}
+		}
+	});
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -61,6 +72,7 @@ const Messages = ({ socket }) => {
 			channel_id: channelId,
 			imageUrl: null,
 		};
+		console.log(newMessage);
 		socket.emit('message', newMessage);
 		setMessage('');
 	};
@@ -71,8 +83,8 @@ const Messages = ({ socket }) => {
 
 	return (
 		<>
-			<div className="channel-header">
-				<h3 className="channel-header-text">{`${channel.name}`}</h3>
+			<div class="channel-header">
+				<h3 class="channel-header-text">{`${channel?.name}`}</h3>
 			</div>
 			<div className="messages-container">
 				<ul className="messages">
@@ -122,7 +134,7 @@ const Messages = ({ socket }) => {
 				<input
 					id="message-box"
 					type="text"
-					placeholder={`Message #${channel.name}`}
+					placeholder={`Message #${channel?.name}`}
 					value={message}
 					onChange={updateMessage}
 				></input>
