@@ -11,9 +11,6 @@ const NavBar = () => {
 
   return (
     <nav className='nav-bar'>
-      { user && (
-        <MenuModal />
-      )}
       { !user && (
         <>
           <Anarchy />

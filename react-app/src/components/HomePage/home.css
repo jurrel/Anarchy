@@ -1,4 +1,27 @@
 @media screen and (min-width: 760px) {
+
+    .return-button {
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: inset 5px 5px 10px #da6969,
+                    inset -5px -5px 10px rgb(140, 140, 242);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .return-button:hover {
+        cursor: pointer;
+    }
+    
+    .return-header {
+        font-size: 50px;
+        color: white;
+        text-decoration: none;
+
+    }
+
     .home {
         height: 100vh !important;
         width: 80vw;

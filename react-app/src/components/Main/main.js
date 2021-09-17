@@ -6,15 +6,17 @@ import { io } from 'socket.io-client';
 import Peer from 'peerjs';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+
 import './main.css';
 import OnlineFriends from './OnlineFriends/onlineFriends';
 import Friends from './OnlineFriends/friends';
 import Message from './Messages/messages';
 import Servers from './Servers/servers';
+import MenuModal from './Menu';
 
 let endPoint = 'http://127.0.0.1:5000/';
 
-let socket = io();
+let socket = io.connect(`${endPoint}`);
 
 // const myPeer = new Peer(undefined, {
 // 	host: 'localhost',
@@ -31,14 +33,9 @@ function Main() {
 	const [channelId, setChannelId] = useState('');
 	const [online, setOnline] = useState(false);
 
-	const [message, setMessage] = useState('');
-	const [sender, setSender] = useState(1);
-	const [messages, setMessages] = useState([]);
-	const [typing, setTyping] = useState(false);
+    const [ videoChat, setVideoChat ] = useState(true);
+    const [selectedServer, setServer] = useState('');
 
-	const [members, setMembers] = useState(0);
-	const [video, setVideo] = useState(true);
-	const [audio, setAudio] = useState(true);
 
 	useEffect(() => {
 		if (online) return;
@@ -48,13 +45,19 @@ function Main() {
 
 	return (
 		<div className="main-container">
-			{/* <Friends socket={socket} /> */}
-			<div className="sidebar_server_list">
-				<Servers socket={socket} />
-			</div>
-			{/* <Route path="/:serverId/:channelId" exact={true}>
-				<Message socket={socket} />
-			</Route> */}
+            <Servers socket={socket} selectedServer={selectedServer} setServer={setServer} />
+            <Friends socket={socket} />
+            <div className="user_profile_name">
+                <div className='user-profile'>
+                    <img
+                        alt="profile"
+                        src={user.profile_picture}
+                        className="user_profile_photo"
+                    />
+                    <p>{user.username}</p>
+                </div>
+            </div>
+            <MenuModal />
 		</div>
 	);
 }
