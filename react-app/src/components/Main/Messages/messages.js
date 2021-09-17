@@ -80,8 +80,8 @@ const Messages = ({ socket, channel, server }) => {
 
 	return (
 		<>
-			<div class="channel-header">
-				<h3 class="channel-header-text">{`${channel?.name}`}</h3>
+			<div className="channel-header">
+				<h3 className="channel-header-text">{`${channel?.name}`}</h3>
 			</div>
 			<div className="messages-container">
 				<ul className="messages">
@@ -106,17 +106,17 @@ const Messages = ({ socket, channel, server }) => {
 										</h3>
 										<p>{dateConverter(message?.createdAt)}</p>
 									</div>
-									<div class="message-content">
+									<div className="message-content">
 										<p>{message?.message}</p>
-										<i class="fa-solid fa-ellipsis"></i>
+										<i className="fa-solid fa-ellipsis"></i>
 									</div>
-									<div class="edit-buttons">
+									<div className="edit-buttons">
 										{Number(user?.id) === Number(message?.user_id) && (
 											<>
-												{/* <button class="del-message" id={message.id}>
+												{/* <button className="del-message" id={message.id}>
 													Delete Message
 												</button>
-												<button class="edit-message" id={message.id}>
+												<button className="edit-message" id={message.id}>
 													Edit Message
 												</button> */}
 											</>
@@ -127,7 +127,7 @@ const Messages = ({ socket, channel, server }) => {
 						))}
 				</ul>
 			</div>
-			<form class="message-box" onSubmit={handleSubmit}>
+			<form className="message-box" onSubmit={handleSubmit}>
 				<input
 					id="message-box"
 					type="text"

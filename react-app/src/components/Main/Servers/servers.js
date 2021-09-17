@@ -17,7 +17,7 @@ function Servers({ socket }) {
 				<div className="align_the_side_bar">
 					<>
 						<div
-							class={
+							className={
 								'server-icon home-icon-container ' +
 								(!selectedServer ? 'active' : '')
 							}
@@ -29,10 +29,9 @@ function Servers({ socket }) {
 						</div>
 
 						{servers?.map((server) => (
-							<>
+							<div key={server.id}>
 								<div
 									className="server-icon"
-									key={server.id}
 									onClick={(e) => setServer(server)}
 								>
 									<div
@@ -64,7 +63,7 @@ function Servers({ socket }) {
 										<div className="settings_icon"></div>
 									</div>
 								</div>
-							</>
+							</div>
 						))}
 					</>
 				</div>
