@@ -14,7 +14,7 @@ import Servers from './Servers/servers';
 
 let endPoint = 'http://127.0.0.1:5000/';
 
-let socket = io.connect(`${endPoint}`);
+let socket = io();
 
 // const myPeer = new Peer(undefined, {
 // 	host: 'localhost',
