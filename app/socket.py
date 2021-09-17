@@ -141,13 +141,23 @@ def connection():
                 user_id = msg['user_id'],
                 channel_id = msg['channel_id'],
                 imageUrl = None,
-                createdAt = now,
-                updatedAt = now
+                createdAt = datetime.now(),
+                updatedAt = datetime.now()
         )
         db.session.add(message)
         db.session.commit()
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
+        return None
+
+    @socketio.on('edit-message')
+    def editMessage(msg):
+        print(f'MSSSSSG{msg}')
+        message = Message.query.get(msg['id'])
+        message.message = msg['message']
+        message.updatedAt = datetime.now()
+        db.session.commit()
+        emit('edit-message', broadcast=True)
         return None
 
     @socketio.on('del-message')
