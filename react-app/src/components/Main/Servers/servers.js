@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Channels from '../Channels/channels';
 import './servers.css';
 import Friends from '../OnlineFriends/friends';
+import CreateServerModal from './CreateServerModal';
 
 function Servers({ socket }) {
 	const servers = useSelector((state) => state.session.servers).sort(
@@ -14,21 +15,20 @@ function Servers({ socket }) {
 	const [selectedServer, setServer] = useState('');
 
 	return (
-		<div className="TEST">
-			<div className="side_bar_main">
-				<div className="align_the_side_bar">
-					<>
-						<div
-							className={
-								'server-icon home-icon-container ' +
-								(!selectedServer ? 'active' : '')
-							}
-							onClick={(e) => setServer('')}
-						>
-							<div className="home-icon">
-								<i className="fas fa-home fa-2x" />
-							</div>
-						</div>
+        <div className="side_bar_main">
+            <div className="align_the_side_bar">
+                <>
+                    <div
+                        className={
+                            'server-icon home-icon-container ' +
+                            (!selectedServer ? 'active' : '')
+                        }
+                        onClick={(e) => setServer('')}
+                    >
+                        <div className="home-icon">
+                            <i className="fas fa-home fa-2x" />
+                        </div>
+                    </div>
 
 						{servers?.map((server) => (
 							<div key={server.id}>
@@ -64,8 +64,13 @@ function Servers({ socket }) {
 								</div>
 							</div>
 						))}
+                    <div
+                        class="server-icon plus-icon-container" onClick={(e) => setServer('')}>
+                        <div className='plus-icon'>
+                            <CreateServerModal socket={socket} />
+                        </div>
+                    </div>
 					</>
-				</div>
 			</div>
 		</div>
 	);
@@ -73,8 +78,3 @@ function Servers({ socket }) {
 
 export default Servers;
 
-{
-	/* <div className="server_img_name_container">
-    <p> {server.name} </p>
-</div> */
-}
