@@ -5,8 +5,8 @@ import Peer from 'peerjs';
 
 import './video.css';
 
-const apiEndPoint = 'http://127.0.0.1:5000/';
-const socket = io.connect(`${apiEndPoint}`);
+// const apiEndPoint = 'http://127.0.0.1:5000/';
+// const socket = io.connect(`${apiEndPoint}`);
 
 const myPeer = new Peer(undefined, {
       host: 'localhost',
@@ -15,15 +15,23 @@ const myPeer = new Peer(undefined, {
 });
 
 
-function VideoChat({setShowModal, showModal, serverId}) {
+function VideoChat({setShowModal, showModal, friend, socket}) {
     
     const user = useSelector(state => state.session.user);
     
     const [members, setMembers] = useState(0);
-    const [myVidId, setMyVidId] = useState('');
     
     
     useEffect(() => {
+        const peers = {};
+
+        socket.on('hang_up', (peerId) => {
+            console.log('HANG UP', peerId, peers)
+            if(peers[peerId]) peers[peerId].close()
+            setShowModal(false);
+            window.location.reload();
+        })
+
 
         function connectToNewUser(peerId, stream) {
 
@@ -44,6 +52,9 @@ function VideoChat({setShowModal, showModal, serverId}) {
             call.on('close', () => {
                 vidContainer.remove();
             })
+
+            peers[peerId] = call
+
         }
 
         function addVideo(video, myVidContainer, stream) {
@@ -62,7 +73,8 @@ function VideoChat({setShowModal, showModal, serverId}) {
     
             const hangUp = document.getElementById('hang-up');
             hangUp.addEventListener('click', () => {
-                console.log('hang up!')
+                // console.log('hang up!')
+                socket.emit('hang_up', myPeer.id)
                 stream.getTracks().forEach(track => track.stop());
                 myVidContainer.remove();
                 setShowModal(false);
@@ -104,6 +116,13 @@ function VideoChat({setShowModal, showModal, serverId}) {
                     console.log('someone else joined', peerId, myPeer.id)
                     connectToNewUser(peerId, stream);
                     setMembers(members + 1);
+                    // socket.on('call', (peerId) => {
+                    //     console.log('SOMEONE IS CALLING YOU', peerId, 'MY ID', myPeer.id)
+                    // })
+                })
+
+                socket.on('hang_up', (peerId) => {
+                    console.log('HANG UP', peerId)
                 })
                     
                 myPeer.on('call', connection => {
@@ -122,14 +141,18 @@ function VideoChat({setShowModal, showModal, serverId}) {
                         console.log('STREAM');
                         addVideo(video, vidContainer, userVideoStream);
                     })
+
+                    connection.on('close', () => {
+                        console.log('CONNECTION CLOSE')
+                    })
                 })
             })
         }
 
         
-        return () => socket.off('join');
+        return () => socket.off();
 
-    }, [members, serverId, setShowModal, showModal, user.id])
+    }, [members, setShowModal, showModal, socket, user.id])
 
 
     return (

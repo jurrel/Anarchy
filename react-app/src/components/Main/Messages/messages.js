@@ -5,21 +5,18 @@ import { useParams } from 'react-router';
 
 import './messages.css';
 
-const Messages = ({ socket, channel }) => {
+const Messages = ({ socket, channel, server }) => {
 	const [serverId, channelId] = [channel?.server_id, channel?.id];
 
 	const servers = useSelector((state) => state.session.servers);
 	const user = useSelector((state) => state.session.user);
 
-	const [server, setServer] = useState(
-		servers.find((server) => server.id == serverId)
-	);
 	const [messages, setMessages] = useState(channel ? channel.messages : []);
 	const [message, setMessage] = useState('');
 
 	const dateConverter = (dateStr) => {
 		const marker = new Date(dateStr).toLocaleTimeString().split(' ')[1];
-		console.log(marker);
+		// console.log(marker);
 		const timeStr = new Date(dateStr)
 			.toLocaleTimeString()
 			.split(':')
@@ -83,43 +80,43 @@ const Messages = ({ socket, channel }) => {
 
 	return (
 		<>
-			<div class="channel-header">
-				<h3 class="channel-header-text">{`${channel?.name}`}</h3>
+			<div className="channel-header">
+				<h3 className="channel-header-text">{`${channel?.name}`}</h3>
 			</div>
-			<div class="messages-container">
-				<ul class="messages">
+			<div className="messages-container">
+				<ul className="messages">
 					{messages &&
 						messages.map((message) => (
 							<>
-								<li class="message" key={message.id}>
-									<div class="message-info">
+								<li className="message" key={message.id}>
+									<div className="message-info">
 										<img
-											class="message-user-profile-pic"
+											className="message-user-profile-pic"
 											alt="temp"
 											src={
-												server.users.find((user) => user.id == message.user_id)
+												server?.users.find((user) => user.id == message.user_id)
 													?.profile_picture
 											}
 										/>
 										<h3>
 											{
-												server.users.find((user) => user.id == message.user_id)
+												server?.users.find((user) => user.id == message.user_id)
 													?.username
 											}
 										</h3>
-										<p>{dateConverter(message.createdAt)}</p>
+										<p>{dateConverter(message?.createdAt)}</p>
 									</div>
-									<div class="message-content">
-										<p>{message.message}</p>
-										<i class="fa-solid fa-ellipsis"></i>
+									<div className="message-content">
+										<p>{message?.message}</p>
+										<i className="fa-solid fa-ellipsis"></i>
 									</div>
-									<div class="edit-buttons">
-										{Number(user.id) === Number(message.user_id) && (
+									<div className="edit-buttons">
+										{Number(user?.id) === Number(message?.user_id) && (
 											<>
-												{/* <button class="del-message" id={message.id}>
+												{/* <button className="del-message" id={message.id}>
 													Delete Message
 												</button>
-												<button class="edit-message" id={message.id}>
+												<button className="edit-message" id={message.id}>
 													Edit Message
 												</button> */}
 											</>
@@ -130,7 +127,7 @@ const Messages = ({ socket, channel }) => {
 						))}
 				</ul>
 			</div>
-			<form class="message-box" onSubmit={handleSubmit}>
+			<form className="message-box" onSubmit={handleSubmit}>
 				<input
 					id="message-box"
 					type="text"

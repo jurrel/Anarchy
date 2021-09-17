@@ -41,13 +41,9 @@ function Friends({ socket }) {
 		// create websocket/connect
 		socket.on('online', (userId) => {
 			const friend = friends.find((friend) => friend.id === userId);
-			console.log(friend, userId);
-			friend.online = true;
-			console.log(friend, userId);
-			const isOnline = onlineFriends.find(
-				(onlineFriend) => onlineFriend.id === userId
-			);
-			if (friend && friend.isFriend && !isOnline) {
+			const isOnline = onlineFriends.find(friend => friend.id === userId);
+			if (friend && !isOnline) {
+				// console.log(friend, userId);
 				setOnlineFriends([...onlineFriends, friend]);
 				setOfflineFriends(
 					friends.filter(
@@ -57,8 +53,8 @@ function Friends({ socket }) {
 							offlineFriend.id !== friend.id
 					)
 				);
-				socket.emit('online', user.id);
 			}
+			// socket.emit('online', user.id);
 		});
 
 		socket.on('confirm-friend', (friend) => {
@@ -114,7 +110,7 @@ function Friends({ socket }) {
 		});
 
 		socket.on('ruin-friendship', (friend) => {
-			console.log('WUT', friend.friend_id);
+			// console.log('WUT', friend.friend_id);
 
 			if (friend.online) {
 				setOnlineFriends(

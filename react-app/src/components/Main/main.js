@@ -16,11 +16,11 @@ let endPoint = 'http://127.0.0.1:5000/';
 
 let socket = io.connect(`${endPoint}`);
 
-const myPeer = new Peer(undefined, {
-	host: 'localhost',
-	port: 9000,
-	path: '/myapp',
-});
+// const myPeer = new Peer(undefined, {
+// 	host: 'localhost',
+// 	port: 9000,
+// 	path: '/myapp',
+// });
 
 function Main() {
 	const user = useSelector((state) => state.session.user);
