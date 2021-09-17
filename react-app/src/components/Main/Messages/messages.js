@@ -89,7 +89,7 @@ const Messages = ({ socket, channel, server }) => {
 				<ul className="messages">
 					{messages &&
 						messages.map((message) => (
-							<>
+							<div key={message.id}>
 								<li className="message" key={message.id}>
 									<div className="message-info">
 										<img
@@ -125,7 +125,7 @@ const Messages = ({ socket, channel, server }) => {
 										)}
 									</div>
 								</li>
-							</>
+							</div>
 						))}
 				</ul>
 			</div>
