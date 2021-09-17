@@ -53,7 +53,16 @@ const Messages = ({ socket, channel }) => {
 				boxes[i].scrollTo(0, boxes[i].scrollHeight);
 			}
 		}
-	}, [channel]);
+	}, [channel, channelId, serverId]);
+
+	useEffect(() => {
+		const boxes = document.querySelectorAll('.messages-container');
+		if (boxes) {
+			for (let i = 0; i < boxes.length; i++) {
+				boxes[i].scrollTo(0, boxes[i].scrollHeight);
+			}
+		}
+	});
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
