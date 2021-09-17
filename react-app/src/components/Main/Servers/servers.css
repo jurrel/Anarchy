@@ -29,6 +29,7 @@
 .server_name_header {
 	flex: 1;
 	background-color: blueviolet;
+	font-size: 50px;
 	z-index: 2;
 }
 
@@ -44,8 +45,12 @@
 	border-bottom: 1px solid gray;
 	padding-bottom: 5px;
 }
+.plus-icon-container {
+	padding-bottom: 5px;
+}
 
-.home-icon {
+.home-icon,
+.plus-icon {
 	align-items: center;
 	height: 65px;
 	width: 65px;
@@ -55,3 +60,84 @@
 	justify-content: center;
 	align-items: center;
 }
+
+.create-server-modal {
+	visibility: hidden;
+}
+
+.create-channel-modal {
+	align-items: center;
+	z-index: 3;
+	position: absolute;
+	height: 300px;
+	width: 540px;
+	border-radius: 5px;
+	left: 500px;
+	background-color: #000000;
+	display: flex;
+	flex-direction: column;
+	left: 50%;
+	top: 50%;
+  	transform: translate(-50%, -50%);
+}
+
+.channel-modal-title{
+  background: -webkit-linear-gradient(rgb(88, 11, 140), rgb(250, 14, 14));
+  font-size: 20px;
+  font-weight: bolder;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.text-under-channel-modal {
+	margin: 0;
+	font-size: 1.5rem;
+	background: -webkit-linear-gradient(rgb(88, 11, 140), rgb(250, 14, 14));
+	font-weight: 700;
+	background-clip: border-box;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-align: center; 
+}
+
+.server-name-header {
+  margin-top: 15px;
+  width: 400px;
+  height: 100px;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-server-name-input{
+  color: #87909c;
+  font-size: 20px;
+  font-weight: bolder;
+  font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;	
+}
+.channel_photo_upload_modal {
+	transform: translate(20%, -150%);
+}
+
+.cancle_button{
+  background-color: #7289da;
+  border-color: #7289da;
+  width: 85px;
+  height: 40px;
+  color: white;
+  border-radius: 5px;
+  font-size: 20px;
+  transform: translate(-175%, -45%);
+}
+.create_button {
+  background-color: #7289da;
+  border-color: #7289da;
+  width: 95px;
+  height: 40px;
+  color: white;
+  border-radius: 5px;
+  font-size: 20px;
+  transform: translate(175%, -45%);
+}
+
