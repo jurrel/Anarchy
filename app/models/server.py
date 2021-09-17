@@ -24,5 +24,5 @@ class Server(db.Model):
             'name': self.name,
             'owner_id': self.owner_id,
             'imageUrl': self.imageUrl,
-            'createdAt': self.createdAt,
+            'createdAt': self.createdAt.strftime("%Y/%m/%d %H:%M:%S"),
         }

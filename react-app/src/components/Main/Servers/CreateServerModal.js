@@ -22,15 +22,16 @@ function CreateServerModal({ socket }) {
 
     const handleCreateServer = async e => {
         e.preventDefault();
-
-        const newServer = {
-            name,
-            owner_id: user.id,
-            imageUrl      
-        }
-        socket.emit('new-server', newServer);
+        const form = new FormData()
+        form.append('name',name)
+        form.append('owner_id', user.id)
+        form.append('file', imageUrl)
+        
+        socket.emit('new-server', form);
+        setShowModal(false)
         return
     }
+
     const handleCancle = async e => {
         e.preventDefault();
         setShowModal(false)
@@ -38,7 +39,7 @@ function CreateServerModal({ socket }) {
     }
 
     const updateServerName = (e) => setName(e.target.value)
-    const updateServerImage = (e) => setImageUrl(e.target.value)
+    const updateServerImage = (e) => setImageUrl(e.target.files[0])
 
 
 
@@ -48,9 +49,9 @@ function CreateServerModal({ socket }) {
             <i className="fa fa-plus" onClick={() => setShowModal(true)} title="Create Channel" />
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <form className='create-channel-modal'onSubmit={handleCreateServer}>
-                        <input type='text' placeholder='Server name' onChange={updateServerName}></input>
-                        <input type='file' onChange={updateServerImage}></input>
+                    <form className='create-channel-modal' onSubmit={(e)=> handleCreateServer(e)}>
+                        <input type='text' placeholder='Server name' onChange={(e) => updateServerName(e)}></input>
+                        <input type='file' onChange={(e) => updateServerImage(e)}></input>
                         <div>
                             <button type="submit">Create</button>
                             <button type="button" onClick={handleCancle}>Cancle</button>

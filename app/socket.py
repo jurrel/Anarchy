@@ -1,5 +1,8 @@
 from flask_socketio import SocketIO, send, join_room, leave_room, emit, disconnect
 import os
+from app.aws_s3 import upload_file_to_s3
+from random import randint
+from app.config import Config
 # from flask_login import current_user
 
 from .models import db, User, Message, Server, Channel, Friend
@@ -96,20 +99,27 @@ def connection():
         return None
 
 
-    @socket.io('new-server') 
+    @socketio.on('new-server')
     def new_server(data):
         default_picture = 'https://mymusicdb.s3.us-east-2.amazonaws.com/anarchy/profiles/default.png'
-        if data in ('imageUrl'):
+        # print('THIS IS DATA FILES', data.files)
+        print('THIS IS DATA.FILE', data['file'])
+        if len(data['imageUrl']):
+            file = data.files["imageUrl.files"]
+            file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
+            file_url = upload_file_to_s3(file, Config.S3_BUCKET)
             server = Server(
-                name=data.name,
-                owner_id=data.owner_id,
-                imageUrl=data.imageUrl,
+                name=data['name'],
+                owner_id=data['owner_id'],
+                imageUrl=file_url,
+                createdAt=now
             )
         else:
             server = Server(
-                name=data.name,
-                owner_id=data.owner_id,
+                name=data['name'],
+                owner_id=data['owner_id'],
                 imageUrl=default_picture,
+                createdAt=now
             )
         db.session.add(server)
         db.session.commit()
