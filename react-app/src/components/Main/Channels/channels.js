@@ -4,20 +4,31 @@ import { useEffect, useState } from 'react';
 
 import './channels.css';
 import VideoModal from '../../videoModal';
+import Messages from '../Messages/messages';
 
-const Channels = ({ channels, server }) => {
+const Channels = ({ channels, server, socket }) => {
+	const [selectedChannel, setSelectedChannel] = useState(1);
 
 	return (
 		<>
 			<div className="server_name_header">
 				<p>{server.name}</p>
 			</div>
-			{channels?.map(channel => (
+			{channels?.map((channel) => (
 				<div key={channel.id} className="align_the_side_bar_channel">
-					<h2>{channel.name}</h2>
+					<h2 onClick={(e) => setSelectedChannel(channel.id)}>
+						{channel.name}
+					</h2>
 				</div>
-
 			))}
+			{selectedChannel && (
+				<Messages
+					socket={socket}
+					channel={channels.find(
+						(channel) => channel.id === Number(selectedChannel)
+					)}
+				/>
+			)}
 			{/* <VideoModal serverId={serverId} /> */}
 			{/* <div className="user_profile_name">
 				<img alt='profile' src={user.profile_picture} className="user_profile_photo" />

@@ -137,7 +137,7 @@ function Friends({ socket }) {
 
 		// when component unmounts, disconnect
 		return () => {
-			socket.disconnect();
+			socket.off();
 		};
 	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]);
 
