@@ -44,8 +44,12 @@
 	border-bottom: 1px solid gray;
 	padding-bottom: 5px;
 }
+.plus-icon-container {
+	padding-bottom: 5px;
+}
 
-.home-icon {
+.home-icon,
+.plus-icon {
 	align-items: center;
 	height: 65px;
 	width: 65px;
@@ -54,4 +58,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.create-server-modal {
+	visibility: hidden;
 }
