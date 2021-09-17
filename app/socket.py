@@ -38,7 +38,7 @@ def connection():
         user = User.query.get(userId)
         print(user.to_dict())
         # # db.session.merge(user)
-        user.online = True 
+        user.online = True
         db.session.add(user)
         db.session.commit()
         emit('online', userId, broadcast=True, include_self=False)
@@ -50,8 +50,8 @@ def connection():
         db_friend = Friend.query.get(friend['friend_id'])
         user = User.query.get(friend['receiver_id'])
 
-        # db.session.commit() 
-        
+        # db.session.commit()
+
         db_friend.isFriend = True
         friend['isFriend'] = True
 
@@ -103,11 +103,10 @@ def connection():
     def new_server(data):
         default_picture = 'https://mymusicdb.s3.us-east-2.amazonaws.com/anarchy/profiles/default.png'
         # print('THIS IS DATA FILES', data.files)
-        print('THIS IS DATA.FILE', data['file'])
-        if len(data['imageUrl']):
-            file = data.files["imageUrl.files"]
-            file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
-            file_url = upload_file_to_s3(file, Config.S3_BUCKET)
+        if len(data['file']):
+            file_url = upload_file_to_s3(data['file'], Config.S3_BUCKET)
+            # file = data['file']
+            # file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
             server = Server(
                 name=data['name'],
                 owner_id=data['owner_id'],
@@ -215,13 +214,13 @@ def connection():
     @socketio.on('user-connected')
     def new_connection(serverId, senderId):
         print('NEW CONNECTION')
-        return None 
+        return None
 
     @socketio.on('call')
     def broadcast_call(peerId):
         print('CALL HAPPENING')
         emit('join', peerId, broadcast=True, include_self=False)
-        return None 
+        return None
 
     @socketio.on('join')
     def room(peerId):
