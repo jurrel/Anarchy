@@ -64,10 +64,14 @@
 	visibility: hidden;
 }
 
-.Channel_modalssss {
+.create-channel-modal {
 	align-items: center;
-	z-index: 100000;
+	z-index: 3;
 	position: absolute;
-	height: 65px;
-	width: 65px;
+	height: 420px;
+	width: 540px;
+	border-radius: 5px;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
 }

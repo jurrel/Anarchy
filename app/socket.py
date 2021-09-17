@@ -35,7 +35,7 @@ def connection():
         user = User.query.get(userId)
         print(user.to_dict())
         # # db.session.merge(user)
-        user.online = True 
+        user.online = True
         db.session.commit()
         emit('online', userId, broadcast=True, include_self=False)
 
@@ -46,8 +46,8 @@ def connection():
         db_friend = Friend.query.get(friend['friend_id'])
         user = User.query.get(friend['receiver_id'])
 
-        db.session.commit() 
-        
+        db.session.commit()
+
         db_friend.isFriend = True
         friend['isFriend'] = True
 
@@ -56,7 +56,7 @@ def connection():
         # db.session.update(db_friend)
         db.session.commit()
         # session.commit()
-        
+
         emit('confirm-friend', friend, broadcast=True)
         return None
 
@@ -71,12 +71,12 @@ def connection():
 
 
         emit('deny-friend', friend, broadcast=True)
-        return None 
+        return None
 
     @socketio.on('ruin-friendship')
     def ruin_friendship(friend):
         db_friend = Friend.query.get(friend['friend_id'])
-     
+
         db.session.delete(db_friend)
         # # db.session.merge(db_friend)
         db.session.commit()
@@ -167,6 +167,7 @@ def connection():
         )
         db.session.add(message)
         db.session.commit()
+        print(f'{message.to_dict()}\n\n\n\n\n\n\n\n')
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
         return None
@@ -222,6 +223,6 @@ def connection():
 
     @socketio.on('disconnect')
     def disconnection():
-        print('Terminated connection', current_user.id)
-        emit('log-out', current_user.id, broadcast=True)
-        return None
+      # print('Terminated connection', current_user)
+      # emit('log-out', current_user, broadcast=True)
+      return None
