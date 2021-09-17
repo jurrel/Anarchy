@@ -1,5 +1,11 @@
+.image-container {
+	width: 40px;
+	height: 40px;
+}
+
 .message-user-profile-pic {
 	width: 40px;
+	height: 40px;
 	border-radius: 100%;
 }
 
@@ -95,4 +101,66 @@
 	color: #72767d;
 	margin-right: 5px;
 	width: 1110px;
+}
+
+.message-elipsis {
+	color: #72767d;
+	margin-top: 23px;
+	position: relative;
+	left: 4%;
+	top: 0%;
+}
+
+.message-elipsis:hover {
+	cursor: pointer;
+}
+
+.edit-buttons {
+	display: flex;
+	flex-direction: column;
+	width: 200px;
+	display: none;
+	position: relative;
+	bottom: 75px;
+	left: 25%;
+}
+
+.del-message,
+.edit-message {
+	border: 1px solid #36393f;
+	background-color: #40444b;
+	color: #dcddde;
+	font-family: sans-serif;
+	padding: 5px 10px;
+	/* margin: 0px 5px; */
+	border-radius: 8px;
+}
+
+.del-message:hover,
+.edit-message:hover {
+	cursor: pointer;
+}
+
+.del-message {
+	color: rgb(167, 116, 116);
+}
+
+.edit-form {
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	height: 100px;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 45%;
+	top: 45%;
+	z-index: 10001;
+	font-family: sans-serif;
+	background-color: #40444b;
+	border-radius: 8px;
+}
+
+.edit-form > button {
+	width: 75px;
 }
