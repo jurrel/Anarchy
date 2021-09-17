@@ -4,7 +4,7 @@ import VideoChat from './video-chat';
 
 // socket.send('connect')
 
-function VideoModal({ serverId }) {
+function VideoModal({ serverId, socket, friend }) {
   const [showModal, setShowModal] = useState(false);
 
 
@@ -15,11 +15,11 @@ function VideoModal({ serverId }) {
 
   return (
     <>
-      <button onClick={() => {setShowModal(true)}}>CHAT ROOM</button>
+      <button onClick={() => {setShowModal(true)}} type='button'><i className="fas fa-video" /></button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <>
-            <VideoChat serverId={serverId} setShowModal={setShowModal} showModal={showModal} />
+            <VideoChat friend={friend} socket={socket} serverId={serverId} setShowModal={setShowModal} showModal={showModal} />
             <button id='close-modal' onClick={() => setShowModal(false)}>CLOSE</button>
           </>
         </Modal>
