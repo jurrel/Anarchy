@@ -27,6 +27,7 @@ const Channels = ({ channels, server, socket }) => {
 					channel={channels.find(
 						(channel) => channel.id === Number(selectedChannel)
 					)}
+					server={server}
 				/>
 			)}
 			{/* <VideoModal serverId={serverId} /> */}

@@ -5,15 +5,12 @@ import { useParams } from 'react-router';
 
 import './messages.css';
 
-const Messages = ({ socket, channel }) => {
+const Messages = ({ socket, channel, server }) => {
 	const [serverId, channelId] = [channel?.server_id, channel?.id];
 
 	const servers = useSelector((state) => state.session.servers);
 	const user = useSelector((state) => state.session.user);
 
-	const [server, setServer] = useState(
-		servers.find((server) => server.id == serverId)
-	);
 	const [messages, setMessages] = useState(channel ? channel.messages : []);
 	const [message, setMessage] = useState('');
 
@@ -97,24 +94,24 @@ const Messages = ({ socket, channel }) => {
 											className="message-user-profile-pic"
 											alt="temp"
 											src={
-												server.users.find((user) => user.id == message.user_id)
+												server?.users.find((user) => user.id == message.user_id)
 													?.profile_picture
 											}
 										/>
 										<h3>
 											{
-												server.users.find((user) => user.id == message.user_id)
+												server?.users.find((user) => user.id == message.user_id)
 													?.username
 											}
 										</h3>
-										<p>{dateConverter(message.createdAt)}</p>
+										<p>{dateConverter(message?.createdAt)}</p>
 									</div>
-									<div className="message-content">
-										<p>{message.message}</p>
-										<i className="fa-solid fa-ellipsis"></i>
+									<div class="message-content">
+										<p>{message?.message}</p>
+										<i class="fa-solid fa-ellipsis"></i>
 									</div>
-									<div className="edit-buttons">
-										{Number(user.id) === Number(message.user_id) && (
+									<div class="edit-buttons">
+										{Number(user?.id) === Number(message?.user_id) && (
 											<>
 												{/* <button class="del-message" id={message.id}>
 													Delete Message
