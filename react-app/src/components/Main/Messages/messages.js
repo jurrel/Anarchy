@@ -36,7 +36,9 @@ const Messages = ({ socket, channel, server }) => {
 
 	useEffect(() => {
 		socket.on('message', (message) => {
-			setMessages([...messages, message]);
+			if (message.channel_id === channel.id) {
+				setMessages([...messages, message]);
+			}
 		});
 
 		return () => socket.off('message');
@@ -87,7 +89,7 @@ const Messages = ({ socket, channel, server }) => {
 				<ul className="messages">
 					{messages &&
 						messages.map((message) => (
-							<>
+							<div key={message.id}>
 								<li className="message" key={message.id}>
 									<div className="message-info">
 										<img
@@ -123,7 +125,7 @@ const Messages = ({ socket, channel, server }) => {
 										)}
 									</div>
 								</li>
-							</>
+							</div>
 						))}
 				</ul>
 			</div>

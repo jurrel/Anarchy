@@ -184,7 +184,6 @@ def connection():
         )
         db.session.add(message)
         db.session.commit()
-        print(f'{message.to_dict()}\n\n\n\n\n\n\n\n')
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
         return None

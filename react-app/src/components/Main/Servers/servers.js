@@ -7,9 +7,10 @@ import Friends from '../OnlineFriends/friends';
 import CreateServerModal from './CreateServerModal';
 
 function Servers({ socket }) {
-	const servers = useSelector((state) => state.session.servers);
+	const servers = useSelector((state) => state.session.servers).sort(
+		(a, b) => a.id - b.id
+	);
 	const user = useSelector((state) => state.session.user);
-    console.log('SSS', user)
 
 	const [selectedServer, setServer] = useState('');
 
@@ -29,52 +30,49 @@ function Servers({ socket }) {
                         </div>
                     </div>
 
-                    {servers?.map((server) => (
-                        <div key={server.id}>
-                            <div
-                                className="server-icon"
-                                onClick={(e) => setServer(server)}
-                            >
-                                <div
-                                    className={selectedServer.id === server.id ? 'active' : ''}
-                                >
-                                    <img
-                                        src={server.imageUrl}
-                                        alt=""
-                                        className="server_img_container"
-                                    />
-                                </div>
-                            </div>
-                            <div className="channel_list">
-                                {selectedServer && (
-                                    <Channels
-                                        server={selectedServer}
-                                        channels={selectedServer.channels}
-                                        socket={socket}
-                                    />
-                                )}
-                                {!selectedServer && <Friends socket={socket} />}
-                                <div className="user_profile_name">
-                                    <img
-                                        alt="profile"
-                                        src={user.profile_picture}
-                                        className="user_profile_photo"
-                                    />
-                                    <p>{user.username}</p>
-                                    <div className="settings_icon"></div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+						{servers?.map((server) => (
+							<div key={server.id}>
+								<div className="server-icon" onClick={(e) => setServer(server)}>
+									<div
+										className={selectedServer.id === server.id ? 'active' : ''}
+									>
+										<img
+											src={server.imageUrl}
+											alt=""
+											className="server_img_container"
+										/>
+									</div>
+								</div>
+								<div className="channel_list">
+									{selectedServer && (
+										<Channels
+											server={selectedServer}
+											channels={selectedServer.channels}
+											socket={socket}
+										/>
+									)}
+									{!selectedServer && <Friends socket={socket} />}
+									<div className="user_profile_name">
+										<img
+											alt="profile"
+											src={user.profile_picture}
+											className="user_profile_photo"
+										/>
+										<p>{user.username}</p>
+										<div className="settings_icon"></div>
+									</div>
+								</div>
+							</div>
+						))}
                     <div
                         class="server-icon plus-icon-container" onClick={(e) => setServer('')}>
                         <div className='plus-icon'>
                             <CreateServerModal socket={socket} />
                         </div>
                     </div>
-                </>
-            </div>
-        </div>
+					</>
+			</div>
+		</div>
 	);
 }
 
