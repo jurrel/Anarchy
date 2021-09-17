@@ -24,7 +24,7 @@ const Channels = ({ channels, server, socket }) => {
 			{selectedChannel && (
 				<Messages
 					socket={socket}
-					channel={channels.find(
+					channel={channels?.find(
 						(channel) => channel.id === Number(selectedChannel)
 					)}
 					server={server}

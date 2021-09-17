@@ -36,7 +36,9 @@ const Messages = ({ socket, channel, server }) => {
 
 	useEffect(() => {
 		socket.on('message', (message) => {
-			setMessages([...messages, message]);
+			if (message.channel_id === channel.id) {
+				setMessages([...messages, message]);
+			}
 		});
 
 		return () => socket.off('message');
