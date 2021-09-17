@@ -102,7 +102,6 @@ def connection():
     @socketio.on('new-server')
     def new_server(data):
         default_picture = 'https://mymusicdb.s3.us-east-2.amazonaws.com/anarchy/profiles/default.png'
-        # print('THIS IS DATA FILES', data.files)
         if len(data['file']):
             file_url = upload_file_to_s3(data['file'], Config.S3_BUCKET)
             # file = data['file']
@@ -111,15 +110,24 @@ def connection():
                 name=data['name'],
                 owner_id=data['owner_id'],
                 imageUrl=file_url,
+                user_id=data['user_id'],
+                server_id=data['server_id'],
                 createdAt=now
             )
+            # serveruser = ServerUser()
+            # //
         else:
             server = Server(
                 name=data['name'],
                 owner_id=data['owner_id'],
                 imageUrl=default_picture,
+                user_id=data['user_id'],
+                server_id=data['server_id'],
                 createdAt=now
             )
+            # serveruser = ServerUser(
+            #     user_id = 
+            # )
         db.session.add(server)
         db.session.commit()
         emit('new-server', server.to_dict(), broadcast=True)
