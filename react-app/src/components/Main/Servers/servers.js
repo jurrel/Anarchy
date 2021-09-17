@@ -6,7 +6,9 @@ import './servers.css';
 import Friends from '../OnlineFriends/friends';
 
 function Servers({ socket }) {
-	const servers = useSelector((state) => state.session.servers);
+	const servers = useSelector((state) => state.session.servers).sort(
+		(a, b) => a.id - b.id
+	);
 	const user = useSelector((state) => state.session.user);
 
 	const [selectedServer, setServer] = useState('');
@@ -30,10 +32,7 @@ function Servers({ socket }) {
 
 						{servers?.map((server) => (
 							<div key={server.id}>
-								<div
-									className="server-icon"
-									onClick={(e) => setServer(server)}
-								>
+								<div className="server-icon" onClick={(e) => setServer(server)}>
 									<div
 										className={selectedServer.id === server.id ? 'active' : ''}
 									>
