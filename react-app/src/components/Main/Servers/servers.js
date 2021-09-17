@@ -4,11 +4,9 @@ import { useEffect, useState } from 'react';
 import Channels from '../Channels/channels';
 import './servers.css';
 import Friends from '../OnlineFriends/friends';
-<<<<<<< HEAD
 import MenuModal from '../Menu';
-=======
 import CreateServerModal from './CreateServerModal';
->>>>>>> main
+
 
 function Servers({ socket }) {
 
@@ -70,13 +68,14 @@ function Servers({ socket }) {
 							</div>
 						))}
                     <div
-                        class="server-icon plus-icon-container" onClick={(e) => setServer('')}>
+                        className="server-icon plus-icon-container" onClick={(e) => setServer('')}>
                         <div className='plus-icon'>
                             <CreateServerModal socket={socket} />
                         </div>
                     </div>
 					</>
 			</div>
+		</div>
 	);
 }
 

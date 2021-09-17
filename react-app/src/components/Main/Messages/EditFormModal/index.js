@@ -12,7 +12,7 @@ function EditFormModal({ oldMessage, socket, messages, setMessages }) {
 				className="edit-message"
 				id={`edit-${oldMessage.id}`}
 			>
-				<i class="fas fa-pencil-alt m2"></i>
+				<i className="fas fa-pencil-alt m2"></i>
 				Edit
 			</button>
 			{showModal && (

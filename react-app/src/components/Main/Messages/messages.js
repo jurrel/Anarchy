@@ -177,7 +177,7 @@ const Messages = ({ socket, channel, server }) => {
 													onClick={handleDelete}
 													id={`del-${message.id}`}
 												>
-													<i class="fas fa-trash-alt m2"></i>
+													<i className="fas fa-trash-alt m2"></i>
 													Delete
 												</button>
 											</>
