@@ -60,7 +60,6 @@ function Servers({ socket }) {
                                 { !selectedServer && (
                                     <Friends socket={socket} />
                                 )}
-                                
                                 <div className="user_profile_name">
                                     <img alt='profile' src={user.profile_picture} className="user_profile_photo" />
                                     <p>{user.username}</p>
@@ -72,7 +71,7 @@ function Servers({ socket }) {
                         </>
                     ))}
                     <div
-                        class="server-icon plus-icon-container " onClick={(e) => setServer('')}>
+                        class="server-icon plus-icon-container" onClick={(e) => setServer('')}>
                         <div className='plus-icon'>  
                             <CreateServerModal socket={socket}/>
                         </div>
@@ -82,6 +81,11 @@ function Servers({ socket }) {
         </div>
 	);
 }
+
+{/* <div
+    class={"server-icon home-icon-container " + (!selectedServer ? 'active' : '')}
+    onClick={(e) => setServer('')}
+> */}
 
 export default Servers;
 

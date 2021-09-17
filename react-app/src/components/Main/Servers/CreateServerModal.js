@@ -43,7 +43,7 @@ function CreateServerModal({ socket }) {
             <i className="fa fa-plus" onClick={() => setShowModal(true)} title="Create Channel" />
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <form onSubmit={handleCreateServer}>
+                    <form className='Channel_modalssss'onSubmit={handleCreateServer}>
                         <input type='text' placeholder='Server name' onChange={updateServerName}></input>
                         <input type='file' onChange={updateServerImage}></input>
                         <div>

@@ -63,3 +63,11 @@
 .create-server-modal {
 	visibility: hidden;
 }
+
+.Channel_modalssss {
+	align-items: center;
+	z-index: 100000;
+	position: absolute;
+	height: 65px;
+	width: 65px;
+}
