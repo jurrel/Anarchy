@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import Channels from '../Channels/channels';
 import './servers.css';
 import Friends from '../OnlineFriends/friends';
+import MenuModal from '../Menu';
 
 function Servers({ socket }) {
+
 	const servers = useSelector((state) => state.session.servers).sort(
 		(a, b) => a.id - b.id
 	);
@@ -14,7 +16,6 @@ function Servers({ socket }) {
 	const [selectedServer, setServer] = useState('');
 
 	return (
-		<div className="TEST">
 			<div className="side_bar_main">
 				<div className="align_the_side_bar">
 					<>
@@ -51,23 +52,23 @@ function Servers({ socket }) {
 											socket={socket}
 										/>
 									)}
-									{!selectedServer && <Friends socket={socket} />}
-									<div className="user_profile_name">
-										<img
-											alt="profile"
-											src={user.profile_picture}
-											className="user_profile_photo"
-										/>
-										<p>{user.username}</p>
-										<div className="settings_icon"></div>
-									</div>
+									{/* <div className="user_profile_name">
+										<div className='user-profile'>
+											<img
+												alt="profile"
+												src={user.profile_picture}
+												className="user_profile_photo"
+											/>
+											<p>{user.username}</p>
+										</div>
+										<MenuModal />
+									</div> */}
 								</div>
 							</div>
 						))}
 					</>
 				</div>
 			</div>
-		</div>
 	);
 }
 

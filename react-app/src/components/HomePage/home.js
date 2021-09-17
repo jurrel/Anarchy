@@ -1,11 +1,16 @@
+import { Link, useHistory } from 'react-router-dom';
 import './home.css';
 
 function Home() {
+    const history = useHistory();
 
     return (
         <div className='home'>
             <div className='splash'>
-            <h1>Welcome to Anarchy!</h1>
+                <div onClick={() => history.push('/')} className='return-button'>
+                    <Link className='return-header' to='/'>Return to Anarchy!</Link>
+                    <p>Click me!</p>
+                </div>
                 <p>This app is loosely based off of great sites like Discord, 
                     Slack and Zoom to demonstrate a working knowledge of Full-Stack Applications!
                     The tech stack for this application uses Python/Flask on the back end, Javascript/React 

@@ -5,6 +5,14 @@
         gap: 25px;
         border-radius: 5px;
         overflow-y: scroll;
+        position: absolute;
+        /* box-sizing: border-box; */
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 240px;
+        background-color: #2f3136;
+        z-index: 2;
     }
 
     .friends-nav {
