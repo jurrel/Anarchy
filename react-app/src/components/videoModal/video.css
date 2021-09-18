@@ -3,11 +3,12 @@
     /* grid-template-columns: repeat(auto-fill, 40vh);
     grid-auto-rows: 40vw; */
     display: flex;
-    height: 400px;
-    width: 600px;
+    height: 200px;
+    width: 300px;
     position: absolute;
+    z-index: 10;
     top: 0;
-    left: 340px;
+    right: 240px;
 	background-color: #202225;
 }
 
@@ -23,14 +24,14 @@
     height: 50px;
     width: 75px;
     padding: 5px;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, .5);
     border: none;
     color: white;
     box-shadow: inset 5px 5px 10px #da6969,
-    inset -5px -5px 10px rgb(140, 140, 242);
+                inset -5px -5px 10px rgb(140, 140, 242);
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 0;
+    right: 0;
     z-index: 15;
 }
 
@@ -43,15 +44,33 @@
     width: 75px;
 } */
 
-#close-modal {
+/* #close-modal {
     position: absolute;
     z-index: 1;
     bottom: 0;
     right: 5vw;
-}
+} */
 
 video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+#ringing {
+    animation: call 2s linear infinite;
+}
+
+@keyframes call {
+    50% {
+        opacity: 0;
+    }
+}
+
+#myVideo {
+    display: none;
+}
+
+.my-vid-container {
+    display: none;
 }

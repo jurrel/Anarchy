@@ -58,9 +58,9 @@ function Friends({ socket }) {
 			// socket.emit('online', user.id);
 		});
 
-		socket.on('call', (friend) => {
-            console.log('CALL HAPPENING', friend)
-        })
+		// socket.on('call', (friend) => {
+        //     console.log('CALL HAPPENING', friend)
+        // })
 
 		socket.on('confirm-friend', (friend) => {
 			if (friend.id === user.id) {
