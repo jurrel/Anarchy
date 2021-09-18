@@ -13,6 +13,7 @@ const Channels = ({ channels, server, socket }) => {
 		<>
 			<div className="server_name_header">
 				<p>{server.name}</p>
+				<div className="server_name_bottom_bar"></div>
 			</div>
 			{channels?.map((channel) => (
 				<div key={channel.id} className="align_the_side_bar_channel">

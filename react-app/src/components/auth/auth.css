@@ -1,7 +1,7 @@
 
 
 .splash-log {
-    height: 75%;
+    height: 100%;
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -28,11 +28,6 @@
     padding: 10px;
     border-radius: 15px;
     box-shadow: 0 0 5px lightgray;
-    background-color: transparent;
-}
-
-.log-buttons:hover {
-    cursor: pointer;
 }
 
 .log-form {
