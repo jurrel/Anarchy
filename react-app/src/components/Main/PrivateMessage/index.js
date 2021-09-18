@@ -12,12 +12,11 @@ function PrivateMessageModal({ socket, friend }) {
 
   return (
     <>
-      <button onClick={() => setShowModal(!showModal)} type='button'><i className="fas fa-comment-dots" /></button>
-      <button className='settings' onClick={() => setShowModal(!showModal)} ><i className="fa fa-gear fa-2x" /></button>
+      <button onClick={() => setShowModal(true)} type='button'><i className="fas fa-comment-dots" /></button>
       {showModal && (
-      <Modal className='menu-modal' onClose={() => setShowModal(false)}>
+      <Modal className='message-modal' onClose={() => setShowModal(false)}>
         <>
-        <PrivateMessage socket={socket} friend={friend} />
+          <PrivateMessage setShowModal={setShowModal} socket={socket} friend={friend} />
         </>
         </Modal>
       )}
