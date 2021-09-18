@@ -39,7 +39,7 @@
 .messages-container {
 	font-family: sans-serif;
 	height: 87.5vh;
-	width: 1110px;
+	width: 500px;
 	position: absolute;
 	overflow: scroll;
 	overflow-y: scroll;
@@ -57,20 +57,23 @@
 
 .message-box {
 	position: absolute;
-	bottom: 3%;
-	left: 120%;
-	width: 1110px;
+	bottom: 0;
+	left: 440px;
+	width: 500px;
 }
 
 #message-box {
 	background-color: #40444b;
 	color: white;
-	width: 1090px;
+	width: 500px;
 	height: 44px;
 	border-radius: 8px;
 	border: 0;
 	font-size: 100%;
 	padding-left: 20px;
+	position: absolute;
+	bottom: 0;
+	left: 260px;
 }
 
 #message-box::placeholder {
@@ -122,7 +125,8 @@
 	display: none;
 	position: relative;
 	bottom: 75px;
-	left: 25%;
+	left: 75%;
+	z-index: 1;
 }
 
 .del-message,

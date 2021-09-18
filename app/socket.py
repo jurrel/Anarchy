@@ -209,24 +209,28 @@ def connection():
     @socketio.on('private-message')
     def handlePrivateMessage(msg):
 
-        if msg.has_key('imageUrl'):
-            message = Message(
-                message=msg['message'],
-                user_id=msg['user_id'],
-                receiver_id=msg['receiver_id'],
-                channel_id=msg['channel_id'],
-                imageUrl=msg['imageUrl'],
-                createdAt = now,
-                updatedAt = now
-            )
-        else:
-            message = Message(
-                message=msg['message'],
-                user_id=msg['user_id'],
-                receiver_id=msg['receiver_id'],
-                createdAt = now,
-                updatedAt = now
-            )
+        # if msg['imageUrl']:
+        #     message = Message(
+        #         message=msg['message'],
+        #         user_id=msg['user_id'],
+        #         receiver_id=msg['receiver_id'],
+        #         channel_id=msg['channel_id'],
+        #         imageUrl=msg['imageUrl'],
+        #         createdAt = now,
+        #         updatedAt = now
+        #     )
+        # else:
+        message = Message(
+            message=msg['message'],
+            user_id=msg['user_id'],
+            receiver_id=msg['receiver_id'],
+            createdAt = now,
+            updatedAt = now
+        )
+        print('MESSAGE PRIVATES', message.to_dict())
+        db.session.add(message)
+        # db.session.merge(message)
+        db.session.commit()
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
         return None

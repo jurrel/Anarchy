@@ -1,0 +1,33 @@
+#messages-container {
+    font-family: sans-serif;
+    height: 87.5vh;
+    width: 600px;
+    position: absolute;
+    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    bottom: 50px;
+    left: 340px;
+    background-color: #36393f;
+    /* background-color: white; */
+    z-index: 20;
+}
+
+#messages-box {
+    position: absolute;
+    bottom: 0;
+    left: 340px;
+    width: 500px;
+    z-index: 21;
+}
+
+#private-box {
+    background-color: #40444b;
+    color: white;
+    width: 600px;
+    height: 50px;
+    border-radius: 8px;
+    border: 0;
+    font-size: 100%;
+    padding-left: 20px;
+}

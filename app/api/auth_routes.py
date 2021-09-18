@@ -40,8 +40,8 @@ def authenticate():
         # User.query.filter(User.id == current_user.id).update({'online': True})
         user.online = True
         # db.session.merge(user)
-        db.session.add(user)
-        db.session.commit()
+        # db.session.add(user)
+        # db.session.commit()
 
         server_users = ServerUser.query.filter(current_user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
@@ -79,6 +79,8 @@ def authenticate():
                         
         friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
         users_list = User.query.filter(User.id != user.id).all()
+        private_messages = Message.query.filter(or_(Message.receiver_id == user.id, Message.user_id == user.id)).all()
+        print('MESSAGES LENGTH',len(private_messages))
         users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
@@ -89,11 +91,18 @@ def authenticate():
                     dude['sender_id'] = friend.sender_id
                     dude['receiver_id'] = friend.receiver_id
                     dude['friend_id'] = friend.id
+                    dude['messages'] = []
                     friends_list.append(dude)
+                    for text in private_messages:
+                        if friend.id == text.user_id or friend.id == text.receiver_id:
+                            dude['messages'].append(text.to_dict())
+                            print('TEXT MESSAGE', text.to_dict())
 
         data['friends'] = friends_list
         #  and user['id'] != current_user.id
+        db.session.add(user)
         db.session.commit()
+        # db.session.commit()
 
         return data
     return {'errors': ['Unauthorized']}
@@ -114,8 +123,8 @@ def login():
         user.online = True
         # db.session.merge(user)
         # db.session.add(user)
-        db.session.commit()
-        login_user(user)
+        # db.session.commit()
+        # login_user(user)
 
         server_users = ServerUser.query.filter(user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
@@ -152,6 +161,7 @@ def login():
 
         friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
         users_list = User.query.filter(User.id != user.id).all()
+        private_messages = Message.query.filter(or_(Message.receiver_id == user.id, Message.user_id == user.id)).all()
         users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
@@ -162,10 +172,18 @@ def login():
                     dude['sender_id'] = friend.sender_id
                     dude['receiver_id'] = friend.receiver_id
                     dude['friend_id'] = friend.id
+                    dude['messages'] = []
                     friends_list.append(dude)
+                    for text in private_messages:
+                        if friend.id == text.user_id or friend.id == text.receiver_id:
+                            dude['messages'].append(text.to_dict())
+                            print('TEXT MESSAGE', text.to_dict())
+            
 
         data['friends'] = friends_list
+        db.session.add(user)
         db.session.commit()
+        login_user(user)
         emit('online', current_user.id, broadcast=True, namespace='/')
 
         return data
