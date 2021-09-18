@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { editUserProfile, signUp } from '../../../store/session';
 
-function EditProfile({ setEditProfile }) {
+function EditProfile({ setEditProfile, socket }) {
 	const dispatch = useDispatch();
 
 	const user = useSelector((state) => state.session.user);
@@ -14,11 +15,24 @@ function EditProfile({ setEditProfile }) {
 	const [file, setFile] = useState();
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
         console.log('Stuff changed')
-        setEditProfile(false);
+
+        // const data = {
+        //     'username': username,
+        //     'email': email,
+        //     'password': password,
+        //     'file': file
+        // }
+
+        // socket.emit('edit_profile', data)
+        const data = await dispatch(signUp(username, email, password, file))
+        if (data) {
+				setErrors(data);
+        } else {
+            setEditProfile(false);
+        }
     }
 
     return (

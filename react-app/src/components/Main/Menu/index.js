@@ -5,7 +5,7 @@ import Menu  from './menu-modal';
 import './menu.css';
 
 
-function MenuModal() {
+function MenuModal({ socket }) {
   const user = useSelector(state => state.session.user);
   
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +17,7 @@ function MenuModal() {
       {showModal && (
       <Modal className='menu-modal' onClose={() => setShowModal(false)}>
         <>
-          <Menu setShowModal={setShowModal} showModal={showModal} />
+          <Menu socket={socket} setShowModal={setShowModal} showModal={showModal} />
         </>
         </Modal>
       )}

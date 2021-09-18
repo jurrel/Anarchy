@@ -1,3 +1,4 @@
+from app.forms.signup_form import EditForm
 from operator import or_
 from flask import Blueprint, jsonify, session, request
 from app.models import User, db, Channel, Server, Message, Role, ServerUser, UserRoles, Friend
@@ -171,6 +172,26 @@ def login():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
+# @auth_routes.route('/edit', methods=['POST'])
+# def edit():
+
+#     data = request.get_json()
+#     print('IS THIS HITTING', data)
+#     file = None
+#     if len(request.files) > 0:
+#         file = request.files["file"]
+#         file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
+
+
+#         if file:
+#             file_url = upload_file_to_s3(file, Config.S3_BUCKET)
+#         else:
+#             file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
+
+#         print('success')
+#     return {'message': 'success'}
+
+
 @auth_routes.route('/logout')
 def logout():
     """
@@ -193,46 +214,82 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        file = None
-        if len(request.files) > 0:
-			      file = request.files["file"]
-			      file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
+    if not current_user.is_authenticated:
+        form['csrf_token'].data = request.cookies['csrf_token']
+        if form.validate_on_submit():
+            file = None
+            if len(request.files) > 0:
+                    file = request.files["file"]
+                    file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
 
 
-        if file:
-          	file_url = upload_file_to_s3(file, Config.S3_BUCKET)
-        else:
-          	file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
+            if file:
+                file_url = upload_file_to_s3(file, Config.S3_BUCKET)
+            else:
+                file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
 
-        user = User(
-            username=form.data['username'],
-            email=form.data['email'],
-            password=form.data['password'],
-            profile_picture=file_url,
-            createdAt=datetime.now()
-        )
-        db.session.add(user)
-        db.session.commit()
+            user = User(
+                username=form.data['username'],
+                email=form.data['email'],
+                password=form.data['password'],
+                profile_picture=file_url,
+                createdAt=datetime.now()
+            )
+            db.session.add(user)
+            db.session.commit()
 
-        serverUser = ServerUser(
-            user_id = User.query.filter(User.email == user.email).first().id,
-            server_id = 1
-        )
-        db.session.add(serverUser)
-        db.session.commit()
+            serverUser = ServerUser(
+                user_id = User.query.filter(User.email == user.email).first().id,
+                server_id = 1
+            )
+            db.session.add(serverUser)
+            db.session.commit()
 
-        server = Server.query.get(1)
-        queryUser = User.query.get(user.id)
+            server = Server.query.get(1)
+            queryUser = User.query.get(user.id)
 
-        data = {
-            'user': queryUser.to_dict(),
-            'servers': [server.to_dict()]
-        }
+            data = {
+                'user': queryUser.to_dict(),
+                'servers': [server.to_dict()]
+            }
 
-        login_user(user)
-        return data
+            login_user(user)
+            return data
+    else :
+        print("ELLSSSEEEE IS WORKING")
+        form = EditForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        if form.validate_on_submit():
+            file = None
+            if len(request.files) > 0:
+                    file = request.files["file"]
+                    file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
+
+
+            if file:
+                file_url = upload_file_to_s3(file, Config.S3_BUCKET)
+            else:
+                file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
+
+        
+            queryUser = User.query.get(current_user.id)
+            if form.data['username']:
+                queryUser.username=form.data['username']
+            if form.data['email']:
+                queryUser.email=form.data['email']
+            if form.data['password']:
+                queryUser.username=form.data['password']
+            if file:
+                queryUser.email=file_url
+
+            db.session.merge(queryUser)
+            db.session.commit()
+
+            data = {
+                'user': queryUser.to_dict()
+            }
+
+            return data
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

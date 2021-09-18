@@ -3,20 +3,39 @@
     /* grid-template-columns: repeat(auto-fill, 40vh);
     grid-auto-rows: 40vw; */
     display: flex;
-    flex-wrap: wrap;
-    height: 60vh;
-    width: 60vw;
+    height: 400px;
+    width: 600px;
     position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color: gray;
+    top: 0;
+    left: 340px;
+	background-color: #202225;
 }
 
 .vid-container {
     /* display: flex;
     flex-direction: column; */
-    height: 50%;
-    width: 50%;
+    height: 200px;
+    width: 300px;
+}
+
+#hang-up {
+    border-radius: 15px;
+    height: 50px;
+    width: 75px;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    box-shadow: inset 5px 5px 10px #da6969,
+    inset -5px -5px 10px rgb(140, 140, 242);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 15;
+}
+
+.vid-container > button:hover {
+    cursor: pointer;
 }
 
 /* #hang-up {

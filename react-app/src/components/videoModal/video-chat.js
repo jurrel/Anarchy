@@ -20,6 +20,7 @@ function VideoChat({setShowModal, showModal, friend, socket}) {
     const user = useSelector(state => state.session.user);
     
     const [members, setMembers] = useState(0);
+    const [stream, setStream] = useState(false);
     
     
     useEffect(() => {
@@ -32,7 +33,6 @@ function VideoChat({setShowModal, showModal, friend, socket}) {
             window.location.reload();
         })
 
-
         function connectToNewUser(peerId, stream) {
 
             const call = myPeer.call(peerId, stream);
@@ -44,7 +44,6 @@ function VideoChat({setShowModal, showModal, friend, socket}) {
             const video = document.createElement('video');
             // video.setAttribute('id', 'peerVid');
             video.setAttribute('class', 'stream');
-            video.controls = true;
             vidContainer.append(video);
             call.on('stream', userVideoStream => {
                 addVideo(video, vidContainer, userVideoStream);
@@ -87,16 +86,16 @@ function VideoChat({setShowModal, showModal, friend, socket}) {
             myVidContainer.setAttribute('class', 'vid-container');
 
             const myVideo = document.createElement('video');
-            myVideo.setAttribute('id', `${myPeer.id}`);
             myVideo.setAttribute('class', 'stream');
+            myVideo.setAttribute('id', `${myPeer.id}`);
             myVideo.muted = true;
-            myVideo.controls = true;
+            // myVideo.controls = true;
             myVidContainer.append(myVideo);
             
-            const videoButton = document.createElement('button');
-            videoButton.innerText = 'Video';
-            videoButton.setAttribute('id', 'video');
-            myVidContainer.append(videoButton);
+            // const videoButton = document.createElement('button');
+            // videoButton.innerText = 'Video';
+            // videoButton.setAttribute('id', 'video');
+            // myVidContainer.append(videoButton);
             
             const hangUpButton = document.createElement('button');
             hangUpButton.innerText = 'Hang Up';
@@ -116,15 +115,8 @@ function VideoChat({setShowModal, showModal, friend, socket}) {
                     console.log('someone else joined', peerId, myPeer.id)
                     connectToNewUser(peerId, stream);
                     setMembers(members + 1);
-                    // socket.on('call', (peerId) => {
-                    //     console.log('SOMEONE IS CALLING YOU', peerId, 'MY ID', myPeer.id)
-                    // })
                 })
 
-                socket.on('hang_up', (peerId) => {
-                    console.log('HANG UP', peerId)
-                })
-                    
                 myPeer.on('call', connection => {
                     console.log('CALL', connection)
                     connection.answer(stream);
@@ -135,11 +127,13 @@ function VideoChat({setShowModal, showModal, friend, socket}) {
                     const video = document.createElement('video');
                     video.setAttribute('id', 'peer');
                     video.setAttribute('class', 'stream');
-                    video.controls = true;
                     
                     connection.on('stream', userVideoStream => {
                         console.log('STREAM');
-                        addVideo(video, vidContainer, userVideoStream);
+                        if (!stream) {
+                            addVideo(video, vidContainer, userVideoStream);
+                        }
+                        setStream(true);
                     })
 
                     connection.on('close', () => {
@@ -150,9 +144,9 @@ function VideoChat({setShowModal, showModal, friend, socket}) {
         }
 
         
-        return () => socket.off();
+        return () => socket.off('hang_up');
 
-    }, [members, setShowModal, showModal, socket, user.id])
+    }, [members, setShowModal, socket, user.id])
 
 
     return (

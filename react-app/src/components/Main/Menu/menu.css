@@ -36,8 +36,10 @@
 
 #close-modal {
 	position: absolute;
+	bottom: 0;
 	left: 0;
-	right: 0;
+	height: 50px;
+	width: 25px;
 	/* align-self: flex-end; */
 	background-color: transparent;
 	border: none;
