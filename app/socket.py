@@ -252,6 +252,11 @@ def connection():
         emit('call', friend, broadcast=True)
         return None
 
+    @socketio.on('answer')
+    def answer_call(friend):
+        print('ANSWERING CALL')
+        emit('answer', broadcast=True, include_self=False)
+
     @socketio.on('join')
     def room(peerId):
         print('JOINING')

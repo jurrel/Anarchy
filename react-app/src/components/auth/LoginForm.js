@@ -5,8 +5,9 @@ import { login } from '../../store/session';
 
 const LoginForm = () => {
   const [errors, setErrors] = useState([]);
-  const [email, setEmail] = useState('demo@aa.io');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
@@ -17,6 +18,8 @@ const LoginForm = () => {
       setErrors(data);
     }
   };
+
+  
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
