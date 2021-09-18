@@ -46,6 +46,7 @@ toml = "==0.10.2"
 urllib3 = "==1.26.6"
 wrapt = "==1.12.1"
 eventlet = "==0.30.2"
+email-validator = "*"
 
 [dev-packages]
 psycopg2-binary = "==2.9.1"
