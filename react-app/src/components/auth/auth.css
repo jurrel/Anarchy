@@ -28,11 +28,6 @@
     padding: 10px;
     border-radius: 15px;
     box-shadow: 0 0 5px lightgray;
-    background-color: transparent;
-}
-
-.log-buttons:hover {
-    cursor: pointer;
 }
 
 .log-form {

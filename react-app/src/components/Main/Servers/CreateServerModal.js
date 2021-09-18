@@ -55,11 +55,13 @@ function CreateServerModal({ socket }) {
 
 	return (
 		<>
-			<i
-				className="fa fa-plus"
-				onClick={() => setShowModal(true)}
-				title="Create Channel"
-			/>
+			<div onClick={() => setShowModal(true)}>
+				<i
+					className="fa fa-plus plus-icon plus-icon-container"
+					onClick={() => setShowModal(true)}
+					title="Create Channel"
+				/>
+			</div>
 			{showModal && (
 				<Modal onClose={() => setShowModal(false)}>
 					<form
@@ -67,8 +69,8 @@ function CreateServerModal({ socket }) {
 						onSubmit={(e) => handleCreateServer(e)}
 					>
 						<div className="channel-modal-title">Customize your Server</div>
-						<div className="text-under-channel-modal">Give your new server a personality </div>
-						<div className="text-under-channel-modal">If it sucks...you can always change it</div>
+						<div className="text-under-channel-modal">Give your server a personality! </div>
+						<div className="text-under-channel-modal">If it sucks... you can always change it</div>
 						
 						<div className="server-name-header">
 							<label className='create-server-name-input'>Server Name</label>
@@ -80,8 +82,8 @@ function CreateServerModal({ socket }) {
 						</div>
 						<input className="channel_photo_upload_modal" type="file" onChange={(e) => updateServerImage(e)}></input>
 						<div>
-							<button className="cancle_button" type="button" onClick={handleCancle}>
-								Cancle
+							<button className="cancel_button" type="button" onClick={handleCancle}>
+								Cancel
 							</button>
 							<button className="create_button" type="submit">Create</button>
 						</div>

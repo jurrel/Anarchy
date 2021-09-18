@@ -70,6 +70,7 @@
 	color: #dcddde;
 	padding: 0;
 	margin: 0;
+	transform: translate(0%, -500%);
 }
 
 .align_the_side_bar_channel > h2::before {
