@@ -79,6 +79,7 @@ def authenticate():
                         
         friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
         users_list = User.query.filter(User.id != user.id).all()
+        private_messages = Message.query.filter(Message.receiver_id == user.id).all()
         users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
@@ -90,6 +91,10 @@ def authenticate():
                     dude['receiver_id'] = friend.receiver_id
                     dude['friend_id'] = friend.id
                     friends_list.append(dude)
+                for text in private_messages:
+                    if friend.id == text.user_id:
+                        dude['messages'] =text.to_dict()
+                        print('TEXT MESSAGE', text.to_dict())
 
         data['friends'] = friends_list
         #  and user['id'] != current_user.id
@@ -152,6 +157,7 @@ def login():
 
         friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
         users_list = User.query.filter(User.id != user.id).all()
+        private_messages = Message.query.filter(Message.receiver_id == user.id).all()
         users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
@@ -163,6 +169,11 @@ def login():
                     dude['receiver_id'] = friend.receiver_id
                     dude['friend_id'] = friend.id
                     friends_list.append(dude)
+                for text in private_messages:
+                    if friend.id == text.user_id:
+                        dude['messages'] =text.to_dict()
+                        print('TEXT MESSAGE', text.to_dict())
+            
 
         data['friends'] = friends_list
         db.session.commit()
