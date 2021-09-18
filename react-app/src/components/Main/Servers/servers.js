@@ -16,8 +16,9 @@ function Servers({ socket }) {
 	const user = useSelector((state) => state.session.user);
 
 	const [selectedServer, setServer] = useState('');
+	const [createServer, setCreateServer] = useState(false);
 
-	return (
+	return ( 
         <div className="side_bar_main">
             <div className="align_the_side_bar">
                 <>
@@ -68,12 +69,15 @@ function Servers({ socket }) {
 							</div>
 						))}
                     <div
-                        className="server-icon plus-icon-container" onClick={(e) => setServer('')}>
-                        <div className='plus-icon'>
-                            <CreateServerModal socket={socket} />
-                        </div>
+						className="server-icon" onClick={(e) => setCreateServer(!createServer)}>
+							<CreateServerModal socket={socket}/>
                     </div>
-					</>
+                    {/* <div
+						className="server-icon plus-icon-container plus-icon fa fa-plus" onClick={(e) => setCreateServer(!createServer)}>
+							<CreateServerModal socket={socket}/>
+                    </div> */}
+					
+				</>
 			</div>
 		</div>
 	);
