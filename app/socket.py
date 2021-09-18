@@ -11,14 +11,13 @@ from .models import db, User, Message, Server, Channel, Friend
 # create your SocketIO instance
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
-        "http://actual-app-url.herokuapp.com",
-        "https://actual-app-url.herokuapp.com"
+        "http://anarchy.herokuapp.com",
+        "https://anarchy.herokuapp.com"
     ]
 else:
     origins = "*"
 
-# create your SocketIO instance
-socketio = SocketIO(cors_allowed_origins=origins)
+socketio = SocketIO(cors_allowed_origins=origins, manage_session=False)
 
 
 from datetime import datetime
@@ -237,15 +236,20 @@ def connection():
         emit('typing', serverId, broadcast=True)
         return None
 
+    @socketio.on('edit_profile')
+    def edit_profile(data):
+        print(data, 'DATAAAAA')
+        pass
+
     @socketio.on('user-connected')
     def new_connection(serverId, senderId):
         print('NEW CONNECTION')
         return None
 
     @socketio.on('call')
-    def broadcast_call(peerId):
+    def broadcast_call(friend):
         print('CALL HAPPENING')
-        emit('join', peerId, broadcast=True, include_self=False)
+        emit('call', friend, broadcast=True)
         return None
 
     @socketio.on('join')

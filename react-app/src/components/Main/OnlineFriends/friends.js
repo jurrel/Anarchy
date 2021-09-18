@@ -37,6 +37,7 @@ function Friends({ socket }) {
 	const [showFriends, setShowFriends] = useState(true);
 	const [showPending, setShowPending] = useState(false);
 
+
 	useEffect(() => {
 		// create websocket/connect
 		socket.on('online', (userId) => {
@@ -56,6 +57,10 @@ function Friends({ socket }) {
 			}
 			// socket.emit('online', user.id);
 		});
+
+		socket.on('call', (friend) => {
+            console.log('CALL HAPPENING', friend)
+        })
 
 		socket.on('confirm-friend', (friend) => {
 			if (friend.id === user.id) {
@@ -176,6 +181,7 @@ function Friends({ socket }) {
 				<PendingFriends
 					user={user}
 					pendingFriends={pendingFriends}
+					setPendingFriends={setPendingFriends}
 					socket={socket}
 				/>
 			)}

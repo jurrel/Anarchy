@@ -1,15 +1,17 @@
 
 
-function PendingFriends({ pendingFriends, socket, user }) {
+function PendingFriends({ pendingFriends, socket, user, setPendingFriends }) {
 
 
     const confirmFriend = (friend) => {
         friend.current_user = user.id
         socket.emit('confirm-friend', friend);
+        setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id))
     }
 
     const denyFriend = (friend) => {
         socket.emit('deny-friend', friend)
+        setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id))
     }
 
 

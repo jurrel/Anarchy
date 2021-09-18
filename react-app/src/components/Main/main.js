@@ -43,6 +43,8 @@ function Main() {
 		setOnline(true);
 	}, [online, user.id]);
 
+    
+
 	return (
 		<div className="main-container">
             <Servers socket={socket} selectedServer={selectedServer} setServer={setServer} />
@@ -57,7 +59,7 @@ function Main() {
                     <p>{user.username}</p>
                 </div>
             </div>
-            <MenuModal />
+            <MenuModal socket={socket} />
 		</div>
 	);
 }

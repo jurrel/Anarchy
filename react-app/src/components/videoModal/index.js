@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Modal } from '../context/Modal/Modal';
 import VideoChat from './video-chat';
 
@@ -7,15 +8,30 @@ import VideoChat from './video-chat';
 function VideoModal({ serverId, socket, friend }) {
   const [showModal, setShowModal] = useState(false);
 
+  const user = useSelector(state => state.session.user);
+
 
   const videoChat = () => {
     setShowModal(true);
+    socket.emit('call', friend)
   }
+
+
+  useEffect(() => {
+    socket.on('call', (friend) => {
+      console.log('CALLING', friend)
+      if (friend.id === user.id) {
+        setShowModal(true);
+      }
+    })
+
+    return () => socket.off('call')
+  })
 
 
   return (
     <>
-      <button onClick={() => {setShowModal(true)}} type='button'><i className="fas fa-video" /></button>
+      <button onClick={videoChat} type='button'><i className="fas fa-video" /></button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <>

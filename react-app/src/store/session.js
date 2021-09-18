@@ -1,6 +1,13 @@
+
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
+const EDIT_USER = 'session/EDIT_USER';
+
+const editUser = (data) => ({
+	type: EDIT_USER,
+	payload: data 
+})
 
 const setUser = (data) => ({
 	type: SET_USER,
@@ -10,6 +17,7 @@ const setUser = (data) => ({
 const removeUser = () => ({
 	type: REMOVE_USER,
 });
+
 
 export const authenticate = () => async (dispatch) => {
 	const response = await fetch('/api/auth/', {
@@ -65,6 +73,38 @@ export const logout = () => async (dispatch) => {
 	}
 };
 
+export const editUserProfile = (username, email, password, file) => async (dispatch) => {
+
+	// const form = new FormData();
+	// form.append('username', username);
+	// form.append('email', email);
+	// form.append('password', password);
+	// form.append('file', file);
+	const data = {
+		username,
+		email,
+		password,
+		file
+	}
+
+	const response = await fetch('/api/auth/edit', {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: data,
+	});
+	if (response.ok) {
+		const data = await response.json();
+
+		if (data.errors) {
+			return;
+		}
+
+		dispatch(editUser(data));
+	}
+}
+
 export const signUp = (username, email, password, file) => async (dispatch) => {
 	const form = new FormData();
 	form.append('username', username);
@@ -78,7 +118,11 @@ export const signUp = (username, email, password, file) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(setUser(data));
+		if (data.servers) {
+			dispatch(setUser(data));
+		} else {
+			dispatch(editUser(data))
+		}
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -100,6 +144,10 @@ export default function reducer(state = initialState, action) {
 				servers: action.payload.servers, 
 				friends: action.payload.friends 
 			};
+		case EDIT_USER:
+			const newState = { ...state }
+			newState.user = action.payload.user
+			return newState;
 		case REMOVE_USER:
 			return { user: null };
 		default:

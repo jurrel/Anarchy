@@ -5,7 +5,7 @@ import EditProfile from './edit-profile';
 import './edit-profile.css';
 
 
-function EditProfileModal() {
+function EditProfileModal({ socket }) {
   const [editProfile, setEditProfile] = useState(false);
 
 
@@ -15,7 +15,7 @@ function EditProfileModal() {
       {editProfile && (
         <Modal className='edit-profile-modal' onClose={() => setEditProfile(false)}>
           <>
-            <EditProfile setEditProfile={setEditProfile} />
+            <EditProfile socket={socket} setEditProfile={setEditProfile} />
           </>
         </Modal>
       )}
