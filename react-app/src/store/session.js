@@ -73,38 +73,6 @@ export const logout = () => async (dispatch) => {
 	}
 };
 
-export const editUserProfile = (username, email, password, file) => async (dispatch) => {
-
-	// const form = new FormData();
-	// form.append('username', username);
-	// form.append('email', email);
-	// form.append('password', password);
-	// form.append('file', file);
-	const data = {
-		username,
-		email,
-		password,
-		file
-	}
-
-	const response = await fetch('/api/auth/edit', {
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		method: 'POST',
-		body: data,
-	});
-	if (response.ok) {
-		const data = await response.json();
-
-		if (data.errors) {
-			return;
-		}
-
-		dispatch(editUser(data));
-	}
-}
-
 export const signUp = (username, email, password, file) => async (dispatch) => {
 	const form = new FormData();
 	form.append('username', username);

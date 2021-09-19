@@ -7,7 +7,6 @@ import './messages.css';
 const Messages = ({ socket, channel, server}) => {
 	const [serverId, channelId] = [channel?.server_id, channel?.id];
 
-	const servers = useSelector((state) => state.session.servers);
 	const user = useSelector((state) => state.session.user);
 
 	const [messages, setMessages] = useState(
@@ -135,14 +134,14 @@ const Messages = ({ socket, channel, server}) => {
 												alt="temp"
 												src={
 													server?.users.find(
-														(user) => user.id == message.user_id
+														(user) => user.id === message.user_id
 													)?.profile_picture
 												}
 											/>
 										</div>
 										<h3>
 											{
-												server?.users.find((user) => user.id == message.user_id)
+												server?.users.find((user) => user.id === message.user_id)
 													?.username
 											}
 										</h3>

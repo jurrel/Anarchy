@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { Modal } from '../../context/Modal/Modal';
 import Menu  from './menu-modal';
 import './menu.css';
 
 
 function MenuModal({ socket }) {
-  const user = useSelector(state => state.session.user);
   
   const [showModal, setShowModal] = useState(false);
 

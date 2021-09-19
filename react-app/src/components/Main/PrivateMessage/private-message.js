@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import EditFormModal from '../Messages/EditFormModal';
@@ -166,7 +166,6 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 				></input>
-				{/* <button type="submit">Send</button> */}
 			</form>
 		</div>
     )

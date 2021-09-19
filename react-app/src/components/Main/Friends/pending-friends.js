@@ -1,15 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setResults, value, setValue, results, friendAdded }) {
 
     const friends = useSelector(state => state.session.friends);
     const friendIds = friends.map(friend => friend.id);
-
-
-    // const [results, setResults] = useState('');
-    // const [value, setValue] = useState('');
-    // const [friendAdded, setFriendAdded] = useState(false);
 
     useEffect(() => {
 
@@ -25,22 +20,6 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
         return () => socket.off('search-friend')
     }, [setResults, socket, value])
 
-    // useEffect(() => {
-
-    //     socket.on('add-friend', friend => {
-    //         if (friend.receiver_id === user.id) {
-    //             setPendingFriends([...pendingFriends, friend]);
-    //         }
-    //         setValue('');
-    //         setResults('');
-    //         setFriendAdded(!friendAdded);
-    //         setTimeout(() => {
-    //             setFriendAdded(false)
-    //         }, 2000)
-    //     })
-
-    //     return () => socket.off('add-friend')
-    // }, [friendAdded, pendingFriends, setPendingFriends, socket, user.id])
 
     const addFriend = (result) => {
         const data = {
@@ -63,11 +42,17 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
         setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id))
     }
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+
+        socket.emit('search', value);
+    }
+
 
     return (
         <div className='friends'>
             <div id='friend-search'>
-            <form onSubmit={() => console.log('hi')}>
+            <form onSubmit={handleSearch}>
                 <input id='search-bar' value={value} onChange={(e) => {
                     setValue(e.target.value);
                     socket.emit('search-friend', value);

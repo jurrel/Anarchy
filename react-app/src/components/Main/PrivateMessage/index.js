@@ -1,24 +1,21 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { Modal } from '../../context/Modal/Modal';
 import PrivateMessage from './private-message';
 
 
 function PrivateMessageModal({ socket, friend }) {
-  const user = useSelector(state => state.session.user);
   
   const [showModal, setShowModal] = useState(false);
   const [unread, setUnread] = useState(false);
-  const [messages, setMessages] = useState([...friend.messages]);
+  const [messages, setMessages] = useState(friend.messages ? [...friend.messages] : '');
   const [message, setMessage] = useState('');
 
 
   useEffect(() => {
-  socket.on('private-message', (message) => {
-    console.log('private')
-          setMessages([...messages, message]);
-    setUnread(true);
-  });
+    socket.on('private-message', (message) => {
+            setMessages([...messages, message]);
+      setUnread(true);
+    });
 
   return () => socket.off('private-message');
 }, [messages, setUnread, socket]);

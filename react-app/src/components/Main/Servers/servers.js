@@ -1,10 +1,7 @@
 import { useSelector } from 'react-redux';
-import { NavLink, Switch, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Channels from '../Channels/channels';
 import './servers.css';
-import Friends from '../Friends/friends';
-import MenuModal from '../Menu';
 import CreateServerModal from './CreateServerModal';
 import SearchModal from '../../Search';
 
@@ -14,11 +11,9 @@ function Servers({ socket }) {
 	const serverState = useSelector((state) => state.session.servers).sort(
 		(a, b) => a.id - b.id
 	);
-	const user = useSelector((state) => state.session.user);
 
 	const [selectedServer, setServer] = useState('');
 	const [servers, setServers] = useState(serverState);
-	const [createServer, setCreateServer] = useState(false);
 
 	return ( 
         <div className="side_bar_main">
@@ -68,17 +63,6 @@ function Servers({ socket }) {
 											socket={socket}
 										/>
 									)}
-									{/* <div className="user_profile_name">
-										<div className='user-profile'>
-											<img
-												alt="profile"
-												src={user.profile_picture}
-												className="user_profile_photo"
-											/>
-											<p>{user.username}</p>
-										</div>
-										<MenuModal />
-									</div> */}
 								</div>
 							</div>
 						))}

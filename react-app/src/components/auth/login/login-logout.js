@@ -1,6 +1,5 @@
 import { NavLink, Switch, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
 
 import { login } from '../../../store/session';
 import LoginForm from '../LoginForm';
@@ -10,12 +9,12 @@ import '../auth.css';
 function LogInOut() {
     const dispatch = useDispatch();
 
-    const [demo, setDemo] = useState('demo@aa.io');
-    const [demoPassword, setDemoPassword] = useState('password');
+    const demo = 'demo@aa.io';
+    const demoPassword = 'password';
 
     const onDemo = async (e) => {
     e.preventDefault();
-    const data = await dispatch(login(demo, demoPassword));
+    await dispatch(login(demo, demoPassword));
   }
 
     return (

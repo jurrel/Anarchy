@@ -1,9 +1,6 @@
-import { useSelector } from 'react-redux';
-import { NavLink, Switch, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import './channels.css';
-import VideoModal from '../../videoModal';
 import Messages from '../Messages/messages';
 
 const Channels = ({ channels, server, socket }) => {
@@ -31,12 +28,6 @@ const Channels = ({ channels, server, socket }) => {
 					server={server}
 				/>
 			)}
-			{/* <VideoModal serverId={serverId} /> */}
-			{/* <div className="user_profile_name">
-				<img alt='profile' src={user.profile_picture} className="user_profile_photo" />
-				<p>{user.username}</p>
-				<div className="settings_icon"></div>
-			</div> */}
 		</>
 	);
 };

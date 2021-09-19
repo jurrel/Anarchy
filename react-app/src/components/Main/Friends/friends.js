@@ -42,7 +42,7 @@ function Friends({ socket }) {
 
 
 	useEffect(() => {
-		// create websocket/connect
+
 		socket.on('online', (userId) => {
 			const friend = friends.find((friend) => friend.id === userId);
 			const isOnline = onlineFriends.find(friend => friend.id === userId);
@@ -119,10 +119,10 @@ function Friends({ socket }) {
 				(onlineFriend) => onlineFriend.id === user.id
 			);
 			if (friend) {
+				setOfflineFriends([...offlineFriends, ...onlineFriends.filter(friend => friend.id === user.id)]);
 				setOnlineFriends(
 					onlineFriends.filter((friend) => friend.id !== user.id)
 				);
-				setOfflineFriends([...offlineFriends, user]);
 			}
 		});
 
@@ -155,7 +155,6 @@ function Friends({ socket }) {
 			}
 		});
 	
-		// when component unmounts, disconnect
 		return () => socket.off('ruin-friendship');
 	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]);
 

@@ -10,7 +10,6 @@
 	z-index: 5;
 	left: 100px;
 	bottom: 75px;
-	/* border-radius: 15px; */
 	padding-bottom: 15px;
 }
 
@@ -40,11 +39,8 @@
 	left: 0;
 	height: 50px;
 	width: 25px;
-	/* align-self: flex-end; */
 	background-color: transparent;
 	border: none;
-	/* padding-top: 15px;
-	padding-right: 15px; */
 }
 
 #close-modal:hover {
