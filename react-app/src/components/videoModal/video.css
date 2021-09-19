@@ -3,20 +3,20 @@
     /* grid-template-columns: repeat(auto-fill, 40vh);
     grid-auto-rows: 40vw; */
     display: flex;
-    height: 200px;
-    width: 300px;
+    height: 300px;
+    width: 240px;
     position: absolute;
     z-index: 10;
-    top: 0;
-    right: 240px;
+    bottom: 0;
+    right: 0;
 	background-color: #202225;
 }
 
 .vid-container {
     /* display: flex;
     flex-direction: column; */
-    height: 200px;
-    width: 300px;
+    height: 300px;
+    width: 240px;
 }
 
 #hang-up {

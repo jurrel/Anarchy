@@ -38,8 +38,6 @@ function VideoModal({ serverId, socket, friend, setCall, call }) {
       ring.src = source;
       setAnswerCall(true);
       setShowModal(true);
-      if (answerCall && friend.id === user.id) {
-      }
     })
 
     return () => socket.off()

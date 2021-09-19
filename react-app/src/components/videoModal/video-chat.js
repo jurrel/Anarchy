@@ -26,14 +26,14 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
     useEffect(() => {
         const peers = {};
 
-        socket.on('hang_up', (peerId) => {
-            console.log('HANG UP', peerId, peers)
-            if(peers[peerId]) peers[peerId].close()
-            setAnswerCall(false);
-            setCall(false);
-            setShowModal(false);
-            window.location.reload();
-        })
+        // socket.on('hang_up', (peerId) => {
+        //     console.log('HANG UP', peerId, peers)
+        //     if(peers[peerId]) peers[peerId].close()
+        //     setAnswerCall(false);
+        //     setCall(false);
+        //     setShowModal(false);
+        //     window.location.reload();
+        // })
 
         function connectToNewUser(peerId, stream) {
 
@@ -141,6 +141,14 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
                         if (!stream) {
                             addVideo(video, vidContainer, userVideoStream);
                         }
+                    })
+                    socket.on('hang_up', (peerId) => {
+                        console.log('HANG UP', peerId, peers)
+                        if(peers[peerId]) peers[peerId].close()
+                        setAnswerCall(false);
+                        setCall(false);
+                        setShowModal(false);
+                        window.location.reload();
                     })
 
                     connection.on('close', () => {
