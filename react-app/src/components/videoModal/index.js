@@ -27,11 +27,10 @@ function VideoModal({ serverId, socket, friend, setCall, call }) {
 
   useEffect(() => {
     socket.on('call', (friend) => {
-      console.log('CALLING', friend)
       setCall(true);
 
     })
-    
+
     socket.on('answer', (friend) => {
       const ring = document.getElementById('ringtone');
       const source = ring.src;

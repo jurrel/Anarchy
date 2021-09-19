@@ -44,7 +44,6 @@ function Friends({ socket }) {
 			const friend = friends.find((friend) => friend.id === userId);
 			const isOnline = onlineFriends.find(friend => friend.id === userId);
 			if (friend && !isOnline) {
-				// console.log(friend, userId);
 				setOnlineFriends([...onlineFriends, friend]);
 				setOfflineFriends(
 					friends.filter(
@@ -55,12 +54,7 @@ function Friends({ socket }) {
 					)
 				);
 			}
-			// socket.emit('online', user.id);
 		});
-
-		// socket.on('call', (friend) => {
-        //     console.log('CALL HAPPENING', friend)
-        // })
 
 		socket.on('confirm-friend', (friend) => {
 			if (friend.id === user.id) {
@@ -115,7 +109,6 @@ function Friends({ socket }) {
 		});
 
 		socket.on('ruin-friendship', (friend) => {
-			// console.log('WUT', friend.friend_id);
 
 			if (friend.online) {
 				setOnlineFriends(

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald&family=Roboto+Mono&display=swap');
-/* TODO Add site wide styles */
 body,
 html,
 #root {
@@ -8,10 +7,10 @@ html,
 	min-height: 100% !important;
 	padding: 0;
 	margin: 0;
-	/* background-image: linear-gradient(to right, #434343 0%, black 100%); */
 	background-color: #36393f;
 	color: white;
 	overflow: hidden;
+    font-family: sans-serif;
 }
 
 ::-webkit-scrollbar {

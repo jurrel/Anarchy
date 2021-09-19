@@ -16,29 +16,19 @@ const myPeer = new Peer(undefined, {
 
 
 function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerCall}) {
-    
+
     const user = useSelector(state => state.session.user);
-    
+
     const [members, setMembers] = useState(0);
     const [stream, setStream] = useState(false);
-    
-    
+
+
     useEffect(() => {
         const peers = {};
-
-        // socket.on('hang_up', (peerId) => {
-        //     console.log('HANG UP', peerId, peers)
-        //     if(peers[peerId]) peers[peerId].close()
-        //     setAnswerCall(false);
-        //     setCall(false);
-        //     setShowModal(false);
-        //     window.location.reload();
-        // })
 
         function connectToNewUser(peerId, stream) {
 
             const call = myPeer.call(peerId, stream);
-            console.log('connecting to new user')
 
             const vidContainer = document.createElement('div');
             vidContainer.setAttribute('class', 'vid-container');
@@ -60,22 +50,20 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
         }
 
         function addVideo(video, myVidContainer, stream) {
-            console.log('adding video')
             const videoGrid = document.getElementById('video-grid');
-           
+
             video.srcObject = stream;
             video.addEventListener('loadedmetadata', () => {
                 video.play()
             })
-    
+
             if (videoGrid) {
                 myVidContainer.append(video);
                 videoGrid.append(myVidContainer);
             }
-    
+
             const hangUp = document.getElementById('hang-up');
             hangUp.addEventListener('click', () => {
-                // console.log('hang up!')
                 socket.emit('hang_up', myPeer.id)
                 stream.getTracks().forEach(track => track.stop());
                 myVidContainer.remove();
@@ -98,20 +86,20 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
             myVideo.muted = true;
             // myVideo.controls = true;
             myVidContainer.append(myVideo);
-            
+
             // const videoButton = document.createElement('button');
             // videoButton.innerText = 'Video';
             // videoButton.setAttribute('id', 'video');
             // myVidContainer.append(videoButton);
-            
+
             const hangUpButton = document.createElement('button');
             hangUpButton.innerText = 'Hang Up';
             hangUpButton.setAttribute('id', 'hang-up');
             videoGrid.append(hangUpButton);
-            
+
             navigator.mediaDevices.getUserMedia({
                 video: true,
-                audio: true 
+                audio: true
             }).then(stream => {
 
                 addVideo(myVideo, myVidContainer, stream);
@@ -119,31 +107,27 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
                 socket.emit('join', myPeer.id);
 
                 socket.on('join', (peerId) => {
-                    console.log('someone else joined', peerId, myPeer.id)
                     connectToNewUser(peerId, stream);
                     setMembers(members + 1);
                 })
 
                 myPeer.on('call', connection => {
-                    console.log('CALL', connection)
                     connection.answer(stream);
-                    
+
                     const vidContainer = document.createElement('div');
                     vidContainer.setAttribute('class', 'vid-container');
-                    
+
                     const video = document.createElement('video');
                     video.setAttribute('id', 'peer');
                     video.setAttribute('class', 'stream');
                     // video.controls = true;
-                    
+
                     connection.on('stream', userVideoStream => {
-                        console.log('STREAM');
                         if (!stream) {
                             addVideo(video, vidContainer, userVideoStream);
                         }
                     })
                     socket.on('hang_up', (peerId) => {
-                        console.log('HANG UP', peerId, peers)
                         if(peers[peerId]) peers[peerId].close()
                         setAnswerCall(false);
                         setCall(false);
@@ -152,13 +136,12 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
                     })
 
                     connection.on('close', () => {
-                        console.log('CONNECTION CLOSE')
                     })
                 })
             })
         }
 
-        
+
         return () => socket.off('hang_up');
 
     }, [members, setAnswerCall, setCall, setShowModal, socket, user.id])

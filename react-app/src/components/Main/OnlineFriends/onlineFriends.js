@@ -22,7 +22,6 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
 
 
     const ruinFriendship = (friend) => {
-        // console.log(friend)
         socket.emit('ruin-friendship', friend)
     }
 
