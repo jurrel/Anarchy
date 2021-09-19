@@ -6,21 +6,24 @@ import './servers.css';
 import Friends from '../OnlineFriends/friends';
 import MenuModal from '../Menu';
 import CreateServerModal from './CreateServerModal';
+import SearchModal from '../../Search';
 
 
 function Servers({ socket }) {
 
-	const servers = useSelector((state) => state.session.servers).sort(
+	const serverState = useSelector((state) => state.session.servers).sort(
 		(a, b) => a.id - b.id
 	);
 	const user = useSelector((state) => state.session.user);
 
 	const [selectedServer, setServer] = useState('');
+	const [servers, setServers] = useState(serverState);
 
 	return (
         <div className="side_bar_main">
             <div className="align_the_side_bar">
                 <>
+				
                     <div
                         className={
                             'server-icon home-icon-container ' +
@@ -30,6 +33,17 @@ function Servers({ socket }) {
                     >
                         <div className="home-icon">
                             <i className="fas fa-home fa-2x" />
+                        </div>
+                    </div>
+					<div id='search' className='server-icon'>
+						<div className='home-icon'>
+							<SearchModal servers={servers} setServers={setServers} socket={socket} />
+						</div>
+					</div>
+					<div
+                        className="server-icon plus-icon-container" onClick={(e) => setServer('')}>
+                        <div className='plus-icon'>
+                            <CreateServerModal socket={socket} />
                         </div>
                     </div>
 						{servers?.map((server) => (
@@ -67,12 +81,6 @@ function Servers({ socket }) {
 								</div>
 							</div>
 						))}
-                    <div
-                        className="server-icon plus-icon-container" onClick={(e) => setServer('')}>
-                        <div className='plus-icon'>
-                            <CreateServerModal socket={socket} />
-                        </div>
-                    </div>
 					</>
 			</div>
 		</div>

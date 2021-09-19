@@ -15,10 +15,14 @@ def seed_servers():
   test = Server(
     name='Test', owner_id=4, imageUrl=default_picture, createdAt=now
   )
+  smite = Server(
+    name='Smite', owner_id=2, imageUrl=default_picture, createdAt=now 
+  )
 
   db.session.add(main)
   db.session.add(cs)
   db.session.add(test)
+  db.session.add(smite)
 
   db.session.commit()
 
