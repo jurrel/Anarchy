@@ -147,6 +147,22 @@
 	transform: translate(175%, -45%);
 }
 
+/* #search {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+} */
+
+#search-button {
+	pointer-events: all;
+	background-color: transparent;
+	border: none;
+	color: white;
+}
+
+#search-button:hover {
+	cursor: pointer;
+}
 .server_name_bottom_bar {
 	border-bottom: 1px solid gray;
 	/* transform: translate(-10%, -3850%); */

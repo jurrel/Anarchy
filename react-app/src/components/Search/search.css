@@ -1,0 +1,8 @@
+#search-modal {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    z-index: 50;
+    height: fit-content;
+    width: 240px;
+}

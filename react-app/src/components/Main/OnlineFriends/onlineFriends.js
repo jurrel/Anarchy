@@ -32,7 +32,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
         <>
             <div className='online-friends'>
                 <div className='friends'>
-                    <h3>Online:</h3>
+                    <h3>ONLINE -- {onlineFriends.length}</h3>
                     { onlineFriends && onlineFriends && onlineFriends.map(friend => (
                         <div key={friend.id} className='friend'>
                             <img alt='profile' src={friend.profile_picture}></img>
@@ -58,7 +58,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
             </div>
             <div className='offline-friends'>
                 <div className='friends'>
-                    <h3>Offline:</h3>
+                    <h3>OFFLINE -- {offlineFriends.length}</h3>
                     { offlineFriends && offlineFriends.map(friend => (
                         <div key={friend.id} className='friend'>
                             <img alt='profile' src={friend.profile_picture}></img>
