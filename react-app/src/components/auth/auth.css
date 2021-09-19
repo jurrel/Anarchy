@@ -30,6 +30,15 @@
     box-shadow: 0 0 5px lightgray;
 }
 
+#demo-button {
+    background-color: transparent;
+    border: none;
+}
+
+#demo-button:hover {
+    cursor: pointer;
+}
+
 .log-form {
     display: flex;
     flex-direction: column;

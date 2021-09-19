@@ -16,6 +16,6 @@ class Friend(db.Model):
       'sender_id': self.sender_id,
       'receiver_id': self.receiver_id,
       'isFriend': self.isFriend,
-      'createdAt': self.createdAt,
-      'updatedAt': self.updatedAt
+      'createdAt': self.createdAt.strftime("%Y/%m/%d %H:%M:%S"),
+      'updatedAt': self.updatedAt.strftime("%Y/%m/%d %H:%M:%S")
     }

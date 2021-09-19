@@ -23,7 +23,7 @@ function LogInOut() {
             <div className='splash-log'>
                 <div className='logs'>
                     <NavLink to='/account/login' className='log-buttons'>Login</NavLink>
-                    <button onClick={onDemo} className='log-buttons' type='button'>Demo</button>
+                    <button onClick={onDemo} id='demo-button' className='log-buttons' type='button'>Demo</button>
                     <NavLink to='/account/sign-up' className='log-buttons'>Sign Up</NavLink> 
                 </div>
                 <Switch>

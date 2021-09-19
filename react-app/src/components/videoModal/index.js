@@ -43,12 +43,6 @@ function VideoModal({ serverId, socket, friend, setCall, call }) {
     return () => socket.off()
   })
 
-  // useEffect(() => {
-
-
-  //   return () => socket.off('answer')
-  // })
-
 
   return (
     <>

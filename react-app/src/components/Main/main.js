@@ -8,8 +8,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
 import './main.css';
-import OnlineFriends from './OnlineFriends/onlineFriends';
-import Friends from './OnlineFriends/friends';
+import OnlineFriends from './Friends/onlineFriends';
+import Friends from './Friends/friends';
 import Message from './Messages/messages';
 import Servers from './Servers/servers';
 import MenuModal from './Menu';
@@ -40,7 +40,7 @@ function Main() {
 	useEffect(() => {
 		if (online) return;
 		socket.emit('online', user.id);
-		setOnline(true);
+		// setOnline(!online);
 	}, [online, user.id]);
 
     

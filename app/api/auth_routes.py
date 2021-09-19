@@ -38,7 +38,9 @@ def authenticate():
 
         user = User.query.get(current_user.id)
         # User.query.filter(User.id == current_user.id).update({'online': True})
-        user.online = True
+        # user.online = True
+        # db.session.add(user)
+        # db.session.commit()
         # db.session.merge(user)
         # db.session.add(user)
         # db.session.commit()
@@ -79,29 +81,33 @@ def authenticate():
                         
         friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
         users_list = User.query.filter(User.id != user.id).all()
-        private_messages = Message.query.filter(or_(Message.receiver_id == user.id, Message.user_id == user.id)).all()
+        private_messages = Message.query.filter(Message.channel_id == None).all()
         print('MESSAGES LENGTH',len(private_messages))
         users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
         for dude in users:
+            dude['messages'] = []
             for friend in friends:
                 if (friend.receiver_id == dude['id'] or friend.sender_id == dude['id']):
                     dude['isFriend'] = friend.isFriend
                     dude['sender_id'] = friend.sender_id
                     dude['receiver_id'] = friend.receiver_id
                     dude['friend_id'] = friend.id
-                    dude['messages'] = []
-                    friends_list.append(dude)
-                    for text in private_messages:
-                        if friend.id == text.user_id or friend.id == text.receiver_id:
-                            dude['messages'].append(text.to_dict())
-                            print('TEXT MESSAGE', text.to_dict())
+            for text in private_messages:
+                if dude['id'] == text.user_id or dude['id'] == text.receiver_id:
+                    dude['messages'].append(text.to_dict())
+                    print('TEXT MESSAGE')
+                if friend.id == text.receiver_id:
+                    dude['messages'].append(text.to_dict())
+                    print('TEXT MESSAGE')
+            friends_list.append(dude)  
+
 
         data['friends'] = friends_list
         #  and user['id'] != current_user.id
-        db.session.add(user)
-        db.session.commit()
+        # db.session.add(user)
+        # db.session.commit()
         # db.session.commit()
 
         return data
@@ -120,7 +126,9 @@ def login():
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
-        user.online = True
+        # user.online = True
+        # db.session.add(user)
+        # db.session.commit()
         # db.session.merge(user)
         # db.session.add(user)
         # db.session.commit()
@@ -161,28 +169,30 @@ def login():
 
         friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
         users_list = User.query.filter(User.id != user.id).all()
-        private_messages = Message.query.filter(or_(Message.receiver_id == user.id, Message.user_id == user.id)).all()
+        private_messages = Message.query.filter(or_(Message.receiver_id == user.id, Message.user_id == user.id)).filter(Message.channel_id == None).all()
         users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
         for dude in users:
+            dude['messages'] = []
             for friend in friends:
                 if (friend.receiver_id == dude['id'] or friend.sender_id == dude['id']):
                     dude['isFriend'] = friend.isFriend
                     dude['sender_id'] = friend.sender_id
                     dude['receiver_id'] = friend.receiver_id
                     dude['friend_id'] = friend.id
-                    dude['messages'] = []
-                    friends_list.append(dude)
-                    for text in private_messages:
-                        if friend.id == text.user_id or friend.id == text.receiver_id:
-                            dude['messages'].append(text.to_dict())
-                            print('TEXT MESSAGE', text.to_dict())
-            
+            for text in private_messages:
+                if dude['id'] == text.user_id or dude['id'] == text.receiver_id:
+                    dude['messages'].append(text.to_dict())
+                    print('TEXT MESSAGE')
+                if friend.id == text.receiver_id:
+                    dude['messages'].append(text.to_dict())
+                    print('TEXT MESSAGE')
+            friends_list.append(dude)       
 
         data['friends'] = friends_list
-        db.session.add(user)
-        db.session.commit()
+        # db.session.add(user)
+        # db.session.commit()
         login_user(user)
         emit('online', current_user.id, broadcast=True, namespace='/')
 

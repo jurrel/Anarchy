@@ -3,7 +3,7 @@ import { NavLink, Switch, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Channels from '../Channels/channels';
 import './servers.css';
-import Friends from '../OnlineFriends/friends';
+import Friends from '../Friends/friends';
 import MenuModal from '../Menu';
 import CreateServerModal from './CreateServerModal';
 import SearchModal from '../../Search';

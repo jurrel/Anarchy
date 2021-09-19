@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import VideoModal from "../../videoModal";
 import PrivateMessageModal from '../PrivateMessage';
 
-function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
+function OnlineFriends({ socket, onlineFriends, offlineFriends, setOnlineFriends, friends, setFriends }) {
 
     const [call, setCall] = useState(false);
 
@@ -23,6 +23,8 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends }) {
 
     const ruinFriendship = (friend) => {
         // console.log(friend)
+        setFriends(friends.filter(online => online.id !== friend.id && online.isFriend))
+        // setOnlineFriends(onlineFriends.filter(online => online.id !== friend.id))
         socket.emit('ruin-friendship', friend)
     }
 
