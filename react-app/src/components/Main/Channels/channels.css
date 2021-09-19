@@ -10,24 +10,18 @@
 
 .user_profile_name {
 	background-color: #292b2e;
-	/* padding: 5px 5px 0px 10px; */
 	display: flex;
 	justify-content: space-around;
-	/* gap: 15px; */
 	align-items: center;
 	position: absolute;
 	left: 100px;
 	z-index: 2;
 	bottom: 0px;
-	/* box-sizing: border-box; */
 	height: 75px;
 	width: 240px;
 	display: flex;
 	font-size: 20px;
 	font-weight: bolder;
-	/* flex: 1; */
-
-	/* padding: 10px; */
 }
 
 
@@ -48,7 +42,6 @@
 .user_profile_photo {
 	height: 40px;
 	border-radius: 70%;
-	/* padding: 15px; */
 }
 
 .channel-list {
@@ -100,22 +93,3 @@
 .settings:hover {
 	cursor: pointer;
 }
-
-/* .channel {
-	background-image: linear-gradient(red, blue);
-
-	height: fit-content;
-} */
-
-/* /* .channel.hidden {
-	display: none;
-	visibility: hidden;
-} */
-
-/* .channel.visible {
-	flex-direction: column;
-	display: inline-block;
-	visibility: visible;
-	position: absolute;
-	z-index: 100;
-} */

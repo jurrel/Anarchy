@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { io } from 'socket.io-client';
 import Peer from 'peerjs';
 
 import './video.css';
-
-// const apiEndPoint = 'http://127.0.0.1:5000/';
-// const socket = io.connect(`${apiEndPoint}`);
 
 const myPeer = new Peer(undefined, {
       host: 'localhost',
@@ -15,12 +11,11 @@ const myPeer = new Peer(undefined, {
 });
 
 
-function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerCall}) {
+function VideoChat({setShowModal, socket, setCall}) {
 
     const user = useSelector(state => state.session.user);
 
     const [members, setMembers] = useState(0);
-    const [stream, setStream] = useState(false);
 
 
     useEffect(() => {
@@ -34,9 +29,7 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
             vidContainer.setAttribute('class', 'vid-container');
 
             const video = document.createElement('video');
-            // video.setAttribute('id', 'peerVid');
             video.setAttribute('class', 'stream');
-            // video.controls = true;
             vidContainer.append(video);
             call.on('stream', userVideoStream => {
                 addVideo(video, vidContainer, userVideoStream);
@@ -72,7 +65,6 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
             })
         }
 
-        // let discover = document.getElementById(`${user.id}`);
         let discover = document.getElementById('myVideo');
         if (!discover) {
             const videoGrid = document.getElementById('video-grid');
@@ -81,16 +73,9 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
 
             const myVideo = document.createElement('video');
             myVideo.setAttribute('class', 'stream');
-            // myVideo.setAttribute('id', `${user.id}`);
             myVideo.setAttribute('id', 'myVideo');
             myVideo.muted = true;
-            // myVideo.controls = true;
             myVidContainer.append(myVideo);
-
-            // const videoButton = document.createElement('button');
-            // videoButton.innerText = 'Video';
-            // videoButton.setAttribute('id', 'video');
-            // myVidContainer.append(videoButton);
 
             const hangUpButton = document.createElement('button');
             hangUpButton.innerText = 'Hang Up';
@@ -120,7 +105,6 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
                     const video = document.createElement('video');
                     video.setAttribute('id', 'peer');
                     video.setAttribute('class', 'stream');
-                    // video.controls = true;
 
                     connection.on('stream', userVideoStream => {
                         if (!stream) {
@@ -129,7 +113,6 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
                     })
                     socket.on('hang_up', (peerId) => {
                         if(peers[peerId]) peers[peerId].close()
-                        setAnswerCall(false);
                         setCall(false);
                         setShowModal(false);
                         window.location.reload();
@@ -144,7 +127,7 @@ function VideoChat({setShowModal, showModal, friend, socket, setCall, setAnswerC
 
         return () => socket.off('hang_up');
 
-    }, [members, setAnswerCall, setCall, setShowModal, socket, user.id])
+    }, [members, setCall, setShowModal, socket, user.id])
 
 
     return (

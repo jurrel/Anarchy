@@ -6,7 +6,6 @@
         border-radius: 5px;
         overflow-y: scroll;
         position: absolute;
-        /* box-sizing: border-box; */
         top: 0;
         right: 0;
         height: 100%;

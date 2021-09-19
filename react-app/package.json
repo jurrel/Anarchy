@@ -8,8 +8,10 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "eventemitter3": "^4.0.7",
     "http-proxy-middleware": "^1.0.5",
     "peerjs": "^1.3.2",
+    "peerjs-js-binarypack": "^1.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
@@ -18,7 +20,8 @@
     "redux": "^4.1.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "socket.io-client": "^4.2.0"
+    "socket.io-client": "^4.2.0",
+    "webrtc-adapter": "^8.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { editUserProfile, signUp } from '../../../store/session';
+import { signUp } from '../../../store/session';
 
 function EditProfile({ setEditProfile, socket }) {
 	const dispatch = useDispatch();

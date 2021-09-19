@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import LoginForm from './components/auth/LoginForm';
-import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
@@ -11,7 +9,6 @@ import { authenticate } from './store/session';
 import Home from './components/HomePage/home';
 import LogInOut from './components/auth/login/login-logout';
 import Main from './components/Main/main';
-import Messages from './components/Main/Messages/messages';
 
 function App() {
 	const [loaded, setLoaded] = useState(false);

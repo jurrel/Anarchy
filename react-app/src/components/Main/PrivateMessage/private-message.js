@@ -1,26 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import EditFormModal from '../Messages/EditFormModal';
 import './privates.css';
 
-function PrivateMessage({ friend, socket, setShowModal }) {
+function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, setMessages, message, setMessage }) {
 
     const user = useSelector(state => state.session.user);
 
-
-    const [messages, setMessages] = useState([...friend.messages]);
-    const [message, setMessage] = useState('');
-
-    useEffect(() => {
-		socket.on('message', (message) => {
-            setMessages([...messages, message]);
-		});
-
-		return () => socket.off('message');
-	}, [messages, socket]);
-
+	
 	useEffect(() => {
+		setUnread(false);
 		const boxes = document.querySelectorAll('.messages-container');
 		if (boxes) {
 			for (let i = 0; i < boxes.length; i++) {
@@ -176,7 +166,6 @@ function PrivateMessage({ friend, socket, setShowModal }) {
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 				></input>
-				{/* <button type="submit">Send</button> */}
 			</form>
 		</div>
     )

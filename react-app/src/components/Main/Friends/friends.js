@@ -8,8 +8,9 @@ import './friends.css';
 
 function Friends({ socket }) {
 	const user = useSelector((state) => state.session.user);
-	const friends = useSelector((state) => state.session.friends);
+	const state_friends = useSelector((state) => state.session.friends);
 
+	const [friends, setFriends] = useState(state_friends);
 	const [onlineFriends, setOnlineFriends] = useState(
 		friends
 			? friends.filter(
@@ -35,14 +36,17 @@ function Friends({ socket }) {
 
 	const [showFriends, setShowFriends] = useState(true);
 	const [showPending, setShowPending] = useState(false);
+	const [results, setResults] = useState('');
+    const [value, setValue] = useState('');
+    const [friendAdded, setFriendAdded] = useState(false);
 
 
 	useEffect(() => {
-		// create websocket/connect
+
 		socket.on('online', (userId) => {
 			const friend = friends.find((friend) => friend.id === userId);
 			const isOnline = onlineFriends.find(friend => friend.id === userId);
-			if (friend && !isOnline) {
+			if (friend && friend.isFriend && !isOnline) {
 				setOnlineFriends([...onlineFriends, friend]);
 				setOfflineFriends(
 					friends.filter(
@@ -55,6 +59,11 @@ function Friends({ socket }) {
 			}
 		});
 
+		return () => socket.off('online');
+	}, [friends, onlineFriends, socket])
+
+	useEffect(() => {
+
 		socket.on('confirm-friend', (friend) => {
 			if (friend.id === user.id) {
 				const newFriend = friends.find(
@@ -65,7 +74,7 @@ function Friends({ socket }) {
 				socket.emit('online', user.id);
 				return;
 			}
-
+	
 			if (friend.receiver_id === user.id) {
 				setPendingFriends(
 					pendingFriends.filter(
@@ -75,7 +84,7 @@ function Friends({ socket }) {
 				const isOnline = onlineFriends.find(
 					(onlineFriend) => onlineFriend.id === friend.id
 				);
-
+	
 				if (friend.online && !isOnline) {
 					setOnlineFriends([...onlineFriends, friend]);
 				} else {
@@ -83,6 +92,11 @@ function Friends({ socket }) {
 				}
 			}
 		});
+
+		return () => socket.off('confirm-friend')
+	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id])
+
+	useEffect(() => {
 
 		socket.on('deny-friend', (friend) => {
 			const pendingFriend = pendingFriends.find(
@@ -95,23 +109,36 @@ function Friends({ socket }) {
 			}
 		});
 
+		return () => socket.off('deny-friend');
+	}, [pendingFriends, socket])
+
+	useEffect(() => {
+		
 		socket.on('log-out', (user) => {
 			const friend = onlineFriends.find(
 				(onlineFriend) => onlineFriend.id === user.id
 			);
 			if (friend) {
+				setOfflineFriends([...offlineFriends, ...onlineFriends.filter(friend => friend.id === user.id)]);
 				setOnlineFriends(
 					onlineFriends.filter((friend) => friend.id !== user.id)
 				);
-				setOfflineFriends([...offlineFriends, user]);
 			}
 		});
 
+		return () => socket.off('log-out');
+	}, [offlineFriends, onlineFriends, socket])
+
+
+	useEffect(() => {
+
 		socket.on('ruin-friendship', (friend) => {
 
+			setFriends(friends.filter(frand => frand.id !== friend.id));
+	
 			if (friend.online) {
 				setOnlineFriends(
-					onlineFriends.filter(
+					friends.filter(
 						(remaining) =>
 							remaining.friend_id !== friend.friend_id &&
 							remaining.id !== friend.id
@@ -119,7 +146,7 @@ function Friends({ socket }) {
 				);
 			} else {
 				setOfflineFriends(
-					offlineFriends.filter(
+					friends.filter(
 						(remaining) =>
 							remaining.friend_id !== friend.friend_id &&
 							remaining.id !== friend.id
@@ -127,12 +154,28 @@ function Friends({ socket }) {
 				);
 			}
 		});
-
-		// when component unmounts, disconnect
-		return () => {
-			socket.off();
-		};
+	
+		return () => socket.off('ruin-friendship');
 	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]);
+
+	useEffect(() => {
+
+        socket.on('add-friend', friend => {
+            if (friend.receiver_id === user.id) {
+                setPendingFriends([...pendingFriends, friend]);
+            }
+            setValue('');
+            setResults('');
+            setFriendAdded(!friendAdded);
+            setTimeout(() => {
+                setFriendAdded(false)
+            }, 2000)
+        })
+
+        return () => socket.off('add-friend')
+    }, [friendAdded, pendingFriends, setPendingFriends, socket, user.id])
+
+
 
 	const toggleFriends = (e) => {
 		if (!showFriends) {
@@ -167,6 +210,7 @@ function Friends({ socket }) {
 					friends={friends}
 					offlineFriends={offlineFriends}
 					setOfflineFriends={setOfflineFriends}
+					setFriends={setFriends}
 				/>
 			)}
 			{showPending && (
@@ -175,6 +219,12 @@ function Friends({ socket }) {
 					pendingFriends={pendingFriends}
 					setPendingFriends={setPendingFriends}
 					socket={socket}
+					setResults={setResults}
+					value={value}
+					setValue={setValue}
+					results={results}
+					friendAdded={friendAdded}
+
 				/>
 			)}
 		</div>

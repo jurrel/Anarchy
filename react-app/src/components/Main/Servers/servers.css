@@ -143,6 +143,11 @@
 	font-size: 20px;
 	transform: translate(-175%, -45%);
 }
+
+.cancel_button:hover {
+	cursor: pointer;
+}
+
 .create_button {
 	background-color: #7289da;
 	border-color: #7289da;
@@ -154,11 +159,9 @@
 	transform: translate(175%, -45%);
 }
 
-/* #search {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-} */
+.create_button:hover {
+	cursor: pointer;
+}
 
 #search-button {
 	pointer-events: all;

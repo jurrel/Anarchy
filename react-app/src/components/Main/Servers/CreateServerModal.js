@@ -48,7 +48,6 @@ function CreateServerModal({ socket }) {
 	};
 
 	const updateServerName = (e) => setName(e.target.value);
-	// const updateServerImage = (e) => setImageUrl(e.target.files[0]);
 	const updateServerImage = (e) => setImageUrl(e.target.value);
 
 
@@ -79,7 +78,6 @@ function CreateServerModal({ socket }) {
 								onChange={(e) => updateServerName(e)}
 							></input>
 						</div>
-						{/* <input className="channel_photo_upload_modal" type="file" onChange={(e) => updateServerImage(e)}></input> */}
 
 						<div className="server-name-header">
 							<label className='image-Url-input'>Image Url</label>

@@ -1,7 +1,5 @@
 #video-grid {
     display: grid;
-    /* grid-template-columns: repeat(auto-fill, 40vh);
-    grid-auto-rows: 40vw; */
     display: flex;
     height: 300px;
     width: 240px;
@@ -13,8 +11,6 @@
 }
 
 .vid-container {
-    /* display: flex;
-    flex-direction: column; */
     height: 300px;
     width: 240px;
 }
@@ -38,18 +34,6 @@
 .vid-container > button:hover {
     cursor: pointer;
 }
-
-/* #hang-up {
-    height: 50px;
-    width: 75px;
-} */
-
-/* #close-modal {
-    position: absolute;
-    z-index: 1;
-    bottom: 0;
-    right: 5vw;
-} */
 
 video {
     width: 100%;

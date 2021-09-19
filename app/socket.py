@@ -4,6 +4,8 @@ import os
 from app.aws_s3 import upload_file_to_s3
 from random import randint
 from app.config import Config
+from sqlalchemy import or_
+
 # from flask_login import current_user
 
 from .models import db, User, Message, Server, Channel, Friend, UserRoles, Role
@@ -33,32 +35,27 @@ def connection():
 
     @socketio.on('online')
     def login(userId):
-        friends = Friend.query.filter(Friend.receiver_id == userId).all()
-        print(friends)
+        friends = User.query.filter(User.id == userId).all()
         user = User.query.get(userId)
-        print(user.to_dict())
-        # # db.session.merge(user)
+
         user.online = True
         db.session.add(user)
         db.session.commit()
-        emit('online', userId, broadcast=True, include_self=False)
+        emit('online', userId, broadcast=True)
+        return None 
 
     @socketio.on('confirm-friend')
     def confirm_friend(friend):
-        print('CONFIRM FRIEND', friend)
 
         db_friend = Friend.query.get(friend['friend_id'])
         user = User.query.get(friend['receiver_id'])
 
-        # db.session.commit()
-
         db_friend.isFriend = True
-        friend['isFriend'] = True
 
-        # db.session.merge(db_friend)
         db.session.add(db_friend)
         db.session.commit()
-        # session.commit()
+
+        friend['isFriend'] = True
 
         emit('confirm-friend', friend, broadcast=True)
         return None
@@ -68,7 +65,6 @@ def connection():
         goodbye = Friend.query.filter(Friend.sender_id == friend['id']).one_or_none()
 
         db.session.delete(goodbye)
-        # db.session.merge(goodbye)
         db.session.commit()
         print(friend)
 
@@ -81,12 +77,56 @@ def connection():
         db_friend = Friend.query.get(friend['friend_id'])
 
         db.session.delete(db_friend)
-        # # db.session.merge(db_friend)
         db.session.commit()
-        print('WUT')
 
         emit('ruin-friendship', friend, broadcast=True)
         return None
+    
+    @socketio.on('search-friend')
+    def search_friend(name):
+        user_list = User.query.filter(User.username.op("~")(name)).all()
+        id_list = [ user.id for user in user_list ]
+
+        friends = Friend.query.filter(Friend.sender_id not in id_list).filter(Friend.receiver_id not in id_list).all()
+        users = [ user.to_dict() for user in user_list ]
+
+        for user in users:
+            for friend in friends:
+                if friend.sender_id == user['id'] or friend.receiver_id == user['id']:
+                    user['isFriend'] = friend.isFriend
+                    user['sender_id'] = friend.sender_id
+                    user['receiver_id'] = friend.receiver_id
+                    user['friend_id'] = friend.id
+                    user['messages'] = []
+
+        
+        emit('search-friend', users, broadcast=True)
+        return None 
+
+    @socketio.on('add-friend')
+    def add_friend(data):
+        pending = Friend.query.filter(Friend.sender_id == data['sender_id']).filter(Friend.receiver_id == data['receiver_id']).all()
+        
+        if not pending:
+            friend = Friend(
+                sender_id=data['sender_id'],
+                receiver_id=data['receiver_id'],
+                createdAt=now,
+                updatedAt=now
+            )
+
+        db.session.add(friend)
+        db.session.commit()
+
+        user = User.query.filter(User.id == friend.sender_id).one_or_none()
+        user = user.to_dict()
+        user['sender_id'] = friend.sender_id
+        user['receiver_id'] = friend.receiver_id 
+        user['isFriend'] = False 
+        
+
+        emit('add-friend', user, broadcast=True)
+        return None 
 
 
     @socketio.on('edit-server')
@@ -250,12 +290,11 @@ def connection():
             createdAt = now,
             updatedAt = now
         )
-        print('MESSAGE PRIVATES', message.to_dict())
+        
         db.session.add(message)
-        # db.session.merge(message)
         db.session.commit()
         returnMessage = message.to_dict()
-        send(returnMessage, broadcast=True)
+        emit('private-message', returnMessage, broadcast=True)
         return None
 
     @socketio.on('typing')

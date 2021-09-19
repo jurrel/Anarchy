@@ -9,7 +9,6 @@
     bottom: 50px;
     left: 340px;
     background-color: #36393f;
-    /* background-color: white; */
     z-index: 20;
 }
 
@@ -30,4 +29,14 @@
     border: 0;
     font-size: 100%;
     padding-left: 20px;
+}
+
+#new-message {
+    animation: message 2s linear infinite;
+}
+
+@keyframes message {
+    50% {
+        opacity: 0;
+    }
 }

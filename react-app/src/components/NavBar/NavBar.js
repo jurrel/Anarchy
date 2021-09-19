@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
-import MenuModal from './Menu';
 import './nav.css';
 import Anarchy from '../auth/anarchy';
 
