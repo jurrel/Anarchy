@@ -7,7 +7,7 @@ function CreateServerModal({ socket }) {
 	const servers = useSelector((state) => state.session.servers);
 	const [showModal, setShowModal] = useState(false);
 	const [name, setName] = useState('');
-	const [imageUrl, setImageUrl] = useState(null);
+	const [imageUrl, setImageUrl] = useState('');
 	const [allServers, setAllServers] = useState(servers);
 	const [joinServer, setJoinServer] = useState(servers)
 	console.log('what is servers', servers)
@@ -36,7 +36,7 @@ function CreateServerModal({ socket }) {
 		const data = {
 			name,
 			owner_id: user.id,
-			file: imageUrl,
+			imageUrl,
 		};
 		console.log(data);
 		socket.emit('new-server', data);
@@ -51,7 +51,9 @@ function CreateServerModal({ socket }) {
 	};
 
 	const updateServerName = (e) => setName(e.target.value);
-	const updateServerImage = (e) => setImageUrl(e.target.files[0]);
+	// const updateServerImage = (e) => setImageUrl(e.target.files[0]);
+	const updateServerImage = (e) => setImageUrl(e.target.value);
+
 
 	return (
 		<>
@@ -80,7 +82,16 @@ function CreateServerModal({ socket }) {
 								onChange={(e) => updateServerName(e)}
 							></input>
 						</div>
-						<input className="channel_photo_upload_modal" type="file" onChange={(e) => updateServerImage(e)}></input>
+						{/* <input className="channel_photo_upload_modal" type="file" onChange={(e) => updateServerImage(e)}></input> */}
+						
+						<div className="server-name-header">
+							<label className='image-Url-input'>Image Url</label>
+							<input className="channel_photo_upload_modal"
+                            type="text"
+                            placeholder="Image Url here.."
+                            value={imageUrl}
+                            onChange={updateServerImage} />
+						</div>
 						<div>
 							<button className="cancel_button" type="button" onClick={handleCancle}>
 								Cancel

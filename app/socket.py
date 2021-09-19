@@ -1,3 +1,4 @@
+from app.models.server_user import ServerUser
 from flask_socketio import SocketIO, send, join_room, leave_room, emit, disconnect
 import os
 from app.aws_s3 import upload_file_to_s3
@@ -5,7 +6,7 @@ from random import randint
 from app.config import Config
 # from flask_login import current_user
 
-from .models import db, User, Message, Server, Channel, Friend
+from .models import db, User, Message, Server, Channel, Friend, UserRoles, Role
 
 
 # create your SocketIO instance
@@ -101,36 +102,70 @@ def connection():
     @socketio.on('new-server')
     def new_server(data):
         default_picture = 'https://mymusicdb.s3.us-east-2.amazonaws.com/anarchy/profiles/default.png'
-        if len(data['file']):
-            file_url = upload_file_to_s3(data['file'], Config.S3_BUCKET)
+        print('this is data ooom', data['imageUrl'])
+        if len(data['imageUrl']):
             # file = data['file']
             # file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
             server = Server(
                 name=data['name'],
                 owner_id=data['owner_id'],
-                imageUrl=file_url,
-                user_id=data['user_id'],
-                server_id=data['server_id'],
+                imageUrl=data['imageUrl'],
                 createdAt=now
             )
-            # serveruser = ServerUser()
-            # //
-        else:
+        else: 
             server = Server(
                 name=data['name'],
                 owner_id=data['owner_id'],
                 imageUrl=default_picture,
-                user_id=data['user_id'],
-                server_id=data['server_id'],
                 createdAt=now
             )
-            # serveruser = ServerUser(
-            #     user_id = 
-            # )
         db.session.add(server)
         db.session.commit()
         emit('new-server', server.to_dict(), broadcast=True)
         return None
+
+    @socketio.on('join-server')
+    def join_server(data):
+
+        exists = ServerUser.query.filter(ServerUser.user_id == data['user_id']).filter(ServerUser.server_id == data['server_id']).one_or_none()
+
+        if not exists:
+            server_user = ServerUser(
+                user_id=data['user_id'],
+                server_id=data['server_id']
+            )
+            db.session.add(server_user)
+            db.session.commit()
+
+            server_obj = Server.query.get(data['server_id'])
+            server = server_obj.to_dict()
+            channel_list = Channel.query.filter(Channel.server_id == server['id']).all()
+            server['channels'] = [ channel.to_dict() for channel in channel_list ]
+
+            for channel in server['channels']:
+                message_list = Message.query.filter(Message.channel_id == channel['id']).all()
+                channel['messages'] = [ message.to_dict() for message in message_list ]
+
+            user_id_list = ServerUser.query.filter(ServerUser.server_id == server['id']).all()
+            users = []
+            for server_user in user_id_list:
+                user_list = User.query.filter(User.id == server_user.user_id).all()
+                users.append( *[ user.to_dict() for user in user_list ] )
+            server['users'] = users
+            server['join-user'] = data['user_id']
+
+            for person in users:
+                roles = Role.query.select_from(UserRoles).filter(UserRoles.user_id == person['id']).all()
+                if len(roles) > 0:
+                    for role in roles:
+                        if role.server_id == server['id']:
+                            person['role'] = role.to_dict()
+                            break
+            emit('join-server', server)
+        else:
+            print('ALREADY EXISTS')
+
+        return None 
 
     @socketio.on('delete-server')
     def delete_server(id):
@@ -208,25 +243,17 @@ def connection():
 
     @socketio.on('private-message')
     def handlePrivateMessage(msg):
-
-        if msg.has_key('imageUrl'):
-            message = Message(
-                message=msg['message'],
-                user_id=msg['user_id'],
-                receiver_id=msg['receiver_id'],
-                channel_id=msg['channel_id'],
-                imageUrl=msg['imageUrl'],
-                createdAt = now,
-                updatedAt = now
-            )
-        else:
-            message = Message(
-                message=msg['message'],
-                user_id=msg['user_id'],
-                receiver_id=msg['receiver_id'],
-                createdAt = now,
-                updatedAt = now
-            )
+        message = Message(
+            message=msg['message'],
+            user_id=msg['user_id'],
+            receiver_id=msg['receiver_id'],
+            createdAt = now,
+            updatedAt = now
+        )
+        print('MESSAGE PRIVATES', message.to_dict())
+        db.session.add(message)
+        # db.session.merge(message)
+        db.session.commit()
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
         return None
@@ -268,6 +295,12 @@ def connection():
         print('LEAVING', peerId)
         emit('hang_up', peerId, broadcast=True)
         return None
+
+    @socketio.on('search')
+    def handle_search(query):
+        servers = Server.query.filter(Server.name.op("~")(query)).all()
+        returnServers = [ server.to_dict() for server in servers ]
+        emit('search', returnServers, broadcast=True)
 
     @socketio.on('disconnect')
     def disconnection():

@@ -120,9 +120,11 @@ const Messages = ({ socket, channel, server }) => {
 
 	return (
 		<>
-			<div className="channel-header">
-				<h3 className="channel-header-text">{`${channel?.name}`}</h3>
-			</div>
+			{ channel && (
+				<div className="channel-header">
+					<h3 className="channel-header-text">{`${channel.name}`}</h3>
+				</div>
+			)}
 			<div className="messages-container">
 				<ul className="messages">
 					{messages &&
@@ -188,7 +190,7 @@ const Messages = ({ socket, channel, server }) => {
 						))}
 				</ul>
 			</div>
-			<form className="message-box" onSubmit={handleSubmit}>
+			<form className="messages-box" onSubmit={handleSubmit}>
 				<input
 					id="message-box"
 					type="text"
