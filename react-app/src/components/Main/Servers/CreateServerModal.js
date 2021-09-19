@@ -20,7 +20,6 @@ function CreateServerModal({ socket }) {
 	}, [allServers, socket]);
 
 	useEffect(()=> {
-		// dont use join this si for the video chat
 		socket.on('join', (serverJoin) => {
 			setJoinServer([...joinServer, serverJoin]);
 		});

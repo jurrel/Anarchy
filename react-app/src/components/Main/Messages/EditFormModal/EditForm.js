@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 function EditForm({ oldMessage, socket, setShowModal, messages, setMessages }) {
 	const [message, setMessage] = useState(oldMessage.message);

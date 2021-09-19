@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal } from '../../context/Modal/Modal';
 import PrivateMessage from './private-message';
