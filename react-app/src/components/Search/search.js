@@ -68,14 +68,14 @@ function Search({ socket, setServers, setShowModal, servers }) {
     return (
         <div id='search-modal'>
             <form onSubmit={handleSearch}>
-                <input value={value} onChange={(e) => {
+                <input id='search-bar' value={value} onChange={(e) => {
                     setValue(e.target.value);
                     socket.emit('search', value);
                 }} placeholder='Search Servers'></input>
             </form>
-            <ul>
+            <ul id='list'>
                 { results && results.map(result => (
-                    <li onClick={() => joinServer(result)} key={result.id}>
+                    <li className='list-item' onClick={() => joinServer(result)} key={result.id}>
                         <img src={result.imageUrl} alt='serve'></img>
                         <p>{result.name}</p>
                     </li>
