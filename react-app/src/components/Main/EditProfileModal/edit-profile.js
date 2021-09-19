@@ -17,16 +17,7 @@ function EditProfile({ setEditProfile, socket }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Stuff changed')
 
-        // const data = {
-        //     'username': username,
-        //     'email': email,
-        //     'password': password,
-        //     'file': file
-        // }
-
-        // socket.emit('edit_profile', data)
         const data = await dispatch(signUp(username, email, password, file))
         if (data) {
 				setErrors(data);

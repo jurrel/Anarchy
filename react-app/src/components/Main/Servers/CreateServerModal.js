@@ -10,7 +10,6 @@ function CreateServerModal({ socket }) {
 	const [imageUrl, setImageUrl] = useState('');
 	const [allServers, setAllServers] = useState(servers);
 	const [joinServer, setJoinServer] = useState(servers)
-	console.log('what is servers', servers)
 	useEffect(() => {
 		socket.on('new-server', (server) => {
 			setAllServers([...allServers, server]);
@@ -21,7 +20,6 @@ function CreateServerModal({ socket }) {
 	}, [allServers, socket]);
 
 	useEffect(()=> {
-		// dont use join this si for the video chat
 		socket.on('join', (serverJoin) => {
 			setJoinServer([...joinServer, serverJoin]);
 		});
@@ -38,7 +36,6 @@ function CreateServerModal({ socket }) {
 			owner_id: user.id,
 			imageUrl,
 		};
-		console.log(data);
 		socket.emit('new-server', data);
 		setShowModal(false);
 		return;
@@ -73,7 +70,7 @@ function CreateServerModal({ socket }) {
 						<div className="channel-modal-title">Customize your Server</div>
 						<div className="text-under-channel-modal">Give your server a personality! </div>
 						<div className="text-under-channel-modal">If it sucks... you can always change it</div>
-						
+
 						<div className="server-name-header">
 							<label className='create-server-name-input'>Server Name</label>
 							<input
@@ -83,7 +80,7 @@ function CreateServerModal({ socket }) {
 							></input>
 						</div>
 						{/* <input className="channel_photo_upload_modal" type="file" onChange={(e) => updateServerImage(e)}></input> */}
-						
+
 						<div className="server-name-header">
 							<label className='image-Url-input'>Image Url</label>
 							<input className="channel_photo_upload_modal"

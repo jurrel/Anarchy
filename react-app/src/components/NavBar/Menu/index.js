@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Modal } from '../../context/Modal/Modal';
 import Menu  from './menu-modal';
 import './menu.css';

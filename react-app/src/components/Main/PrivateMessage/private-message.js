@@ -21,7 +21,6 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
 
     const dateConverter = (dateStr) => {
 		const marker = new Date(dateStr).toLocaleTimeString().split(' ')[1];
-		// console.log(marker);
 		const timeStr = new Date(dateStr)
 			.toLocaleTimeString()
 			.split(':')
@@ -82,7 +81,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
 	};
 
     useEffect(() => {
-        
+
         const closeModal = (e) => {
             if (!e.target.closest('#private')) {
                 setShowModal(false)
@@ -96,7 +95,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
 
      function whatToDisplay(message) {
         if (message.channel_id === null && message.user_id === user.id) {
-            return (    
+            return (
                 <div key={message.id}>
                     <div className='message-info'>
                         <div className="image-container">
@@ -130,7 +129,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
                 </div>
             )
         } else if (message.channel_id === null && message.receiver_id === user.id) {
-            return (    
+            return (
                 <div key={message.id}>
                     <li className="message">
                         <div className='message-info'>
@@ -155,7 +154,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
 			<div id='messages-container' className="messages-container">
 				<ul className="messages">
                     {!messages.length && (<p>No messages yet!</p>)}
-					{messages && 
+					{messages &&
 						messages.map((message) => ( whatToDisplay(message, friend) ))}
 				</ul>
 			</div>

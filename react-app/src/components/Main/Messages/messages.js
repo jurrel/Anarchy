@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { io } from 'socket.io-client';
-import { useParams } from 'react-router';
 import EditFormModal from './EditFormModal';
 
 import './messages.css';
 
-const Messages = ({ socket, channel, server }) => {
+const Messages = ({ socket, channel, server}) => {
 	const [serverId, channelId] = [channel?.server_id, channel?.id];
 
 	const servers = useSelector((state) => state.session.servers);
@@ -16,7 +14,7 @@ const Messages = ({ socket, channel, server }) => {
 		channel
 			? channel.messages.sort(
 					(a, b) =>
-						new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+						a.id - b.id
 			  )
 			: []
 	);
@@ -24,7 +22,6 @@ const Messages = ({ socket, channel, server }) => {
 
 	const dateConverter = (dateStr) => {
 		const marker = new Date(dateStr).toLocaleTimeString().split(' ')[1];
-		// console.log(marker);
 		const timeStr = new Date(dateStr)
 			.toLocaleTimeString()
 			.split(':')
@@ -198,7 +195,6 @@ const Messages = ({ socket, channel, server }) => {
 					value={message}
 					onChange={updateMessage}
 				></input>
-				{/* <button type="submit">Send</button> */}
 			</form>
 		</>
 	);

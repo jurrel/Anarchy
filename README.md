@@ -2,6 +2,11 @@
 
 Anarchy is a full stack web application clone of Discord, it allows users to create servers where they can have group chats with anyone else who belongs to the server. They can also add friends for direct messaging or a quick video chat! Visit the live site here: [ANARCHY](https://anarchy-app.herokuapp.com "Anarchy").
 
+Talbe of Contents 
+1. [Technology Used](https://github.com/jurrel/Anarchy/blob/main/README.md#technology-used)
+2. [Local machine setup](https://github.com/jurrel/Anarchy#to-set-up-locally)
+3. [Screenshots](https://github.com/jurrel/Anarchy#screenshots)
+4. [Action](https://github.com/jurrel/Anarchy#in-action)
 ---
 
 ## Technology Used

@@ -172,6 +172,5 @@
 }
 .server_name_bottom_bar {
 	border-bottom: 1px solid gray;
-	/* transform: translate(-10%, -3850%); */
 	transform: translate(-10%, -5050%);
 }

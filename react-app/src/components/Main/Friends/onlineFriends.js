@@ -22,9 +22,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends, setOnlineFriends
 
 
     const ruinFriendship = (friend) => {
-        // console.log(friend)
         setFriends(friends.filter(online => online.id !== friend.id && online.isFriend))
-        // setOnlineFriends(onlineFriends.filter(online => online.id !== friend.id))
         socket.emit('ruin-friendship', friend)
     }
 

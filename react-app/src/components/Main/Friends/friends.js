@@ -1,4 +1,3 @@
-import { Route, Switch, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
@@ -48,7 +47,6 @@ function Friends({ socket }) {
 			const friend = friends.find((friend) => friend.id === userId);
 			const isOnline = onlineFriends.find(friend => friend.id === userId);
 			if (friend && friend.isFriend && !isOnline) {
-				// console.log(friend, userId);
 				setOnlineFriends([...onlineFriends, friend]);
 				setOfflineFriends(
 					friends.filter(
@@ -135,7 +133,6 @@ function Friends({ socket }) {
 	useEffect(() => {
 
 		socket.on('ruin-friendship', (friend) => {
-			// console.log('WUT', friend.friend_id);
 
 			setFriends(friends.filter(frand => frand.id !== friend.id));
 	

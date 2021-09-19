@@ -11,7 +11,6 @@ function Search({ socket, setServers, setShowModal, servers }) {
     useEffect(() => {
 
         socket.on('search', results => {
-            console.log(results)
             if (!value) {
                 setResults('');
             } else {
@@ -23,7 +22,7 @@ function Search({ socket, setServers, setShowModal, servers }) {
     }, [socket, value])
 
     useEffect(() => {
-        
+
         const closeModal = (e) => {
             if (!e.target.closest('#search-modal')) {
                 setShowModal(false)
@@ -38,11 +37,8 @@ function Search({ socket, setServers, setShowModal, servers }) {
 
         socket.on('join-server', result => {
             const server = servers.filter(server => server.id === result.id);
-            console.log(result, result['join-user'], user.id, server)
             if (!server.length && result['join-user'] === user.id) {
                 setServers([ ...servers, result ])
-            } else {
-                console.log('its working!')
             }
         } )
 
@@ -56,7 +52,6 @@ function Search({ socket, setServers, setShowModal, servers }) {
     }
 
     const joinServer = (result) => {
-        console.log(result)
         const data = {
             'user_id': user.id,
             'server_id': result.id

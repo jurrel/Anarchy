@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import * as sessionActions from '../../../../store/session';
-import { useDispatch } from 'react-redux';
 
 function EditForm({ oldMessage, socket, setShowModal, messages, setMessages }) {
-	const dispatch = useDispatch();
 	const [message, setMessage] = useState(oldMessage.message);
 
 	const handleSubmit = (e) => {
@@ -33,7 +30,7 @@ function EditForm({ oldMessage, socket, setShowModal, messages, setMessages }) {
 		setMessages(
 			[...newMessages, prevMessage].sort(
 				(a, b) =>
-					new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+					a.id - b.id
 			)
 		);
 
