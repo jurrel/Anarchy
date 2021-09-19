@@ -18,8 +18,9 @@ function Servers({ socket }) {
 
 	const [selectedServer, setServer] = useState('');
 	const [servers, setServers] = useState(serverState);
+	const [createServer, setCreateServer] = useState(false);
 
-	return (
+	return ( 
         <div className="side_bar_main">
             <div className="align_the_side_bar">
                 <>
@@ -81,7 +82,7 @@ function Servers({ socket }) {
 								</div>
 							</div>
 						))}
-					</>
+				</>
 			</div>
 		</div>
 	);
