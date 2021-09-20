@@ -1,6 +1,6 @@
 from app.forms.signup_form import EditForm
 from operator import or_
-from flask import Blueprint, jsonify, session, request
+from flask import Blueprint, request
 from app.models import User, db, Channel, Server, Message, Role, ServerUser, UserRoles, Friend
 from app.forms import LoginForm
 from app.forms import SignUpForm
@@ -37,13 +37,6 @@ def authenticate():
     if current_user.is_authenticated:
 
         user = User.query.get(current_user.id)
-        # User.query.filter(User.id == current_user.id).update({'online': True})
-        # user.online = True
-        # db.session.add(user)
-        # db.session.commit()
-        # db.session.merge(user)
-        # db.session.add(user)
-        # db.session.commit()
 
         server_users = ServerUser.query.filter(current_user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
@@ -82,7 +75,6 @@ def authenticate():
         friends = Friend.query.filter(or_(Friend.sender_id == user.id, Friend.receiver_id == user.id)).all()
         users_list = User.query.filter(User.id != user.id).all()
         private_messages = Message.query.filter(Message.channel_id == None).all()
-        print('MESSAGES LENGTH',len(private_messages))
         users = [ people.to_dict() for people in users_list ]
         friends_list = []
 
@@ -95,20 +87,14 @@ def authenticate():
                     dude['receiver_id'] = friend.receiver_id
                     dude['friend_id'] = friend.id
             for text in private_messages:
-                if dude['id'] == text.user_id or dude['id'] == text.receiver_id:
+                if dude['id'] == text.user_id:
                     dude['messages'].append(text.to_dict())
-                    print('TEXT MESSAGE')
-                if friend.id == text.receiver_id:
+                elif dude['id'] == text.receiver_id:
                     dude['messages'].append(text.to_dict())
-                    print('TEXT MESSAGE')
             friends_list.append(dude)  
 
 
         data['friends'] = friends_list
-        #  and user['id'] != current_user.id
-        # db.session.add(user)
-        # db.session.commit()
-        # db.session.commit()
 
         return data
     return {'errors': ['Unauthorized']}
@@ -126,13 +112,6 @@ def login():
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
-        # user.online = True
-        # db.session.add(user)
-        # db.session.commit()
-        # db.session.merge(user)
-        # db.session.add(user)
-        # db.session.commit()
-        # login_user(user)
 
         server_users = ServerUser.query.filter(user.id == ServerUser.user_id).all()
         servers = [ Server.query.get(server.server_id) for server in server_users ]
@@ -184,40 +163,17 @@ def login():
             for text in private_messages:
                 if dude['id'] == text.user_id or dude['id'] == text.receiver_id:
                     dude['messages'].append(text.to_dict())
-                    print('TEXT MESSAGE')
-                if friend.id == text.receiver_id:
+                elif friend.id == text.receiver_id:
                     dude['messages'].append(text.to_dict())
-                    print('TEXT MESSAGE')
             friends_list.append(dude)       
 
         data['friends'] = friends_list
-        # db.session.add(user)
-        # db.session.commit()
+
         login_user(user)
         emit('online', current_user.id, broadcast=True, namespace='/')
 
         return data
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-
-
-# @auth_routes.route('/edit', methods=['POST'])
-# def edit():
-
-#     data = request.get_json()
-#     print('IS THIS HITTING', data)
-#     file = None
-#     if len(request.files) > 0:
-#         file = request.files["file"]
-#         file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
-
-
-#         if file:
-#             file_url = upload_file_to_s3(file, Config.S3_BUCKET)
-#         else:
-#             file_url = 'https://anarchybucket.s3.us-east-2.amazonaws.com/default.png'
-
-#         print('success')
-#     return {'message': 'success'}
 
 
 @auth_routes.route('/logout')
@@ -226,9 +182,8 @@ def logout():
     Logs a user out
     """
     user = User.query.get(current_user.id)
-    # User.query.filter(User.id == user.id).update({'online': False})
     user.online = False
-    # db.session.merge(user)
+    
     db.session.commit()
     logout_user()
     emit('log-out', user.to_dict(), broadcast=True, namespace='/')
@@ -284,7 +239,6 @@ def sign_up():
             login_user(user)
             return data
     else :
-        print("ELLSSSEEEE IS WORKING")
         form = EditForm()
         form['csrf_token'].data = request.cookies['csrf_token']
         if form.validate_on_submit():

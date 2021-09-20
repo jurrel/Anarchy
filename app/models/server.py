@@ -12,10 +12,8 @@ class Server(db.Model):
 
     roles = db.relationship("Role", back_populates="server")
     channels = db.relationship("Channel", back_populates="server")
-    user = db.relationship("User", secondary='server_users', back_populates="servers") # not sure about this association
-    # NOT SURE ABOUT THE SERVERS/USERS RELATIONSHIP SINCE SERVER
-    #servers table is directly connected to users table
-    owner = db.relationship("User", back_populates="server") #NOT SURE ABOUT THIS
+    user = db.relationship("User", secondary='server_users', back_populates="servers")
+    owner = db.relationship("User", back_populates="server") 
 
 
     def to_dict(self): 

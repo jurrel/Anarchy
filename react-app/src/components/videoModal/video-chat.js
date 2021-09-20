@@ -5,10 +5,12 @@ import Peer from 'peerjs';
 import './video.css';
 
 const myPeer = new Peer(undefined, {
-      host: 'localhost',
+      host: 'anarchy-app.herokuapp.com',
       port: 9000,
       path: '/myapp'
 });
+
+// const myPeer = new Peer(undefined); FOR DEPLOYMENT
 
 
 function VideoChat({setShowModal, socket, setCall}) {

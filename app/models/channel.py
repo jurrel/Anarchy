@@ -20,5 +20,5 @@ class Channel(db.Model):
             'name': self.name,
             'type': self.type,
             'server_id': self.server_id,
-            'createdAt': self.createdAt,
+            'createdAt': self.createdAt.strftime("%Y/%m/%d %H:%M:%S"),
         }

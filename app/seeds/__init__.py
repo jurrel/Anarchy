@@ -9,8 +9,7 @@ from .user_roles import seed_user_roles, undo_user_roles
 from .messages import seed_messages, undo_messages
 from .friends import seed_friends, undo_friends
 
-# Creates a seed group to hold our commands
-# So we can type `flask seed --help`
+
 seed_commands = AppGroup('seed')
 
 
