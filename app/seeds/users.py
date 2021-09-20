@@ -14,13 +14,13 @@ def seed_users():
     bobbie = User(
         username='bobbie', email='bobbie@aa.io', profile_picture=default_picture, password='password', createdAt=now)
     sean = User(
-        username='sean', email='sean@aa.io', profile_picture=default_picture, password='password', createdAt=now
+        username='sean', email='sean@aa.io', profile_picture='https://avatars.githubusercontent.com/u/80602015?v=4', password='password', createdAt=now
     )
     gerryl = User(
-        username='gerryl', email='gerryl@aa.io', profile_picture=default_picture, password='password', createdAt=now
+        username='gerryl', email='gerryl@aa.io', profile_picture='https://avatars.githubusercontent.com/u/41484889?v=4', password='password', createdAt=now
     )
     walker = User(
-        username='walker', email='walker@aa.io', profile_picture=default_picture, password='password', createdAt=now
+        username='walker', email='walker@aa.io', profile_picture='https://avatars.githubusercontent.com/u/33130575?v=4', password='password', createdAt=now
     )
 
     db.session.add(demo)

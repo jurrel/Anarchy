@@ -126,7 +126,7 @@ const Messages = ({ socket, channel, server}) => {
 					{messages &&
 						messages.map((message) => (
 							<div key={message.id}>
-								<li className="message" key={message.id}>
+								<li className="message">
 									<div className="message-info">
 										<div className="image-container">
 											<img

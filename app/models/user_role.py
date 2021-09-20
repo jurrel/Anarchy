@@ -1,12 +1,6 @@
 from .db import db
 
 
-# user_roles = db.Table(
-#     'user_roles', # name of table
-#     db.Column('role_id', db.Integer, db.ForeignKey('roles.id')),
-#     db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
-# )
-
 class UserRoles(db.Model):
     __tablename__ = 'user_roles'
 
@@ -15,5 +9,10 @@ class UserRoles(db.Model):
     user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
    
   
-    
+    def to_dict():
+        return {
+            'id': self.id,
+            'role_id': self.role_id,
+            'user_id': self.user_id
+        }
 

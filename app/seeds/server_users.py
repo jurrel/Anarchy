@@ -55,7 +55,80 @@ def seed_server_users():
   welcome5 = ServerUser(
     user_id=6, server_id=1
   )
-
+  user1 = ServerUser(
+    user_id=1, server_id=4
+  )
+  user2 = ServerUser(
+    user_id=2, server_id=4
+  )
+  user3 = ServerUser(
+    user_id=3, server_id=4
+  )
+  user4 = ServerUser(
+    user_id=4, server_id=4
+  )
+  user5 = ServerUser(
+    user_id=5, server_id=4
+  )
+  user6 = ServerUser(
+    user_id=6, server_id=4
+  )
+  user7 = ServerUser(
+    user_id=1, server_id=5
+  )
+  user8 = ServerUser(
+    user_id=2, server_id=5
+  )
+  user9 = ServerUser(
+    user_id=3, server_id=5
+  )
+  user10 = ServerUser(
+    user_id=4, server_id=5
+  )
+  user11 = ServerUser(
+    user_id=5, server_id=5
+  )
+  user12 = ServerUser(
+    user_id=6, server_id=5
+  )
+  user13 = ServerUser(
+    user_id=1, server_id=6
+  )
+  user14 = ServerUser(
+    user_id=2, server_id=6
+  )
+  user15 = ServerUser(
+    user_id=3, server_id=6
+  )
+  user16 = ServerUser(
+    user_id=4, server_id=6
+  )
+  user17 = ServerUser(
+    user_id=5, server_id=6
+  )
+  user18 = ServerUser(
+    user_id=6, server_id=6
+  )
+  user19 = ServerUser(
+    user_id=1, server_id=7
+  )
+  user20 = ServerUser(
+    user_id=2, server_id=7
+  )
+  user21 = ServerUser(
+    user_id=3, server_id=7
+  )
+  user22 = ServerUser(
+    user_id=4, server_id=7
+  )
+  user23 = ServerUser(
+    user_id=5, server_id=7
+  )
+  user24 = ServerUser(
+    user_id=6, server_id=7
+  )
+  
+  
   db.session.add(demoMain)
   db.session.add(one)
   db.session.add(two)

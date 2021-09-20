@@ -13,12 +13,14 @@ function PrivateMessageModal({ socket, friend }) {
 
   useEffect(() => {
     socket.on('private-message', (message) => {
-            setMessages([...messages, message]);
-      setUnread(true);
+      setMessages([...messages, message]);
+      if (message.user_id === friend.id) {
+        setUnread(true);
+      }
     });
 
   return () => socket.off('private-message');
-}, [messages, setUnread, socket]);
+}, [friend.id, messages, setUnread, socket]);
 
 
 

@@ -6,7 +6,6 @@ from random import randint
 from app.config import Config
 from sqlalchemy import or_
 
-# from flask_login import current_user
 
 from .models import db, User, Message, Server, Channel, Friend, UserRoles, Role
 
@@ -14,8 +13,8 @@ from .models import db, User, Message, Server, Channel, Friend, UserRoles, Role
 # create your SocketIO instance
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
-        "http://anarchy.herokuapp.com",
-        "https://anarchy.herokuapp.com"
+        "http://anarchy-app.herokuapp.com",
+        "https://anarchy-app.herokuapp.com"
     ]
 else:
     origins = "*"
@@ -31,7 +30,6 @@ now = datetime.now()
 
 @socketio.on('connect')
 def connection():
-    print('Connection success!')
 
     @socketio.on('online')
     def login(userId):
@@ -66,8 +64,6 @@ def connection():
 
         db.session.delete(goodbye)
         db.session.commit()
-        print(friend)
-
 
         emit('deny-friend', friend, broadcast=True)
         return None
@@ -142,10 +138,7 @@ def connection():
     @socketio.on('new-server')
     def new_server(data):
         default_picture = 'https://mymusicdb.s3.us-east-2.amazonaws.com/anarchy/profiles/default.png'
-        print('this is data ooom', data['imageUrl'])
         if len(data['imageUrl']):
-            # file = data['file']
-            # file.filename = f'{file.filename}{randint(0, 1000000000000000000)}'
             server = Server(
                 name=data['name'],
                 owner_id=data['owner_id'],
@@ -203,9 +196,7 @@ def connection():
                             break
             emit('join-server', server)
         else:
-            print('ALREADY EXISTS')
-
-        return None 
+            pass 
 
     @socketio.on('delete-server')
     def delete_server(id):
@@ -247,7 +238,6 @@ def connection():
 
     @socketio.on('message')
     def handleMessage(msg):
-        print('MESSAGE')
         message = Message(
                 message = msg['message'],
                 user_id = msg['user_id'],
@@ -264,7 +254,6 @@ def connection():
 
     @socketio.on('edit-message')
     def editMessage(msg):
-        print(f'MSSSSSG{msg}')
         message = Message.query.get(msg['id'])
         message.message = msg['message']
         message.updatedAt = datetime.now()
@@ -274,7 +263,6 @@ def connection():
 
     @socketio.on('del-message')
     def handleDeleteMessage(msgId):
-        print('DELETE')
         message = Message.query.get(msgId)
         db.session.delete(message)
         db.session.commit()
@@ -304,34 +292,28 @@ def connection():
 
     @socketio.on('edit_profile')
     def edit_profile(data):
-        print(data, 'DATAAAAA')
         pass
 
     @socketio.on('user-connected')
     def new_connection(serverId, senderId):
-        print('NEW CONNECTION')
         return None
 
     @socketio.on('call')
     def broadcast_call(friend):
-        print('CALL HAPPENING')
         emit('call', friend, broadcast=True)
         return None
 
     @socketio.on('answer')
     def answer_call(friend):
-        print('ANSWERING CALL')
         emit('answer', broadcast=True, include_self=False)
 
     @socketio.on('join')
     def room(peerId):
-        print('JOINING')
         emit('join', peerId, broadcast=True, include_self=False)
         return None
 
     @socketio.on('hang_up')
     def hang_up(peerId):
-        print('LEAVING', peerId)
         emit('hang_up', peerId, broadcast=True)
         return None
 
@@ -343,6 +325,4 @@ def connection():
 
     @socketio.on('disconnect')
     def disconnection():
-        print('Terminated connection')
-        # emit('log-out', broadcast=True)
         return None
