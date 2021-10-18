@@ -9,9 +9,9 @@ import Friends from './Friends/friends';
 import Servers from './Servers/servers';
 import MenuModal from './Menu';
 
-let endPoint = 'http://127.0.0.1:5000/';
+let endPoint = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:5000/';
 
-let socket = io.connect(`${endPoint}`);
+let socket = process.env.NODE_ENV === 'production' ? io() : io.connect(`${endPoint}`);
 
 // let socket = io(); FOR DEPLOYMENT
 
