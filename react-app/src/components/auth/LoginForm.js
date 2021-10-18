@@ -35,25 +35,33 @@ const LoginForm = () => {
 
   return (
     <form className='log-form' onSubmit={onLogin}>
-        {errors.map((error, ind) => (
+        {/* {errors.map((error, ind) => (
           <div key={ind}>{error}</div>
-        ))}
+        ))} */}
         <label htmlFor='email'>Email</label>
         <input
           name='email'
-          type='text'
+          type='email'
+          required
           placeholder='Email'
           value={email}
           onChange={updateEmail}
         />
+        {errors.map((error, ind) => (
+          <div className='error' key={ind}>{error.includes('email') ? error.split(':')[1] : ''}</div>
+        ))}
         <label htmlFor='password'>Password</label>
         <input
           name='password'
           type='password'
+          required
           placeholder='Password'
           value={password}
           onChange={updatePassword}
         />
+        {errors.map((error, ind) => (
+          <div className='error' key={ind}>{error.includes('password') ? error.split(':')[1] : ''}</div>
+        ))}
         <button type='submit'>Submit</button>
     </form>
   );

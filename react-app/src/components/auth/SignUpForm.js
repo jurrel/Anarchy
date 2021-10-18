@@ -15,11 +15,14 @@ const SignUpForm = () => {
 
 	const onSignUp = async (e) => {
 		e.preventDefault();
+		console.log('sign up')
 		if (password === repeatPassword) {
 			const data = await dispatch(signUp(username, email, password, file));
 			if (data) {
 				setErrors(data);
 			}
+		} else if (password !== repeatPassword) {
+			setErrors(['password : Your passwords do not match.'])
 		}
 	};
 
@@ -49,46 +52,55 @@ const SignUpForm = () => {
 
 	return (
 		<form className="log-form" onSubmit={onSignUp}>
-			<div>
-				{errors.map((error, ind) => (
-					<div key={ind}>{error}</div>
-				))}
-			</div>
 			<label>User Name</label>
 			<input
 				type="text"
 				name="username"
+				required 
 				onChange={updateUsername}
 				value={username}
 			></input>
+			{errors.map((error, ind) => (
+				<div className='error' key={ind}>{error.includes('username') ? error.split(':')[1] : ''}</div>
+			))}
 			<label>Email</label>
 			<input
-				type="text"
+				type="email"
+				required
 				name="email"
 				onChange={updateEmail}
 				value={email}
 			></input>
+			{errors.map((error, ind) => (
+				<div className='error' key={ind}>{error.includes('email') ? error.split(':')[1] : ''}</div>
+			))}
 			<label>Password</label>
 			<input
 				type="password"
+				required
 				name="password"
 				onChange={updatePassword}
 				value={password}
 			></input>
+			{errors.map((error, ind) => (
+				<div className='error' key={ind}>{error.includes('password') ? error.split(':')[1] : ''}</div>
+			))}
 			<label>Repeat Password</label>
 			<input
 				type="password"
 				name="repeat_password"
+				required 
 				onChange={updateRepeatPassword}
 				value={repeatPassword}
-				required={true}
 			></input>
+			{errors.map((error, ind) => (
+				<div className='error' key={ind}>{error.includes('password') ? error.split(':')[1] : ''}</div>
+			))}
 			<label>Profile Picture</label>
 			<input
 				type="file"
 				name="file"
 				onChange={updateFile}
-				required={false}
 			></input>
 			<button type="submit">Sign Up</button>
 		</form>

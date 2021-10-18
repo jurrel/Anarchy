@@ -15,6 +15,10 @@ function Servers({ socket }) {
 	const [selectedServer, setServer] = useState('');
 	const [servers, setServers] = useState(serverState);
 
+	const homeClick = () => {
+		console.log('home')
+	}
+
 	return ( 
         <div className="side_bar_main">
             <div className="align_the_side_bar">
@@ -27,7 +31,7 @@ function Servers({ socket }) {
                         }
                         onClick={(e) => setServer('')}
                     >
-                        <div className="home-icon">
+                        <div onClick={homeClick} className="home-icon">
                             <i className="fas fa-home fa-2x" />
                         </div>
                     </div>
