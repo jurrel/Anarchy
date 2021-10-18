@@ -55,7 +55,7 @@ const Messages = ({ socket, channel, server}) => {
 			}
 		});
 
-		return () => socket.off('message');
+		// return () => socket.off('message');
 	}, [channel?.id, messages, messages.length, socket]);
 
 	useEffect(() => {

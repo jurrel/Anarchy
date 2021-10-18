@@ -27,8 +27,8 @@
 	flex: 1;
 }
 .server_name_header {
-	flex: 1;
-	font-size: 50px;
+	/* flex: 1; */
+	font-size: 3em;
 	z-index: 2;
 	height: 70px;
 	transform: translate(10%, -65%);
@@ -117,7 +117,9 @@
   margin-left: 40px;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
 
 .create-server-name-input{
 	color: #87909c;

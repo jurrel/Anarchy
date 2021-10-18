@@ -29,7 +29,7 @@ function VideoModal({ serverId, socket, friend, setCall, call }) {
       setShowModal(true);
     })
 
-    return () => socket.off()
+    // return () => socket.off()
   })
 
 

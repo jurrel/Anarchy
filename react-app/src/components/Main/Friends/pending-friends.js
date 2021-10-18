@@ -8,17 +8,17 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
 
     useEffect(() => {
 
-        socket.on('search-friend', results => {
-
+        socket.on('search-for-friend', results => {
             if (!value) {
                 setResults('');
             } else {
                 setResults(results);
             }
         })
+        console.log(results)
 
-        return () => socket.off('search-friend')
-    }, [setResults, socket, value])
+        // return () => socket.off('search-for-friend')
+    }, [results, setResults, socket, value])
 
 
     const addFriend = (result) => {
@@ -44,6 +44,7 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
 
     const handleSearch = (e) => {
         e.preventDefault();
+        console.log(value)
 
         socket.emit('search', value);
     }
@@ -54,12 +55,12 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
             <div id='friend-search'>
             <form onSubmit={handleSearch}>
                 <input id='search-bar' value={value} onChange={(e) => {
+                    socket.emit('search-friend', e.target.value);
                     setValue(e.target.value);
-                    socket.emit('search-friend', value);
                 }} placeholder='Add friends'></input>
             </form>
             <ul id='list'>
-                { results && results.filter(result => !friendIds.includes(result.sender_id) && !friendIds.includes(result.receiver_id)).map(result => (
+                { results && results.map(result => (
                     <li className='list-item' onClick={() => addFriend(result)} key={result.id}>
                         <img src={result.profile_picture} alt='serve'></img>
                         <p>{result.username}</p>

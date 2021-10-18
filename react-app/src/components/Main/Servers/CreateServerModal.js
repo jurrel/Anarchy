@@ -41,7 +41,7 @@ function CreateServerModal({ socket }) {
 		return;
 	};
 
-	const handleCancle = async (e) => {
+	const handleCancel = async (e) => {
 		e.preventDefault();
 		setShowModal(false);
 		return;
@@ -75,6 +75,8 @@ function CreateServerModal({ socket }) {
 							<input
 								type="text"
 								placeholder="Server name"
+								required
+								autoComplete="off"
 								onChange={(e) => updateServerName(e)}
 							></input>
 						</div>
@@ -85,10 +87,11 @@ function CreateServerModal({ socket }) {
                             type="text"
                             placeholder="Image Url here.."
                             value={imageUrl}
+							required 
                             onChange={updateServerImage} />
 						</div>
 						<div>
-							<button className="cancel_button" type="button" onClick={handleCancle}>
+							<button className="cancel_button" type="button" onClick={handleCancel}>
 								Cancel
 							</button>
 							<button className="create_button" type="submit">Create</button>

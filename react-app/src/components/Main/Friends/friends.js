@@ -59,7 +59,7 @@ function Friends({ socket }) {
 			}
 		});
 
-		return () => socket.off('online');
+		// return () => socket.off('online');
 	}, [friends, onlineFriends, socket])
 
 	useEffect(() => {
@@ -93,7 +93,7 @@ function Friends({ socket }) {
 			}
 		});
 
-		return () => socket.off('confirm-friend')
+		// return () => socket.off('confirm-friend')
 	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id])
 
 	useEffect(() => {
@@ -109,7 +109,7 @@ function Friends({ socket }) {
 			}
 		});
 
-		return () => socket.off('deny-friend');
+		// return () => socket.off('deny-friend');
 	}, [pendingFriends, socket])
 
 	useEffect(() => {
@@ -126,7 +126,7 @@ function Friends({ socket }) {
 			}
 		});
 
-		return () => socket.off('log-out');
+		// return () => socket.off('log-out');
 	}, [offlineFriends, onlineFriends, socket])
 
 
@@ -155,7 +155,7 @@ function Friends({ socket }) {
 			}
 		});
 	
-		return () => socket.off('ruin-friendship');
+		// return () => socket.off('ruin-friendship');
 	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]);
 
 	useEffect(() => {
@@ -172,7 +172,7 @@ function Friends({ socket }) {
             }, 2000)
         })
 
-        return () => socket.off('add-friend')
+        // return () => socket.off('add-friend')
     }, [friendAdded, pendingFriends, setPendingFriends, socket, user.id])
 
 

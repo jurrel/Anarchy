@@ -132,7 +132,7 @@ function VideoChat({setShowModal, socket, setCall}) {
         }
 
 
-        return () => socket.off('hang_up');
+        // return () => socket.off('hang_up');
 
     }, [members, setCall, setShowModal, socket, user.id])
 

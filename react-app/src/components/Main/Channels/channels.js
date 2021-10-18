@@ -9,7 +9,7 @@ const Channels = ({ channels, server, socket }) => {
 	return (
 		<>
 			<div className="server_name_header">
-				<p>{server.name}</p>
+				<p id='server_name_tag'>{server.name}</p>
 				<div className="server_name_bottom_bar"></div>
 			</div>
 			{channels?.map((channel) => (

@@ -18,7 +18,7 @@ function Search({ socket, setServers, setShowModal, servers }) {
             }
         })
 
-        return () => socket.off('search')
+        // return () => socket.off('search')
     }, [socket, value])
 
     useEffect(() => {
@@ -42,7 +42,7 @@ function Search({ socket, setServers, setShowModal, servers }) {
             }
         } )
 
-        return () => socket.off('join-server')
+        // return () => socket.off('join-server')
     }, [servers, setServers, socket, user])
 
     const handleSearch = (e) => {
