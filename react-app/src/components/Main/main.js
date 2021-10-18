@@ -2,6 +2,7 @@ import './main.css';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
+import { Redirect } from 'react-router-dom';
 
 
 import './main.css';
@@ -27,6 +28,11 @@ function Main() {
 		socket.emit('online', user.id);
 	});
 
+    useEffect(() => {
+        if (!user) {
+            Redirect('/about')
+        }
+    })
     
 
 	return (

@@ -18,12 +18,19 @@ html,
 }
 
 #modal {
+	
 }
 
 #modal-background {
 }
 
 #modal-content {
+}
+
+#modal-content > .home {
+	position: absolute;
+	margin: 0 auto;
+	
 }
 
 .friends-nav {

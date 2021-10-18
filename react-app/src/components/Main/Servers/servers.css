@@ -50,6 +50,10 @@
 	padding-bottom: 5px;
 }
 
+.home-icon > i {
+	color: white;
+}
+
 .home-icon,
 .plus-icon {
 	align-items: center;
@@ -177,3 +181,5 @@
 	border-bottom: 1px solid gray;
 	transform: translate(-10%, -5050%);
 }
+
+

@@ -4,6 +4,8 @@ import Channels from '../Channels/channels';
 import './servers.css';
 import CreateServerModal from './CreateServerModal';
 import SearchModal from '../../Search';
+import Home from '../../HomePage/home';
+import HomeModal from '../../HomePage/homemodal';
 
 
 function Servers({ socket }) {
@@ -15,15 +17,11 @@ function Servers({ socket }) {
 	const [selectedServer, setServer] = useState('');
 	const [servers, setServers] = useState(serverState);
 
-	const homeClick = () => {
-		console.log('home')
-	}
 
 	return ( 
         <div className="side_bar_main">
             <div className="align_the_side_bar">
                 <>
-				
                     <div
                         className={
                             'server-icon home-icon-container ' +
@@ -31,8 +29,8 @@ function Servers({ socket }) {
                         }
                         onClick={(e) => setServer('')}
                     >
-                        <div onClick={homeClick} className="home-icon">
-                            <i className="fas fa-home fa-2x" />
+                        <div className="home-icon">
+                            <HomeModal />
                         </div>
                     </div>
 					<div id='search' className='server-icon'>
@@ -59,7 +57,7 @@ function Servers({ socket }) {
 										/>
 									</div>
 								</div>
-								<div className="channel_list">
+								<div className={selectedServer ? "channel_list" : 'hidden'}>
 									{selectedServer && (
 										<Channels
 											server={selectedServer}
@@ -70,6 +68,7 @@ function Servers({ socket }) {
 								</div>
 							</div>
 						))}
+						
 				</>
 			</div>
 		</div>
