@@ -62,7 +62,7 @@ function Search({ socket, setServers, setShowModal, servers }) {
 
     return (
         <div id='search-modal'>
-            <form onSubmit={handleSearch}>
+            <form autoComplete='off' onSubmit={handleSearch}>
                 <input id='search-bar' value={value} onChange={(e) => {
                     setValue(e.target.value);
                     socket.emit('search', value);

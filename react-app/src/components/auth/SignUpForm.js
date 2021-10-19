@@ -51,7 +51,7 @@ const SignUpForm = () => {
   	}
 
 	return (
-		<form className="log-form" onSubmit={onSignUp}>
+		<form autoComplete='off' className="log-form" onSubmit={onSignUp}>
 			<label>User Name</label>
 			<input
 				type="text"

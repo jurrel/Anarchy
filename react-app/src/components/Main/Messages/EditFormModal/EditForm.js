@@ -40,7 +40,7 @@ function EditForm({ oldMessage, socket, setShowModal, messages, setMessages }) {
 	};
 
 	return (
-		<form className="edit-form" onSubmit={handleSubmit}>
+		<form autoComplete='off' className="edit-form" onSubmit={handleSubmit}>
 			<label>
 				Message
 				<input

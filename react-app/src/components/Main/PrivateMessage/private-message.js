@@ -158,7 +158,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
 						messages.map((message) => ( whatToDisplay(message, friend) ))}
 				</ul>
 			</div>
-			<form id='messages-box' onSubmit={handleSubmit}>
+			<form autoComplete='off' id='messages-box' onSubmit={handleSubmit}>
 				<input
 					id="private-box"
 					type="text"

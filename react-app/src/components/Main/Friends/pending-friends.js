@@ -53,7 +53,7 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
     return (
         <div className='friends'>
             <div id='friend-search'>
-            <form onSubmit={handleSearch}>
+            <form autoComplete='off' onSubmit={handleSearch}>
                 <input id='search-bar' value={value} onChange={(e) => {
                     socket.emit('search-friend', e.target.value);
                     setValue(e.target.value);

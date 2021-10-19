@@ -55,7 +55,7 @@ const Messages = ({ socket, channel, server}) => {
 			}
 		});
 
-		// return () => socket.off('message');
+		return () => socket.off('message');
 	}, [channel?.id, messages, messages.length, socket]);
 
 	useEffect(() => {
@@ -186,7 +186,7 @@ const Messages = ({ socket, channel, server}) => {
 						))}
 				</ul>
 			</div>
-			<form className="messages-box" onSubmit={handleSubmit}>
+			<form autoComplete='off' className="messages-box" onSubmit={handleSubmit}>
 				<input
 					id="message-box"
 					type="text"

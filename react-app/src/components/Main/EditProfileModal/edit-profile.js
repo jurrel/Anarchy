@@ -29,7 +29,7 @@ function EditProfile({ setEditProfile, socket }) {
     return (
         <>
             <button id='close-settings' onClick={() => setEditProfile(false)}><i className="fas fa-times fa-2x"/></button>
-            <form id='edit-profile' onSubmit={handleSubmit}>
+            <form autoComplete='off' id='edit-profile' onSubmit={handleSubmit}>
                 <div>
                     {errors.map((error, ind) => (
                         <div key={ind}>{error}</div>

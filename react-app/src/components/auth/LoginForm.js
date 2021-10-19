@@ -34,7 +34,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form className='log-form' onSubmit={onLogin}>
+    <form autoComplete='off' className='log-form' onSubmit={onLogin}>
         {/* {errors.map((error, ind) => (
           <div key={ind}>{error}</div>
         ))} */}

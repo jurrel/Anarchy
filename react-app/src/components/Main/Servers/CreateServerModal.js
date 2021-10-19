@@ -63,6 +63,7 @@ function CreateServerModal({ socket }) {
 			{showModal && (
 				<Modal onClose={() => setShowModal(false)}>
 					<form
+						autoComplete='off'
 						className="create-channel-modal"
 						onSubmit={(e) => handleCreateServer(e)}
 					>
