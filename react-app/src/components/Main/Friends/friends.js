@@ -59,7 +59,7 @@ function Friends({ socket }) {
 			}
 		});
 
-		// return () => socket.off('online');
+		return () => socket.off('online');
 	}, [friends, onlineFriends, socket])
 
 	useEffect(() => {
@@ -93,7 +93,7 @@ function Friends({ socket }) {
 			}
 		});
 
-		// return () => socket.off('confirm-friend')
+		return () => socket.off('confirm-friend')
 	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id])
 
 	useEffect(() => {
@@ -109,7 +109,7 @@ function Friends({ socket }) {
 			}
 		});
 
-		// return () => socket.off('deny-friend');
+		return () => socket.off('deny-friend');
 	}, [pendingFriends, socket])
 
 	useEffect(() => {
@@ -126,36 +126,23 @@ function Friends({ socket }) {
 			}
 		});
 
-		// return () => socket.off('log-out');
+		return () => socket.off('log-out');
 	}, [offlineFriends, onlineFriends, socket])
 
 
 	useEffect(() => {
 
 		socket.on('ruin-friendship', (friend) => {
-
-			setFriends(friends.filter(frand => frand.id !== friend.id));
+			setFriends(friends.filter(frand => frand.id !== friend.id && frand.id !== friend.user_id));
 	
 			if (friend.online) {
-				setOnlineFriends(
-					friends.filter(
-						(remaining) =>
-							remaining.friend_id !== friend.friend_id &&
-							remaining.id !== friend.id
-					)
-				);
+				setOnlineFriends(onlineFriends.filter(frand => frand.id !== friend.id && frand.id !== friend.user_id));
 			} else {
-				setOfflineFriends(
-					friends.filter(
-						(remaining) =>
-							remaining.friend_id !== friend.friend_id &&
-							remaining.id !== friend.id
-					)
-				);
+				setOfflineFriends(offlineFriends.filter(frand => frand.id !== friend.id && frand.id !== friend.user_id))
 			}
 		});
 	
-		// return () => socket.off('ruin-friendship');
+		return () => socket.off('ruin-friendship');
 	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]);
 
 	useEffect(() => {
@@ -172,7 +159,7 @@ function Friends({ socket }) {
             }, 2000)
         })
 
-        // return () => socket.off('add-friend')
+        return () => socket.off('add-friend')
     }, [friendAdded, pendingFriends, setPendingFriends, socket, user.id])
 
 

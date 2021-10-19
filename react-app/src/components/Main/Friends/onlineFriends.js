@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import VideoModal from "../../videoModal";
 import PrivateMessageModal from '../PrivateMessage';
 
 function OnlineFriends({ socket, onlineFriends, offlineFriends, setOnlineFriends, friends, setFriends }) {
+
+    const user = useSelector( state => state.session.user);
 
     const [call, setCall] = useState(false);
 
@@ -22,7 +25,8 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends, setOnlineFriends
 
 
     const ruinFriendship = (friend) => {
-        setFriends(friends.filter(online => online.id !== friend.id && online.isFriend))
+        // setFriends(friends.filter(online => online.id !== friend.id && online.isFriend))
+        friend.user_id = user.id;
         socket.emit('ruin-friendship', friend)
     }
 

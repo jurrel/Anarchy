@@ -16,7 +16,7 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
             }
         })
 
-        // return () => socket.off('search-for-friend')
+        return () => socket.off('search-for-friend')
     }, [results, setResults, socket, value])
 
 
@@ -31,7 +31,7 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
 
 
     const confirmFriend = (friend) => {
-        friend.current_user = user.id
+        friend.current_user = user.id;
         socket.emit('confirm-friend', friend);
         setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id))
     }

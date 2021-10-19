@@ -19,7 +19,7 @@ function PrivateMessageModal({ socket, friend }) {
       }
     });
 
-  // return () => socket.off('private-message');
+  return () => socket.off('private-message');
 }, [friend.id, messages, setUnread, socket]);
 
 

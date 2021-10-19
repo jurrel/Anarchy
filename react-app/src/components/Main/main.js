@@ -33,10 +33,10 @@ function Main() {
             Redirect('/about')
         }
     })
-    
+
 
 	return (
-		<div className="main-container">
+        <div className="main-container">
             <Servers socket={socket} selectedServer={selectedServer} setServer={setServer} />
             <Friends socket={socket} />
             <div className="user_profile_name">
@@ -50,7 +50,7 @@ function Main() {
                 </div>
             </div>
             <MenuModal socket={socket} />
-		</div>
+        </div>
 	);
 }
 
