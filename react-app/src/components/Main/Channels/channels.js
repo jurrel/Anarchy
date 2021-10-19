@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './channels.css';
 import Messages from '../Messages/messages';
 
-const Channels = ({ channels, server, socket }) => {
+const Channels = ({ channels, server, socket, unread, setUnread }) => {
 	const [selectedChannel, setSelectedChannel] = useState(1);
 
 	useEffect(() => {
@@ -32,6 +32,8 @@ const Channels = ({ channels, server, socket }) => {
 					)}
 					server={server}
 					channels={channels}
+					unread={unread}
+					setUnread={setUnread}
 				/>
 			)}
 		</>

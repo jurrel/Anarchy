@@ -36,10 +36,16 @@
 
 .server-icon {
 	display: flex;
-	flex-direction: column;
+	/* flex-direction: column; */
 	align-items: center;
 	justify-content: center;
 	padding-top: 5px;
+}
+
+.server-icon.unread::before {
+	content: '>';
+	color: white;
+	flex-direction: row;
 }
 
 .home-icon-container {

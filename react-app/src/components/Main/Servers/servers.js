@@ -6,6 +6,7 @@ import CreateServerModal from './CreateServerModal';
 import SearchModal from '../../Search';
 import HomeModal from '../../HomePage/homemodal';
 import { authenticate } from '../../../store/session';
+import User from '../../User';
 
 
 function Servers({ socket }) {
@@ -14,6 +15,7 @@ function Servers({ socket }) {
 	const serverState = useSelector((state) => state.session.servers).sort(
 		(a, b) => a.id - b.id
 	);
+	const user = useSelector(state => state.session.user);
 
 	function collectChannels(servers) {
 		const channels = [];
@@ -26,16 +28,19 @@ function Servers({ socket }) {
 	const [selectedServer, setServer] = useState('');
 	const [servers, setServers] = useState(serverState);
 	const [channels, setChannels] = useState(collectChannels(servers));
+	const [unread, setUnread] = useState('');
 
 	useEffect(() => {
 		socket.on('unread-message', (message) => {
 			const channel = channels.find(chan => chan.id === message.channel_id);
-			if (selectedServer === channel.server_id) return;
 			channel.messages.push(message);
+			if (message.user_id !== user.id) {
+				setUnread(channel.server_id)
+			}
 		})
 
-		return () => socket.off()
-	}, [channels, selectedServer, servers, socket])
+		return () => socket.off('unread-message')
+	}, [channels, selectedServer, servers, socket, unread, user.id])
 
 
 	return ( 
@@ -66,7 +71,7 @@ function Servers({ socket }) {
                     </div>
 						{servers?.map((server) => (
 							<div key={server.id}>
-								<div className="server-icon" onClick={(e) => setServer(server)}>
+								<div className={unread === server.id ? "server-icon unread" : "server-icon"} onClick={(e) => setServer(server)}>
 									<div
 										className={selectedServer.id === server.id ? 'active' : ''}
 									>
@@ -83,6 +88,8 @@ function Servers({ socket }) {
 											server={selectedServer}
 											channels={selectedServer.channels}
 											socket={socket}
+											unread={unread}
+											setUnread={setUnread}
 										/>
 									)}
 								</div>

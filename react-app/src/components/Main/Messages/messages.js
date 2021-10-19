@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import EditFormModal from './EditFormModal';
-import { authenticate } from '../../../store/session';
+import { v4 as uuidv4 } from 'uuid';
+
 import './messages.css';
 
-const Messages = ({ socket, channel, server, channels }) => {
+const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 	const dispatch = useDispatch();
 
 	const [serverId, channelId] = [channel?.server_id, channel?.id];
@@ -44,16 +45,21 @@ const Messages = ({ socket, channel, server, channels }) => {
 		}
 		return '';
 	};
-	
-	useEffect(() => {
-		socket.on('message', (message) => {
-			if (message.channel_id === channel.id) {
-				setMessages([...messages, message]);
-			} 
-		});
 
-		return () => socket.off('message');
-	}, [channel?.id, channels, dispatch, messages, messages.length, socket]);
+	// useEffect(() => {
+	// 	return () => setUnread(false);
+	// })
+	
+	// useEffect(() => {
+	// 	socket.on('message', (message) => {
+	// 		console.log('message')
+	// 		if (message.channel_id === channel.id) {
+	// 			setMessages([...messages, message]);
+	// 		} 
+	// 	});
+
+	// 	return () => socket.off('message');
+	// }, [channel?.id, channels, dispatch, messages, messages.length, socket, user.id]);
 
 	useEffect(() => {
 		setMessages(channel ? channel.messages : []);
@@ -63,9 +69,12 @@ const Messages = ({ socket, channel, server, channels }) => {
 				boxes[i].scrollTo(0, boxes[i].scrollHeight);
 			}
 		}
-	}, [channel, channelId, serverId]);
-
+	}, [channel, channelId, serverId, setUnread, unread]);
+	
 	useEffect(() => {
+		if (unread === channel?.id) {
+			setUnread(false)
+		}
 		const boxes = document.querySelectorAll('.messages-container');
 		if (boxes) {
 			for (let i = 0; i < boxes.length; i++) {
@@ -77,11 +86,15 @@ const Messages = ({ socket, channel, server, channels }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const newMessage = {
+			id: uuidv4(),
 			message: message,
 			user_id: user.id,
 			channel_id: channelId,
 			imageUrl: null,
+			createdAt: new Date(),
+			updatedAt: new Date()
 		};
+		setMessages([...messages, newMessage])
 		socket.emit('message', newMessage);
 		setMessage('');
 	};
