@@ -15,8 +15,27 @@ function Servers({ socket }) {
 		(a, b) => a.id - b.id
 	);
 
+	function collectChannels(servers) {
+		const channels = [];
+		servers.forEach(server => {
+			channels.push(...server.channels)
+		})
+		return channels;
+	}
+
 	const [selectedServer, setServer] = useState('');
 	const [servers, setServers] = useState(serverState);
+	const [channels, setChannels] = useState(collectChannels(servers));
+
+	useEffect(() => {
+		socket.on('unread-message', (message) => {
+			const channel = channels.find(chan => chan.id === message.channel_id);
+			if (selectedServer === channel.server_id) return;
+			channel.messages.push(message);
+		})
+
+		return () => socket.off()
+	}, [channels, selectedServer, servers, socket])
 
 
 	return ( 

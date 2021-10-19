@@ -15,7 +15,6 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
                 setResults(results);
             }
         })
-        console.log(results)
 
         // return () => socket.off('search-for-friend')
     }, [results, setResults, socket, value])
@@ -44,7 +43,6 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
 
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log(value)
 
         socket.emit('search', value);
     }

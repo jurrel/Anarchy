@@ -250,6 +250,7 @@ def connection():
         db.session.commit()
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
+        emit('unread-message', returnMessage, broadcast=True)
         return None
 
     @socketio.on('edit-message')

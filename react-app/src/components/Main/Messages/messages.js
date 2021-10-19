@@ -53,7 +53,7 @@ const Messages = ({ socket, channel, server, channels }) => {
 		});
 
 		return () => socket.off('message');
-	}, [channel.id, channels, dispatch, messages, messages.length, socket]);
+	}, [channel?.id, channels, dispatch, messages, messages.length, socket]);
 
 	useEffect(() => {
 		setMessages(channel ? channel.messages : []);
