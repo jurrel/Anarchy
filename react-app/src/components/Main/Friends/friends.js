@@ -69,10 +69,12 @@ function Friends({ socket }) {
 				const newFriend = friends.find(
 					(newFriend) => newFriend.id === friend.current_user
 				);
-				newFriend.isFriend = true;
-				setOnlineFriends([...onlineFriends, newFriend]);
-				socket.emit('online', user.id);
-				return;
+				if (newFriend) {
+					newFriend.isFriend = true;
+					setOnlineFriends([...onlineFriends, newFriend]);
+					socket.emit('online', user.id);
+					return;
+				}
 			}
 	
 			if (friend.receiver_id === user.id) {
@@ -152,12 +154,12 @@ function Friends({ socket }) {
             if (friend.receiver_id === user.id) {
                 setPendingFriends([...pendingFriends, friend]);
             }
-            setValue('');
-            setResults('');
-            setFriendAdded(!friendAdded);
-            setTimeout(() => {
-                setFriendAdded(false)
-            }, 2000)
+            // setValue('');
+            // setResults('');
+            // setFriendAdded(!friendAdded);
+            // setTimeout(() => {
+            //     setFriendAdded(false)
+            // }, 2000)
         })
 
         return () => socket.off('add-friend')
@@ -212,7 +214,7 @@ function Friends({ socket }) {
 					setValue={setValue}
 					results={results}
 					friendAdded={friendAdded}
-
+					setFriendAdded={setFriendAdded}
 				/>
 			)}
 		</div>

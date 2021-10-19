@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setResults, value, setValue, results, friendAdded }) {
+function PendingFriends({ setFriendAdded, pendingFriends, socket, user, setPendingFriends, setResults, value, setValue, results, friendAdded }) {
 
     const friends = useSelector(state => state.session.friends);
     const friendIds = friends.map(friend => friend.id);
@@ -27,6 +27,12 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
         }
 
         socket.emit('add-friend', data)
+        setValue('');
+        setResults('');
+        setFriendAdded(!friendAdded);
+        setTimeout(() => {
+            setFriendAdded(false)
+        }, 2000)
     }
 
 

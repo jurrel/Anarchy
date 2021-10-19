@@ -122,6 +122,7 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 
 	const updateMessage = (e) => {
 		setMessage(e.target.value);
+		console.log('yup')
 	};
 
 	return (
@@ -202,6 +203,7 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 					type="text"
 					placeholder={`Message #${channel?.name}`}
 					value={message}
+					required
 					onChange={updateMessage}
 				></input>
 			</form>

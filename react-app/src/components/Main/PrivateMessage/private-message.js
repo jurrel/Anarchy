@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+
 
 import EditFormModal from '../Messages/EditFormModal';
 import './privates.css';
@@ -72,10 +74,14 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
     const handleSubmit = (e) => {
 		e.preventDefault();
 		const newMessage = {
+			id: uuidv4(),
 			message: message,
 			user_id: user.id,
-            receiver_id: friend.id
+            receiver_id: friend.id,
+			createdAt: new Date(),
+			updatedAt: new Date()
 		};
+		setMessages([...messages, newMessage]);
 		socket.emit('private-message', newMessage);
 		setMessage('');
 	};
@@ -83,7 +89,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
     useEffect(() => {
 
         const closeModal = (e) => {
-            if (!e.target.closest('#private')) {
+            if (!e.target.closest('#modal')) {
                 setShowModal(false)
             }
         }
@@ -97,7 +103,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
         if (message.channel_id === null && message.user_id === user.id) {
             return (
                 <div key={message.id}>
-                    <div className='message-info'>
+                    <div className='message-info private'>
                         <div className="image-container">
                             <img className="message-user-profile-pic" alt="temp" src={user.profile_picture} />
                         </div>
@@ -106,7 +112,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
                         <i className="fas fa-ellipsis-h message-elipsis" id={`elipsis-${message.id}`} onClick={handleButtonClick}></i>
                     </div>
                     <li className="message">
-                        <div className="message-content">
+                        <div className="message-content private">
                             <p>{message?.message}</p>
                         </div>
                         <div className={`edit-buttons a${message.id}`}>
