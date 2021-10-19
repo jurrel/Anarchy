@@ -119,6 +119,7 @@ def connection():
         user['sender_id'] = friend.sender_id
         user['receiver_id'] = friend.receiver_id 
         user['isFriend'] = False 
+        user['friend_id'] = friend.id
         
 
         emit('add-friend', user, broadcast=True)

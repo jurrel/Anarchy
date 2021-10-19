@@ -31,6 +31,7 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
 
 
     const confirmFriend = (friend) => {
+        console.log(friend)
         friend.current_user = user.id;
         socket.emit('confirm-friend', friend);
         setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id))
