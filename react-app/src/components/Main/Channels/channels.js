@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './channels.css';
 import Messages from '../Messages/messages';
@@ -6,6 +6,11 @@ import Messages from '../Messages/messages';
 const Channels = ({ channels, server, socket }) => {
 	const [selectedChannel, setSelectedChannel] = useState(1);
 
+	useEffect(() => {
+		if (!server) return;
+		setSelectedChannel(server.channels[0].id);
+	}, [server])
+	
 	return (
 		<>
 			<div className="server_name_header">
@@ -13,7 +18,7 @@ const Channels = ({ channels, server, socket }) => {
 				<div className="server_name_bottom_bar"></div>
 			</div>
 			{channels?.map((channel) => (
-				<div key={channel.id} className="align_the_side_bar_channel">
+				<div key={channel.id} className={channel.id === selectedChannel ? "align_the_side_bar_channel selected" : "align_the_side_bar_channel"}>
 					<h2 onClick={(e) => setSelectedChannel(channel.id)}>
 						{channel.name}
 					</h2>
@@ -26,6 +31,7 @@ const Channels = ({ channels, server, socket }) => {
 						(channel) => channel.id === Number(selectedChannel)
 					)}
 					server={server}
+					channels={channels}
 				/>
 			)}
 		</>

@@ -62,7 +62,6 @@
 	/* transform: translate(0%, -500%); */
 }
 
-
 .align_the_side_bar_channel > h2::before {
 	content: '#';
 	color: #72767d;
@@ -73,6 +72,14 @@
 .align_the_side_bar_channel > h2:hover {
 	background-color: #575758;
 	cursor: pointer;
+}
+
+.align_the_side_bar_channel.selected > h2 {
+	background-color: #72767d;
+}
+
+.align_the_side_bar_channel.selected>h2::before {
+	color: white;
 }
 
 .settings {

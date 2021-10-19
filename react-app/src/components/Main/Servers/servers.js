@@ -1,14 +1,15 @@
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import Channels from '../Channels/channels';
 import './servers.css';
 import CreateServerModal from './CreateServerModal';
 import SearchModal from '../../Search';
-import Home from '../../HomePage/home';
 import HomeModal from '../../HomePage/homemodal';
+import { authenticate } from '../../../store/session';
 
 
 function Servers({ socket }) {
+	const dispatch = useDispatch();
 
 	const serverState = useSelector((state) => state.session.servers).sort(
 		(a, b) => a.id - b.id

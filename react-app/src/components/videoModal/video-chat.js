@@ -10,12 +10,8 @@ import './video.css';
 //       path: '/myapp'
 // });
 
-const myPeer = process.env.NODE_ENV === 'production' ? new Peer(undefined) : 
-    new Peer(undefined, {
-      host: 'localhost',
-      port: 9000,
-      path: '/myapp'
-})
+const myPeer = process.env.NODE_ENV === 'production' ? new Peer() : 
+    new Peer()
 
 
 function VideoChat({setShowModal, socket, setCall}) {

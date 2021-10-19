@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import EditFormModal from './EditFormModal';
-
+import { authenticate } from '../../../store/session';
 import './messages.css';
 
-const Messages = ({ socket, channel, server}) => {
+const Messages = ({ socket, channel, server, channels }) => {
+	const dispatch = useDispatch();
+
 	const [serverId, channelId] = [channel?.server_id, channel?.id];
-
+	
 	const user = useSelector((state) => state.session.user);
-
+	
 	const [messages, setMessages] = useState(
-		channel
-			? channel.messages.sort(
-					(a, b) =>
-						a.id - b.id
-			  )
-			: []
-	);
+		channel ? channel.messages.sort((a, b) => a.id - b.id) : []);
+		
 	const [message, setMessage] = useState('');
 
 	const dateConverter = (dateStr) => {
@@ -47,16 +44,16 @@ const Messages = ({ socket, channel, server}) => {
 		}
 		return '';
 	};
-
+	
 	useEffect(() => {
 		socket.on('message', (message) => {
 			if (message.channel_id === channel.id) {
 				setMessages([...messages, message]);
-			}
+			} 
 		});
 
 		return () => socket.off('message');
-	}, [channel?.id, messages, messages.length, socket]);
+	}, [channel.id, channels, dispatch, messages, messages.length, socket]);
 
 	useEffect(() => {
 		setMessages(channel ? channel.messages : []);

@@ -7,13 +7,13 @@
     width: 220px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
     align-items: center;
     font-size: 1rem;
     background-color: #36393f;
+    /* padding: 25px 0; */
 }
-
 
 #edit-profile>label {
     border-bottom: 1px solid gray;
@@ -23,6 +23,7 @@
     border-radius: 15px;
     width: 200px;
     text-align: center;
+    padding: 5px;
 }
 
 #edit-profile>input:focus {
@@ -55,6 +56,7 @@
     z-index: 6;
     background-color: transparent;
     border: none;
+    color: white;
 }
 
 #close-settings:hover {
@@ -65,4 +67,8 @@
     height: 100px;
     width: 100px;
     padding-bottom: 50px;
+}
+
+#close-modal {
+    color: white;
 }

@@ -39,6 +39,7 @@ function EditProfile({ setEditProfile, socket }) {
                 <input
                     type="text"
                     name="username"
+                    required
                     onChange={(e) => setUsername(e.target.value)}
                     value={username}
                 ></input>
@@ -46,6 +47,7 @@ function EditProfile({ setEditProfile, socket }) {
                 <input
                     type="text"
                     name="email"
+                    required
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                 ></input>
@@ -53,6 +55,7 @@ function EditProfile({ setEditProfile, socket }) {
                 <input
                     type="password"
                     name="password"
+                    required
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                 ></input>
@@ -64,7 +67,7 @@ function EditProfile({ setEditProfile, socket }) {
                             name="repeat_password"
                             onChange={(e) => setRepeatPassword(e.target.value)}
                             value={repeatPassword}
-                            required={true}
+                            required
                         ></input>
                     </>
                 )}
@@ -73,7 +76,6 @@ function EditProfile({ setEditProfile, socket }) {
                     type="file"
                     name="file"
                     onChange={(e) => setFile(e.target.files[0])}
-                    required={false}
                     id='file-upload'
                 ></input>
                 <button type="submit">Save Changes</button>

@@ -91,7 +91,7 @@
 @media screen and (max-width: 760px) {
 
     .splash-log {
-        height: 80%;
+        height: fit-content;
         width: 90%;
         display: flex;
         flex-direction: column;
@@ -100,8 +100,8 @@
         box-shadow: inset 5px 5px 10px #da6969,
         inset -5px -5px 10px rgb(140, 140, 242);
         border-radius: 10px;
-        overflow: hidden;
-        overflow-y: scroll;
+        overflow: scroll;
+        padding: 25px;
     }
 
     .log-form>input {
