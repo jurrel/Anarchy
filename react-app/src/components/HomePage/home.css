@@ -34,7 +34,7 @@
     }
 
     .home {
-        height: 100vh !important;
+        /* height: 100vh !important; */
         width: 80vw;
         padding: 0;
         margin: 0;
@@ -58,7 +58,7 @@
         box-shadow: inset 5px 5px 10px #da6969,
                     inset -5px -5px 10px rgb(140, 140, 242);
         border-radius: 10px;
-        height: fit-content
+        height: fit-content;
     }
 
     .splash > h1 {
@@ -93,7 +93,7 @@
 @media screen and (max-width: 760px) {
 
     .home {
-        height: 100vh !important;
+        /* height: 100vh !important; */
         width: 90vw;
         padding: 0;
         margin: 0;

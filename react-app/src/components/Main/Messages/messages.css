@@ -16,9 +16,16 @@
 .message-info {
 	display: flex;
 	flex-direction: row;
-	height: 40px;
+	height: fit-content;
 	justify-content: flex-start;
 	align-items: center;
+}
+
+.message-user {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
 }
 
 .message-info > h3 {
@@ -26,26 +33,26 @@
 	color: white;
 	margin-top: 41px;
 	margin-left: 8px;
-	font-size: 18px;
+	font-size: 1.5vw;
 }
 
 .message-info > p {
 	color: #72767d;
 	margin-top: 38px;
-	font-size: 12px;
+	font-size: 1vw;
 	margin-left: 5px;
 }
 
 .messages-container {
 	font-family: sans-serif;
 	height: 87.5vh;
-	width: 500px;
+	width: 50vw;
 	position: absolute;
 	overflow: scroll;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	top: 5%;
-	left: 120%;
+	left: 30vw;
 	background-color: #36393f;
 }
 
@@ -58,14 +65,14 @@
 .message-box {
 	position: absolute;
 	bottom: 0;
-	left: 440px;
-	width: 1110px;
+	left: 35vw;
+	width: 50vw;
 }
 
 #message-box {
 	background-color: #40444b;
 	color: white;
-	width: 1110px;
+	width: 45vw;
 	height: 44px;
 	border-radius: 8px;
 	border: 0;
@@ -73,7 +80,7 @@
 	padding-left: 20px;
 	position: absolute;
 	bottom: 0;
-	left: 260px;
+	left: 25vw;
 }
 
 #message-box::placeholder {
@@ -88,12 +95,12 @@
 	position: absolute;
 	z-index: 1;
 	top: -1%;
-	left: 120%;
+	left: 100%;
 	color: #dcddde;
 	font-family: 'Roboto Mono', monospace;
 	letter-spacing: 2px;
 	font-size: 14px;
-	width: 1110px;
+	width: 50vw;
 	padding: 0;
 	margin-bottom: 0px;
 }
@@ -124,9 +131,8 @@
 	width: 200px;
 	display: none;
 	position: relative;
-	bottom: 75px;
-	left: 75%;
-	z-index: 1;
+	left: 3vw;
+	z-index: 10;
 }
 
 .del-message,
@@ -166,4 +172,181 @@
 
 .edit-form > button {
 	width: 75px;
+}
+
+@media screen and (max-width: 750px) {
+	.image-container {
+		width: 40px;
+		height: 40px;
+	}
+
+	.message-user-profile-pic {
+		width: 40px;
+		height: 40px;
+		border-radius: 100%;
+	}
+
+	.messages {
+		list-style: none;
+		position: relative;
+		bottom: 10vh;
+	}
+
+	.message-info {
+		display: flex;
+		flex-direction: row;
+		height: fit-content;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.message-info>h3 {
+		font-weight: normal;
+		color: white;
+		margin-top: 41px;
+		/* margin-left: 8px; */
+		font-size: 3.5vw;
+	}
+
+	.message-info>p {
+		color: #72767d;
+		margin-top: 38px;
+		font-size: 3vw;
+		margin-left: 5px;
+	}
+
+	.messages-container {
+		font-family: sans-serif;
+		height: 87.5vh;
+		width: 50vw;
+		position: absolute;
+		overflow: scroll;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		scroll-behavior: smooth;
+		/* top: 5%; */
+		left: 30vw;
+		bottom: 10vh;
+		background-color: #36393f;
+		padding-bottom: 500px;
+	}
+
+	.messages-container>* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	.message-box {
+		position: absolute;
+		bottom: 0;
+		left: 35vw;
+		width: 50vw;
+	}
+
+	#message-box {
+		background-color: #40444b;
+		color: white;
+		width: 55vw;
+		height: 44px;
+		border-radius: 8px;
+		border: 0;
+		font-size: 100%;
+		padding-left: 20px;
+		position: absolute;
+		bottom: 8vh;
+		left: 25vw;
+	}
+
+	#message-box::placeholder {
+		color: #72767d;
+	}
+
+	#message-box:focus {
+		outline: none;
+	}
+
+	.channel-header {
+		position: absolute;
+		z-index: 1;
+		top: -1%;
+		left: 100%;
+		color: #dcddde;
+		font-family: 'Roboto Mono', monospace;
+		letter-spacing: 2px;
+		font-size: 14px;
+		width: 50vw;
+		padding: 0;
+		margin-bottom: 0px;
+	}
+
+	.channel-header-text::before {
+		font-family: 'Oswald', sans-serif;
+		content: '#';
+		color: #72767d;
+		margin-right: 5px;
+		width: 1110px;
+	}
+
+	.message-elipsis {
+		color: #72767d;
+		margin-top: 23px;
+		position: relative;
+		left: 4%;
+		top: 0%;
+	}
+
+	.message-elipsis:hover {
+		cursor: pointer;
+	}
+
+	.edit-buttons {
+		display: flex;
+		flex-direction: column;
+		width: 200px;
+		display: none;
+		/* visibility: hidden; */
+		position: relative;
+		left: 3vw;
+		z-index: 500;
+	}
+
+	.del-message,
+	.edit-message {
+		border: 1px solid #36393f;
+		background-color: #40444b;
+		color: #dcddde;
+		font-family: sans-serif;
+		padding: 5px 10px;
+		border-radius: 8px;
+	}
+
+	.del-message:hover,
+	.edit-message:hover {
+		cursor: pointer;
+	}
+
+	.del-message {
+		color: rgb(167, 116, 116);
+	}
+
+	.edit-form {
+		display: flex;
+		flex-direction: column;
+		width: 300px;
+		height: 100px;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		left: 45%;
+		top: 45%;
+		z-index: 10001;
+		font-family: sans-serif;
+		background-color: #40444b;
+		border-radius: 8px;
+	}
+
+	.edit-form>button {
+		width: 75px;
+	}
 }

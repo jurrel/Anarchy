@@ -33,7 +33,13 @@ function Main() {
             Redirect('/about')
         }
     })
-
+    
+    window.addEventListener("load",function() {
+        setTimeout(function(){
+            // This hides the address bar:
+            window.scrollTo(0, 1);
+        }, 0);
+    });
 
 	return (
         <div className="main-container">
@@ -48,8 +54,8 @@ function Main() {
                     />
                     <p>{user.username}</p>
                 </div>
+                <MenuModal socket={socket} />
             </div>
-            <MenuModal socket={socket} />
         </div>
 	);
 }

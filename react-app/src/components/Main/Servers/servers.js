@@ -82,7 +82,7 @@ function Servers({ socket }) {
 										/>
 									</div>
 								</div>
-								<div className={selectedServer ? "channel_list" : 'hidden'}>
+								<div className={selectedServer.id === server.id ? "channel_list" : 'hidden'}>
 									{selectedServer && (
 										<Channels
 											server={selectedServer}

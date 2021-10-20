@@ -71,7 +71,7 @@ function CreateServerModal({ socket }) {
 						<div className="text-under-channel-modal">Give your server a personality! </div>
 						<div className="text-under-channel-modal">If it sucks... you can always change it</div>
 
-						<div className="server-name-header">
+						<div className='form-divs'>
 							<label className='create-server-name-input'>Server Name</label>
 							<input
 								type="text"
@@ -82,7 +82,7 @@ function CreateServerModal({ socket }) {
 							></input>
 						</div>
 
-						<div className="server-name-header">
+						<div className='form-divs'>
 							<label className='image-Url-input'>Image Url</label>
 							<input className="channel_photo_upload_modal"
                             type="text"
@@ -91,7 +91,7 @@ function CreateServerModal({ socket }) {
 							required 
                             onChange={updateServerImage} />
 						</div>
-						<div>
+						<div className='buttons'>
 							<button className="cancel_button" type="button" onClick={handleCancel}>
 								Cancel
 							</button>

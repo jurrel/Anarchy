@@ -67,6 +67,7 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 		if (boxes) {
 			for (let i = 0; i < boxes.length; i++) {
 				boxes[i].scrollTo(0, boxes[i].scrollHeight);
+				boxes[i].scrollIntoView()
 			}
 		}
 	}, [channel, channelId, serverId, setUnread, unread]);
@@ -79,6 +80,7 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 		if (boxes) {
 			for (let i = 0; i < boxes.length; i++) {
 				boxes[i].scrollTo(0, boxes[i].scrollHeight);
+				boxes[i].scrollIntoView()
 			}
 		}
 	});
@@ -109,6 +111,7 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 
 	const handleButtonClick = (e) => {
 		e.preventDefault();
+		console.log('button')
 		const messageId = e.target.id.split('-')[1];
 		const buttons = document.querySelector(`.a${messageId}`);
 		if (buttons) {
@@ -118,6 +121,7 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 				buttons.style.display = 'inline';
 			}
 		}
+		console.log(buttons)
 	};
 
 	const updateMessage = (e) => {
@@ -139,58 +143,60 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 							<div key={message.id}>
 								<li className="message">
 									<div className="message-info">
-										<div className="image-container">
-											<img
-												className="message-user-profile-pic"
-												alt="temp"
-												src={
-													server?.users.find(
-														(user) => user.id === message.user_id
-													)?.profile_picture
+										<div className="message-user">
+											<div className="image-container">
+												<img
+													className="message-user-profile-pic"
+													alt="temp"
+													src={
+														server?.users.find(
+															(user) => user.id === message.user_id
+														)?.profile_picture
+													}
+												/>
+											</div>
+											<h3>
+												{
+													server?.users.find((user) => user.id === message.user_id)
+														?.username
 												}
-											/>
+											</h3>
 										</div>
-										<h3>
-											{
-												server?.users.find((user) => user.id === message.user_id)
-													?.username
-											}
-										</h3>
+											{user.id === message.user_id && (
+												<i
+													className="fas fa-ellipsis-h message-elipsis"
+													id={`elipsis-${message.id}`}
+													onClick={handleButtonClick}
+												></i>
+											)}
+										<div className={`edit-buttons a${message.id}`}>
+											{Number(user?.id) === Number(message?.user_id) && (
+												<>
+													<EditFormModal
+														oldMessage={message}
+														socket={socket}
+														messages={messages}
+														setMessages={setMessages}
+													/>
+													<button
+														className="del-message"
+														onClick={handleDelete}
+														id={`del-${message.id}`}
+													>
+														<i className="fas fa-trash-alt m2"></i>
+														Delete
+													</button>
+												</>
+											)}
+										</div>
+									</div>
+									<div className="message-content">
 										<p>
 											{dateConverter(message?.createdAt) +
 												' ' +
 												editCheck(message)}
 										</p>
-										{user.id === message.user_id && (
-											<i
-												className="fas fa-ellipsis-h message-elipsis"
-												id={`elipsis-${message.id}`}
-												onClick={handleButtonClick}
-											></i>
-										)}
-									</div>
-									<div className="message-content">
 										<p>{message?.message}</p>
-									</div>
-									<div className={`edit-buttons a${message.id}`}>
-										{Number(user?.id) === Number(message?.user_id) && (
-											<>
-												<EditFormModal
-													oldMessage={message}
-													socket={socket}
-													messages={messages}
-													setMessages={setMessages}
-												/>
-												<button
-													className="del-message"
-													onClick={handleDelete}
-													id={`del-${message.id}`}
-												>
-													<i className="fas fa-trash-alt m2"></i>
-													Delete
-												</button>
-											</>
-										)}
 									</div>
 								</li>
 							</div>

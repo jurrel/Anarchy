@@ -9,8 +9,9 @@ html,
 	margin: 0;
 	background-color: #36393f;
 	color: white;
-	overflow: hidden;
+	overflow-x: hidden;
     font-family: sans-serif;
+	display: 'browser';
 }
 
 ::-webkit-scrollbar {
@@ -36,3 +37,4 @@ html,
 .friends-nav {
 	display: none;
 }
+
