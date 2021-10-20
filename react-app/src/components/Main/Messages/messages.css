@@ -19,6 +19,8 @@
 	height: fit-content;
 	justify-content: flex-start;
 	align-items: center;
+	position: relative;
+	left: 0;
 }
 
 .message-user {
@@ -45,14 +47,14 @@
 
 .messages-container {
 	font-family: sans-serif;
-	height: 87.5vh;
+	height: 87.5%;
 	width: 50vw;
 	position: absolute;
 	overflow: scroll;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	top: 5%;
-	left: 30vw;
+	left: 25vw;
 	background-color: #36393f;
 }
 
@@ -60,6 +62,10 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+}
+
+.message-content> p:first-child  {
+	color: gray;
 }
 
 .message-box {
@@ -189,14 +195,14 @@
 	.messages {
 		list-style: none;
 		position: relative;
-		bottom: 10vh;
+		bottom: 15vh;
 	}
 
 	.message-info {
 		display: flex;
 		flex-direction: row;
 		height: fit-content;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
 	}
 
@@ -217,7 +223,7 @@
 
 	.messages-container {
 		font-family: sans-serif;
-		height: 87.5vh;
+		/* height: 87.5vh; */
 		width: 50vw;
 		position: absolute;
 		overflow: scroll;
@@ -228,20 +234,12 @@
 		left: 30vw;
 		bottom: 10vh;
 		background-color: #36393f;
-		padding-bottom: 500px;
 	}
 
 	.messages-container>* {
 		box-sizing: border-box;
 		margin: 0;
 		padding: 0;
-	}
-
-	.message-box {
-		position: absolute;
-		bottom: 0;
-		left: 35vw;
-		width: 50vw;
 	}
 
 	#message-box {
@@ -251,11 +249,11 @@
 		height: 44px;
 		border-radius: 8px;
 		border: 0;
-		font-size: 100%;
+		font-size: 16px;
 		padding-left: 20px;
-		position: absolute;
-		bottom: 8vh;
-		left: 25vw;
+		position: fixed;
+		bottom: 0;
+		left: 40vw;
 	}
 
 	#message-box::placeholder {

@@ -95,7 +95,6 @@ function Servers({ socket }) {
 								</div>
 							</div>
 						))}
-						
 				</>
 			</div>
 		</div>

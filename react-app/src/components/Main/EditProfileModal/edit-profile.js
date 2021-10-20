@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signUp } from '../../../store/session';
+import reducer, { signUp } from '../../../store/session';
 
 function EditProfile({ setEditProfile, socket }) {
 	const dispatch = useDispatch();
@@ -13,16 +13,21 @@ function EditProfile({ setEditProfile, socket }) {
 	const [password, setPassword] = useState('');
 	const [repeatPassword, setRepeatPassword] = useState('');
 	const [file, setFile] = useState();
+    const [editDemo, setEditDemo] = useState(false);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const data = await dispatch(signUp(username, email, password, file))
-        if (data) {
-				setErrors(data);
+        if (user.username === 'Demo') {
+            setEditDemo(true);
         } else {
-            setEditProfile(false);
+            const data = await dispatch(signUp(username, email, password, file))
+            if (data) {
+                    setErrors(data);
+            } else {
+                setEditProfile(false);
+            }
         }
     }
 
@@ -81,7 +86,11 @@ function EditProfile({ setEditProfile, socket }) {
                     onChange={(e) => setFile(e.target.files[0])}
                     id='file-upload'
                 ></input>
-                <button type="submit">Save Changes</button>
+                {!editDemo && (
+                    <button type="submit">Save Changes</button>
+                )} {editDemo && (
+                    <p style={{color: 'red'}}>No no no, leave Demo alone. <br />Create your own account to customize.</p>
+                )}
             </form>
         </>
     )

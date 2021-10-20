@@ -1,19 +1,21 @@
 #search-modal {
     position: absolute;
     top: 0;
-    left: 100px;
+    left: 10vw;
     z-index: 50;
     height: fit-content;
-    width: 240px;
+    width: 25vw;
 }
 
 #search-bar {
-    width: 215px;
+    width: 23vw;
+    height: 6vh;
     padding: 10px;
+    font-size: 1.5em;
 }
 
 #list {
-    width: 240px;
+    width: 25vw;
     list-style-type: none;
     display: flex;
     flex-direction: column;
@@ -24,7 +26,7 @@
 }
 
 .list-item {
-    width: 240px;
+    width: 25vw;
     display: flex;
     gap: 10px;
     border-bottom: 1px solid gray;
@@ -43,4 +45,57 @@
     height: 50px;
     width: 50px;
     border-radius: 100%;
+}
+
+@media screen and (max-width: 750px) {
+    #search-modal {
+        position: absolute;
+        top: 0;
+        left: 15vw;
+        z-index: 50;
+        height: fit-content;
+        width: 15vw;
+    }
+
+    #search-bar {
+        width: 20vw;
+        padding: 10px;
+        font-size: 3vw;
+        height: 5vh;
+    }
+
+    #list {
+        width: 25vw;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 0;
+        background-color: #202225;
+    }
+
+    .list-item {
+        width: 25vw;
+        display: flex;
+        gap: 10px;
+        border-bottom: 1px solid gray;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        font-size: 3vw;
+    }
+
+    /* .list-item:hover {
+        background-color: #434543;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: .5s ease-in-out;
+    } */
+
+    .list-item>img {
+        object-fit: cover;
+        height: 4vh;
+        width: 8vw;
+        border-radius: 100%;
+    }
 }

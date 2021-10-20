@@ -93,13 +93,13 @@
 @media screen and (max-width: 760px) {
 
     .home {
-        /* height: 100vh !important; */
+        height: 80vh !important;
         width: 90vw;
         padding: 0;
         margin: 0;
-        position: relative;
-        left: 5vw;
-        /* top: 2vw; */
+        position: absolute;
+        left: 12vw;
+        top: 0;
         display: flex;
         flex-direction: column;
         align-items: center;

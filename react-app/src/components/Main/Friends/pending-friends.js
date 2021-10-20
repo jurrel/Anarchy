@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import './friends.css';
+
 function PendingFriends({ setFriendAdded, pendingFriends, socket, user, setPendingFriends, setResults, value, setValue, results, friendAdded }) {
 
     const friends = useSelector(state => state.session.friends);
@@ -37,7 +39,6 @@ function PendingFriends({ setFriendAdded, pendingFriends, socket, user, setPendi
 
 
     const confirmFriend = (friend) => {
-        console.log(friend)
         friend.current_user = user.id;
         socket.emit('confirm-friend', friend);
         setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id))
@@ -59,7 +60,7 @@ function PendingFriends({ setFriendAdded, pendingFriends, socket, user, setPendi
         <div className='friends'>
             <div id='friend-search'>
             <form autoComplete='off' onSubmit={handleSearch}>
-                <input id='search-bar' value={value} onChange={(e) => {
+                <input id='friend-search' value={value} onChange={(e) => {
                     socket.emit('search-friend', e.target.value);
                     setValue(e.target.value);
                 }} placeholder='Add friends'></input>

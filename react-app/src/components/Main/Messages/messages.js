@@ -52,7 +52,6 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 	
 	// useEffect(() => {
 	// 	socket.on('message', (message) => {
-	// 		console.log('message')
 	// 		if (message.channel_id === channel.id) {
 	// 			setMessages([...messages, message]);
 	// 		} 
@@ -67,7 +66,6 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 		if (boxes) {
 			for (let i = 0; i < boxes.length; i++) {
 				boxes[i].scrollTo(0, boxes[i].scrollHeight);
-				boxes[i].scrollIntoView()
 			}
 		}
 	}, [channel, channelId, serverId, setUnread, unread]);
@@ -80,7 +78,6 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 		if (boxes) {
 			for (let i = 0; i < boxes.length; i++) {
 				boxes[i].scrollTo(0, boxes[i].scrollHeight);
-				boxes[i].scrollIntoView()
 			}
 		}
 	});
@@ -111,7 +108,6 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 
 	const handleButtonClick = (e) => {
 		e.preventDefault();
-		console.log('button')
 		const messageId = e.target.id.split('-')[1];
 		const buttons = document.querySelector(`.a${messageId}`);
 		if (buttons) {
@@ -121,12 +117,10 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 				buttons.style.display = 'inline';
 			}
 		}
-		console.log(buttons)
 	};
 
 	const updateMessage = (e) => {
 		setMessage(e.target.value);
-		console.log('yup')
 	};
 
 	return (

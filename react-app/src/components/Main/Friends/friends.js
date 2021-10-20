@@ -148,7 +148,6 @@ function Friends({ socket }) {
 	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]);
 
 	useEffect(() => {
-		console.log(pendingFriends)
 
         socket.on('add-friend', friend => {
             if (friend.receiver_id === user.id) {

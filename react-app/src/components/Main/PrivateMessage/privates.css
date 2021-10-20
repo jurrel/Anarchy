@@ -40,3 +40,51 @@
         opacity: 0;
     }
 }
+
+@media screen and (max-width: 750px) {
+    #messages-container {
+        font-family: sans-serif;
+        height: 87.5vh;
+        width: 65vw;
+        position: absolute;
+        overflow: scroll;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        bottom: 50px;
+        left: 35vw;
+        background-color: #36393f;
+        z-index: 20;
+    }
+
+    #messages-box {
+        position: absolute;
+        bottom: 0;
+        left: 35vw;
+        width: 15vw;
+        z-index: 21;
+    }
+
+    #private-box {
+        background-color: #40444b;
+        color: white;
+        width: 60vw;
+        height: 44px;
+        border-radius: 8px;
+        border: 0;
+        font-size: 16px;
+        padding-left: 20px;
+        position: fixed;
+        bottom: 0;
+        left: 35vw;
+    }
+
+    #new-message {
+        animation: message 2s linear infinite;
+    }
+
+    @keyframes message {
+        50% {
+            opacity: 0;
+        }
+    }
+}

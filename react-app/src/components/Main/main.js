@@ -9,6 +9,7 @@ import './main.css';
 import Friends from './Friends/friends';
 import Servers from './Servers/servers';
 import MenuModal from './Menu';
+import useWindowResize from '../resize';
 
 let endPoint = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:5000/';
 
@@ -18,15 +19,23 @@ let socket = process.env.NODE_ENV === 'production' ? io() : io.connect(`${endPoi
 
 
 function Main() {
+    const size = useWindowResize();
+
 	const user = useSelector((state) => state.session.user);
 
 
     const [selectedServer, setServer] = useState('');
-
-
+    const [showFriends, setShowFriends] = useState();
 	useEffect(() => {
 		socket.emit('online', user.id);
 	});
+
+    useEffect(() => {
+
+        // if (size.width > 750) return;
+        setShowFriends(size.width > 750 ? true : false);
+        
+    }, [size])
 
     useEffect(() => {
         if (!user) {
@@ -34,18 +43,22 @@ function Main() {
         }
     })
     
-    window.addEventListener("load",function() {
-        setTimeout(function(){
-            // This hides the address bar:
-            window.scrollTo(0, 1);
-        }, 0);
-    });
 
 	return (
         <div className="main-container">
-            <Servers socket={socket} selectedServer={selectedServer} setServer={setServer} />
-            <Friends socket={socket} />
-            <div className="user_profile_name">
+            {size.width > 750 && (
+                <>
+                <Servers socket={socket} />
+                <Friends socket={socket} />
+                </>
+            )}
+            {!showFriends && size.width < 750 && (
+                <Servers socket={socket} />
+            )}
+            {showFriends && (
+                <Friends socket={socket} />
+            )}
+            <div className={showFriends ? "user_profile_name shift" : "user_profile_name"}>
                 <div className='user-profile'>
                     <img
                         alt="profile"
@@ -54,7 +67,19 @@ function Main() {
                     />
                     <p>{user.username}</p>
                 </div>
-                <MenuModal socket={socket} />
+                <div className='menu-buttons'>
+                    <button
+                        onClick={() => setShowFriends(!showFriends)}
+                        className={size.width < 750 ? 'friends-button settings' : 'hidden'}>
+                        {!showFriends && (
+                            <i className="fas fa-user-friends fa-2x"></i>
+                        )}
+                        {showFriends && (
+                            <i className="far fa-comment-alt fa-2x"></i>
+                        )}
+                    </button>
+                    <MenuModal socket={socket} />
+                </div>
             </div>
         </div>
 	);
