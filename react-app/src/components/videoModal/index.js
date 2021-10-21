@@ -17,11 +17,19 @@ function VideoModal({ serverId, socket, friend, setCall, call }) {
 
 
   useEffect(() => {
+
+    
+
     socket.on('call', (friend) => {
       setCall(true);
-
     })
 
+    
+    return () => socket.off('call')
+  })
+  
+  useEffect(() => {
+    
     socket.on('answer', (friend) => {
       const ring = document.getElementById('ringtone');
       const source = ring.src;
@@ -29,7 +37,8 @@ function VideoModal({ serverId, socket, friend, setCall, call }) {
       setShowModal(true);
     })
 
-    return () => socket.off()
+    return () => socket.off('answer')
+
   })
 
 

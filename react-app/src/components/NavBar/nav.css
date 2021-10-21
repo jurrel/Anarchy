@@ -1,10 +1,11 @@
-/* .nav-bar {
+.nav-bar {
     height: 10vh;
     width: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
+    position: absolute;
 }
 
 .nav-bar > * {
@@ -13,4 +14,4 @@
     text-decoration: none;
     color: white;
     font-size: 1.3rem;
-} */
+}

@@ -5,7 +5,7 @@ import Home from './home';
 import '../Main/Servers/servers.css';
 
 
-function HomeModal() {
+function HomeModal({ servers }) {
   const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function HomeModal() {
       <button className='logout' onClick={() => {setShowModal(!showModal)}} type='button'><i className="fas fa-home fa-2x" /></button>
       {showModal && (
         <Modal className='about-modal' onClose={() => setShowModal(!showModal)}>
-            <Home />
+            <Home servers={servers} />
         </Modal>
       )}
     </>

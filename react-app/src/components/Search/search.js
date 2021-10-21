@@ -10,6 +10,8 @@ function Search({ socket, setServers, setShowModal, servers }) {
 
     useEffect(() => {
 
+        
+
         socket.on('search', results => {
             if (!value) {
                 setResults('');
@@ -19,9 +21,13 @@ function Search({ socket, setServers, setShowModal, servers }) {
         })
 
         return () => socket.off('search')
-    }, [socket, value])
+    })
+
+    // , [socket, value]
 
     useEffect(() => {
+
+        
 
         const closeModal = (e) => {
             if (!e.target.closest('#search-modal')) {
@@ -30,10 +36,12 @@ function Search({ socket, setServers, setShowModal, servers }) {
         }
         document.addEventListener('click', closeModal)
 
-        return () => document.removeEventListener('click', closeModal)
+        // return () => document.removeEventListener('click', closeModal)
     }, [setShowModal])
 
     useEffect(() => {
+
+        
 
         socket.on('join-server', result => {
             const server = servers.filter(server => server.id === result.id);
@@ -43,7 +51,9 @@ function Search({ socket, setServers, setShowModal, servers }) {
         } )
 
         return () => socket.off('join-server')
-    }, [servers, setServers, socket, user])
+    })
+
+    // , [servers, setServers, socket, user]
 
     const handleSearch = (e) => {
         e.preventDefault();

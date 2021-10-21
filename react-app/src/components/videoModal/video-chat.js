@@ -24,6 +24,8 @@ function VideoChat({setShowModal, socket, setCall}) {
     useEffect(() => {
         const peers = {};
 
+        
+
         function connectToNewUser(peerId, stream) {
 
             const call = myPeer.call(peerId, stream);
@@ -128,9 +130,11 @@ function VideoChat({setShowModal, socket, setCall}) {
         }
 
 
-        return () => socket.off('hang_up');
+        return () => socket.offAny();
 
-    }, [members, setCall, setShowModal, socket, user.id])
+    })
+
+    // , [members, setCall, setShowModal, socket, user.id]
 
 
     return (

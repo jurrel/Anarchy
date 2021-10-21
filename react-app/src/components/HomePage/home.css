@@ -98,6 +98,19 @@
         padding: 0;
         margin: 0;
         position: absolute;
+        left: 5vw;
+        top: 10vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .home.servers {
+        height: 80vh !important;
+        width: 90vw;
+        padding: 0;
+        margin: 0;
+        position: absolute;
         left: 12vw;
         top: 0;
         display: flex;

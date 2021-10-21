@@ -12,6 +12,9 @@ function PrivateMessageModal({ socket, friend }) {
 
 
   useEffect(() => {
+
+    
+
     socket.on('private-message', (message) => {
       setMessages([...messages, message]);
       if (message.user_id === friend.id) {
@@ -20,7 +23,9 @@ function PrivateMessageModal({ socket, friend }) {
     });
 
   return () => socket.off('private-message');
-}, [friend.id, messages, setUnread, socket]);
+});
+
+// , [friend.id, messages, setUnread, socket]
 
 
 

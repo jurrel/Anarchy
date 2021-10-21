@@ -24,7 +24,7 @@ function CreateServerModal({ socket }) {
 			setJoinServer([...joinServer, serverJoin]);
 		});
 		return () => {
-			socket.off();
+			;
 		};
 	})
 

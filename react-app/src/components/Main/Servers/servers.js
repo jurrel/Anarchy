@@ -31,6 +31,9 @@ function Servers({ socket }) {
 	const [unread, setUnread] = useState('');
 
 	useEffect(() => {
+
+		
+
 		socket.on('unread-message', (message) => {
 			const channel = channels.find(chan => chan.id === message.channel_id);
 			channel.messages.push(message);
@@ -40,7 +43,9 @@ function Servers({ socket }) {
 		})
 
 		return () => socket.off('unread-message')
-	}, [channels, selectedServer, servers, socket, unread, user.id])
+	})
+
+	// , [channels, selectedServer, servers, socket, unread, user.id]
 
 
 	return ( 
@@ -55,7 +60,7 @@ function Servers({ socket }) {
                         onClick={(e) => setServer('')}
                     >
                         <div className="home-icon">
-                            <HomeModal />
+                            <HomeModal servers={servers} />
                         </div>
                     </div>
 					<div id='search' className='server-icon'>

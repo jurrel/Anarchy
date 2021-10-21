@@ -1,11 +1,11 @@
 import { Link, useHistory } from 'react-router-dom';
 import './home.css';
 
-function Home() {
+function Home({ servers }) {
     const history = useHistory();
 
     return (
-        <div className='home'>
+        <div className={servers ? 'home servers' : 'home'}>
             <div className='splash'>
                 <div onClick={() => history.push('/')} className='return-button'>
                     <Link className='return-header' to='/'>Return to Anarchy!</Link>

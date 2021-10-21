@@ -10,6 +10,8 @@ function PendingFriends({ setFriendAdded, pendingFriends, socket, user, setPendi
 
     useEffect(() => {
 
+        
+
         socket.on('search-for-friend', results => {
             if (!value) {
                 setResults('');
@@ -19,7 +21,9 @@ function PendingFriends({ setFriendAdded, pendingFriends, socket, user, setPendi
         })
 
         return () => socket.off('search-for-friend')
-    }, [results, setResults, socket, value])
+    })
+
+    // , [results, setResults, socket, value]
 
 
     const addFriend = (result) => {

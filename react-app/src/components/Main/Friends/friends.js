@@ -41,7 +41,30 @@ function Friends({ socket }) {
     const [friendAdded, setFriendAdded] = useState(false);
 
 
+	// useEffect(() => {
+		
+
+	// 	socket.on('online', (userId) => {
+	// 		const friend = friends.find((friend) => friend.id === userId);
+	// 		const isOnline = onlineFriends.find(friend => friend.id === userId);
+	// 		if (friend && friend.isFriend && !isOnline) {
+	// 			setOnlineFriends([...onlineFriends, friend]);
+	// 			setOfflineFriends(
+	// 				friends.filter(
+	// 					(offlineFriend) =>
+	// 						offlineFriend.online === false &&
+	// 						offlineFriend.isFriend === true &&
+	// 						offlineFriend.id !== friend.id
+	// 				)
+	// 			);
+	// 		}
+	// 	});
+
+	// 	// return () => socket.off('online');
+	// }, [friends, onlineFriends, socket])
+
 	useEffect(() => {
+		
 
 		socket.on('online', (userId) => {
 			const friend = friends.find((friend) => friend.id === userId);
@@ -60,9 +83,11 @@ function Friends({ socket }) {
 		});
 
 		return () => socket.off('online');
-	}, [friends, onlineFriends, socket])
+	})
 
 	useEffect(() => {
+
+		
 
 		socket.on('confirm-friend', (friend) => {
 			if (friend.id === user.id) {
@@ -96,9 +121,13 @@ function Friends({ socket }) {
 		});
 
 		return () => socket.off('confirm-friend')
-	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id])
+	})
+
+	// , [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]
 
 	useEffect(() => {
+
+		
 
 		socket.on('deny-friend', (friend) => {
 			const pendingFriend = pendingFriends.find(
@@ -112,9 +141,12 @@ function Friends({ socket }) {
 		});
 
 		return () => socket.off('deny-friend');
-	}, [pendingFriends, socket])
+	})
 
+	// , [pendingFriends, socket]
 	useEffect(() => {
+
+		
 		
 		socket.on('log-out', (user) => {
 			const friend = onlineFriends.find(
@@ -129,10 +161,14 @@ function Friends({ socket }) {
 		});
 
 		return () => socket.off('log-out');
-	}, [offlineFriends, onlineFriends, socket])
+	})
+
+	// , [offlineFriends, onlineFriends, socket]
 
 
 	useEffect(() => {
+
+		
 
 		socket.on('ruin-friendship', (friend) => {
 			setFriends(friends.filter(frand => frand.id !== friend.id && frand.id !== friend.user_id));
@@ -145,9 +181,13 @@ function Friends({ socket }) {
 		});
 	
 		return () => socket.off('ruin-friendship');
-	}, [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]);
+	});
+
+	// , [friends, offlineFriends, onlineFriends, pendingFriends, socket, user.id]
 
 	useEffect(() => {
+
+		
 
         socket.on('add-friend', friend => {
             if (friend.receiver_id === user.id) {
@@ -162,7 +202,9 @@ function Friends({ socket }) {
         })
 
         return () => socket.off('add-friend')
-    }, [friendAdded, pendingFriends, setPendingFriends, socket, user.id])
+    })
+
+	// , [friendAdded, pendingFriends, setPendingFriends, socket, user.id]
 
 
 
