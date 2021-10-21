@@ -7,9 +7,9 @@ const Channels = ({ channels, server, socket, unread, setUnread }) => {
 	const [selectedChannel, setSelectedChannel] = useState(1);
 
 	useEffect(() => {
-		if (!server) return;
-		setSelectedChannel(server.channels[0].id);
-	}, [server])
+		if (!server.channels) return;
+		setSelectedChannel(server?.channels[0]?.id ? server.channels[0].id : 1);
+	}, [channels, server, server.channels])
 	
 	return (
 		<>
@@ -17,7 +17,7 @@ const Channels = ({ channels, server, socket, unread, setUnread }) => {
 				<p id='server_name_tag'>{server.name}</p>
 				<div className="server_name_bottom_bar"></div>
 			</div>
-			{channels?.map((channel) => (
+			{channels && channels?.map((channel) => (
 				<div key={channel.id} className={channel.id === selectedChannel ? "align_the_side_bar_channel selected" : "align_the_side_bar_channel"}>
 					<h2 onClick={(e) => setSelectedChannel(channel.id)}>
 						{channel.name}

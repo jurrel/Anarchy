@@ -24,7 +24,6 @@ function Main() {
 	const user = useSelector((state) => state.session.user);
 
 
-    const [selectedServer, setServer] = useState('');
     const [showFriends, setShowFriends] = useState();
 	useEffect(() => {
 		socket.emit('online', user.id);

@@ -297,6 +297,18 @@ input {
 		padding-bottom: 5px;
 	}
 
+	.plus-icon {
+		display: flex;
+		/* flex-direction: column; */
+		align-items: center;
+		justify-content: center;
+		padding-top: 5px;
+		height: 5vh;
+		width: 5vw;
+		/* min-height: 50px;
+	min-width: 50px; */
+	}
+
 	.home-icon>i {
 		color: white;
 	}
@@ -305,7 +317,7 @@ input {
 	.plus-icon {
 		align-items: center;
 		height: 5vh;
-		width: 10vw;
+		width: 5vw;
 		/* min-height: 50px;
 	min-width: 50px; */
 		border-radius: 50%;
