@@ -26,7 +26,6 @@ const Channels = ({ channels, server, socket, unread, setUnread }) => {
 			))}
 			{selectedChannel && (
 				<Messages
-					socket={socket}
 					channel={channels?.find(
 						(channel) => channel.id === Number(selectedChannel)
 					)}

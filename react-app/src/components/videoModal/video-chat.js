@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Peer from 'peerjs';
 
 import './video.css';
+import { Socket } from '../context/socket';
 
 // const myPeer = new Peer(undefined, {
 //       host: process.env.NODE_ENV === 'production' ? 'anarchy-app.herokuapp.com' : 'localhost',
@@ -14,9 +15,10 @@ const myPeer = process.env.NODE_ENV === 'production' ? new Peer() :
     new Peer()
 
 
-function VideoChat({setShowModal, socket, setCall}) {
+function VideoChat({setShowModal, setCall}) {
 
     const user = useSelector(state => state.session.user);
+    const socket = Socket();
 
     const [members, setMembers] = useState(0);
 
@@ -129,9 +131,7 @@ function VideoChat({setShowModal, socket, setCall}) {
             })
         }
 
-
         return () => socket.offAny();
-
     })
 
     // , [members, setCall, setShowModal, socket, user.id]

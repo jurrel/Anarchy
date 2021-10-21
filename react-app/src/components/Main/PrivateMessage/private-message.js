@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { Socket } from '../../context/socket';
 
 
 import EditFormModal from '../Messages/EditFormModal';
 import './privates.css';
 
-function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, setMessages, message, setMessage }) {
+function PrivateMessage({ friend, setShowModal, setUnread, messages, setMessages, message, setMessage }) {
+	const socket = Socket();
 
     const user = useSelector(state => state.session.user);
 
@@ -113,7 +115,6 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
 							<div className={`edit-buttons a${message.id}`}>
 								<EditFormModal
 									oldMessage={message}
-									socket={socket}
 									messages={messages}
 									setMessages={setMessages}
 								/>

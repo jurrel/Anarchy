@@ -1,8 +1,10 @@
 import { Modal } from '../../context/Modal/Modal';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Socket } from '../../context/socket';
 
-function CreateServerModal({ socket }) {
+function CreateServerModal() {
+	const socket = Socket();
 	const user = useSelector((state) => state.session.user);
 	const servers = useSelector((state) => state.session.servers);
 	const [showModal, setShowModal] = useState(false);

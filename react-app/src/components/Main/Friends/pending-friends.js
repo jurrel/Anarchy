@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Socket } from '../../context/socket';
 
 import './friends.css';
 
-function PendingFriends({ setFriendAdded, pendingFriends, socket, user, setPendingFriends, setResults, value, setValue, results, friendAdded }) {
+function PendingFriends({ setFriendAdded, pendingFriends, user, setPendingFriends, setResults, value, setValue, results, friendAdded }) {
+    const socket = Socket();
 
     const friends = useSelector(state => state.session.friends);
     const friendIds = friends.map(friend => friend.id);
@@ -63,24 +65,24 @@ function PendingFriends({ setFriendAdded, pendingFriends, socket, user, setPendi
     return (
         <div className='friends'>
             <div id='friend-search'>
-            <form autoComplete='off' onSubmit={handleSearch}>
-                <input id='friend-search' value={value} onChange={(e) => {
-                    socket.emit('search-friend', e.target.value);
-                    setValue(e.target.value);
-                }} placeholder='Add friends'></input>
-            </form>
-            <ul id='list'>
-                { results && results.map(result => (
-                    <li className='list-item' onClick={() => addFriend(result)} key={result.id}>
-                        <img src={result.profile_picture} alt='serve'></img>
-                        <p>{result.username}</p>
-                    </li>
-                ))}
-                { friendAdded && (
-                    <p>Friend request sent!</p>
-                )}
-            </ul>
-        </div>
+                <form autoComplete='off' onSubmit={handleSearch}>
+                    <input value={value} onChange={(e) => {
+                        socket.emit('search-friend', e.target.value);
+                        setValue(e.target.value);
+                    }} placeholder='Add friends'></input>
+                </form>
+                <ul id='friend-list'>
+                    { results && results.map(result => (
+                        <li className='list-item' onClick={() => addFriend(result)} key={result.id}>
+                            <img src={result.profile_picture} alt='serve'></img>
+                            <p>{result.username}</p>
+                        </li>
+                    ))}
+                    { friendAdded && (
+                        <p>Friend request sent!</p>
+                    )}
+                </ul>
+            </div>
             { pendingFriends && pendingFriends.map(friend => (
                 <div key={friend.id} className='friend'>
                     <img alt='profile' src={friend.profile_picture}></img>

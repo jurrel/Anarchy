@@ -7,10 +7,12 @@ import SearchModal from '../../Search';
 import HomeModal from '../../HomePage/homemodal';
 import { authenticate } from '../../../store/session';
 import User from '../../User';
+import { Socket } from '../../context/socket';
 
 
-function Servers({ socket }) {
+function Servers() {
 	const dispatch = useDispatch();
+	const socket = Socket();
 
 	const serverState = useSelector((state) => state.session.servers).sort(
 		(a, b) => a.id - b.id
@@ -65,13 +67,13 @@ function Servers({ socket }) {
                     </div>
 					<div id='search' className='server-icon'>
 						<div className='home-icon'>
-							<SearchModal servers={servers} setServers={setServers} socket={socket} />
+							<SearchModal servers={servers} setServers={setServers} />
 						</div>
 					</div>
 					<div
                         className="server-icon plus-icon-container" onClick={(e) => setServer('')}>
                         <div className='plus-icon'>
-                            <CreateServerModal socket={socket} />
+                            <CreateServerModal />
                         </div>
                     </div>
 						{servers?.map((server) => (
@@ -92,7 +94,6 @@ function Servers({ socket }) {
 										<Channels
 											server={selectedServer}
 											channels={selectedServer.channels}
-											socket={socket}
 											unread={unread}
 											setUnread={setUnread}
 										/>

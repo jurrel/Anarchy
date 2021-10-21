@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Socket } from '../context/socket';
 
-function Search({ socket, setServers, setShowModal, servers }) {
+function Search({ setServers, setShowModal, servers }) {
+    const socket = Socket();
 
     const user = useSelector(state => state.session.user);
 

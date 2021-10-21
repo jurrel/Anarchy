@@ -103,6 +103,11 @@
         width: 90%;
     }
 
+    #friend-list {
+        margin: 0;
+        padding: 10px 0;
+    }
+
 
 }
 
@@ -215,6 +220,13 @@
 
     #friend-search {
         width: 90%;
+        position: relative;
+    }
+
+    #friend-list {
+        margin: 0;
+        padding: 10px 0;
+        width: 100%;
     }
 
 

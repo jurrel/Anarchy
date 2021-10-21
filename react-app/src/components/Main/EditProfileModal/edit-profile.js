@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import reducer, { signUp } from '../../../store/session';
+import { Socket } from '../../context/socket';
 
-function EditProfile({ setEditProfile, socket }) {
+function EditProfile({ setEditProfile }) {
 	const dispatch = useDispatch();
+    const socket = Socket();
 
 	const user = useSelector((state) => state.session.user);
 

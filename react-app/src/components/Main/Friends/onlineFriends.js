@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Socket } from '../../context/socket';
 
 import VideoModal from "../../videoModal";
 import PrivateMessageModal from '../PrivateMessage';
 
-function OnlineFriends({ socket, onlineFriends, offlineFriends, setOnlineFriends, friends, setFriends }) {
+function OnlineFriends({ onlineFriends, offlineFriends, setOnlineFriends, friends, setFriends }) {
+    const socket = Socket();
 
     const user = useSelector( state => state.session.user);
 
@@ -43,8 +45,8 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends, setOnlineFriends
                             <div className='friend-info'>
                                 <p>{friend.username}</p>
                                 <div className='friend-buttons'>
-                                    <PrivateMessageModal socket={socket} friend={friend} />
-                                    <VideoModal call={call} setCall={setCall} friend={friend} socket={socket} />
+                                    <PrivateMessageModal friend={friend} />
+                                    <VideoModal call={call} setCall={setCall} friend={friend} />
                                     <button onClick={() => ruinFriendship(friend)} type='button'><i className="far fa-trash-alt" /></button>
                                 </div>
                             </div>
@@ -68,7 +70,7 @@ function OnlineFriends({ socket, onlineFriends, offlineFriends, setOnlineFriends
                             <div className='friend-info'>
                                 <p>{friend.username}</p>
                                 <div className='friend-buttons'>
-                                    <PrivateMessageModal socket={socket} friend={friend} />
+                                    <PrivateMessageModal friend={friend} />
                                     <button onClick={() => ruinFriendship(friend)} type='button'><i className="far fa-trash-alt" /></button>
                                 </div>
                             </div>

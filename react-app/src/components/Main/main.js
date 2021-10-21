@@ -10,31 +10,33 @@ import Friends from './Friends/friends';
 import Servers from './Servers/servers';
 import MenuModal from './Menu';
 import useWindowResize from '../resize';
+import { Socket } from '../context/socket';
 
-let endPoint = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:5000/';
+// let endPoint = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:5000/';
 
-let socket = process.env.NODE_ENV === 'production' ? io() : io.connect(`${endPoint}`);
+// let socket = process.env.NODE_ENV === 'production' ? io() : io.connect(`${endPoint}`);
 
 // let socket = io(); FOR DEPLOYMENT
 
 
 function Main() {
     const size = useWindowResize();
+    const socket = Socket();
 
 	const user = useSelector((state) => state.session.user);
 
+    const [showFriends, setShowFriends] = useState(false);
 
-    const [showFriends, setShowFriends] = useState();
 	useEffect(() => {
 		socket.emit('online', user.id);
 	});
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        // if (size.width > 750) return;
-        setShowFriends(size.width > 750 ? true : false);
+    //     // if (size.width > 750) return;
+    //     setShowFriends(size.width > 750 ? true : false);
         
-    }, [size])
+    // }, [size])
 
     useEffect(() => {
         if (!user) {
@@ -47,15 +49,15 @@ function Main() {
         <div className="main-container">
             {size.width > 750 && (
                 <>
-                <Servers socket={socket} />
-                <Friends socket={socket} />
+                <Servers />
+                <Friends />
                 </>
             )}
             {!showFriends && size.width < 750 && (
-                <Servers socket={socket} />
+                <Servers />
             )}
             {showFriends && (
-                <Friends socket={socket} />
+                <Friends />
             )}
             <div className={showFriends ? "user_profile_name shift" : "user_profile_name"}>
                 <div className='user-profile'>
@@ -77,7 +79,7 @@ function Main() {
                             <i className="far fa-comment-alt fa-2x"></i>
                         )}
                     </button>
-                    <MenuModal socket={socket} />
+                    <MenuModal />
                 </div>
             </div>
         </div>

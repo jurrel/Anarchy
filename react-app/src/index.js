@@ -5,16 +5,19 @@ import './index.css';
 import App from './App';
 import configureStore from './store';
 import { ModalProvider } from './components/context/Modal/Modal';
+import SocketProvider from './components/context/socket';
 
 const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ModalProvider>
-        <App />
-      </ModalProvider>
-      </Provider>
+      <SocketProvider>
+        <ModalProvider>
+          <App />
+        </ModalProvider>
+      </SocketProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Modal } from '../context/Modal/Modal';
+import { Socket } from '../context/socket';
 import VideoChat from './video-chat';
 
 
-function VideoModal({ serverId, socket, friend, setCall, call }) {
+function VideoModal({ serverId, friend, setCall, call }) {
+  const socket = Socket();
   const [showModal, setShowModal] = useState(false);
 
 
@@ -48,7 +50,7 @@ function VideoModal({ serverId, socket, friend, setCall, call }) {
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <>
-            <VideoChat setCall={setCall} friend={friend} socket={socket} serverId={serverId} setShowModal={setShowModal} showModal={showModal} />
+            <VideoChat setCall={setCall} friend={friend} serverId={serverId} setShowModal={setShowModal} showModal={showModal} />
             <button id='close-modal' onClick={() => setShowModal(false)}>CLOSE</button>
           </>
         </Modal>

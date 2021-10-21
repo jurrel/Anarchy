@@ -4,7 +4,7 @@ import Menu  from './menu-modal';
 import './menu.css';
 
 
-function MenuModal({ socket }) {
+function MenuModal() {
   
   const [showModal, setShowModal] = useState(false);
 
@@ -15,7 +15,7 @@ function MenuModal({ socket }) {
       {showModal && (
       <Modal className='menu-modal' onClose={() => setShowModal(false)}>
         <>
-          <Menu socket={socket} setShowModal={setShowModal} showModal={showModal} />
+          <Menu setShowModal={setShowModal} showModal={showModal} />
         </>
         </Modal>
       )}

@@ -4,9 +4,11 @@ import EditFormModal from './EditFormModal';
 import { v4 as uuidv4 } from 'uuid';
 
 import './messages.css';
+import { Socket } from '../../context/socket';
 
-const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
+const Messages = ({ channel, server, channels, unread, setUnread }) => {
 	const dispatch = useDispatch();
+	const socket = Socket();
 
 	const [serverId, channelId] = [channel?.server_id, channel?.id];
 	
@@ -168,7 +170,6 @@ const Messages = ({ socket, channel, server, channels, unread, setUnread }) => {
 												<>
 													<EditFormModal
 														oldMessage={message}
-														socket={socket}
 														messages={messages}
 														setMessages={setMessages}
 													/>
