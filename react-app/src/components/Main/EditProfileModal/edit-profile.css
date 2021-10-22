@@ -1,7 +1,7 @@
 #edit-profile {
     position: absolute;
     left: 10vw;
-    bottom: 275px;
+    bottom: 35vh;
     z-index: 5;
     height: 450px;
     width: 25vw;
@@ -79,7 +79,7 @@
 @media screen and (max-width: 750px) {
     #edit-profile {
         position: absolute;
-        left: 25vw;
+        left: 45vw;
         bottom: 25vh;
         z-index: 5;
         height: 450px;

@@ -7,7 +7,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     bottom: 50px;
-    left: 340px;
+    left: 35vw;
     background-color: #36393f;
     z-index: 20;
 }
@@ -15,8 +15,8 @@
 #messages-box {
     position: absolute;
     bottom: 0;
-    left: 340px;
-    width: 500px;
+    left: 35vw;
+    width: 45vw;
     z-index: 21;
 }
 
