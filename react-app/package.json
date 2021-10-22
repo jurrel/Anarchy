@@ -21,7 +21,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^4.2.0",
-    "webrtc-adapter": "^8.1.0"
+    "webrtc-adapter": "^8.1.0",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

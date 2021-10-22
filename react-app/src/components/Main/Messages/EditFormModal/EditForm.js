@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { Socket } from '../../../context/socket';
 
-function EditForm({ oldMessage, socket, setShowModal, messages, setMessages }) {
+function EditForm({ oldMessage, setShowModal, messages, setMessages }) {
+	const socket = Socket();
+
 	const [message, setMessage] = useState(oldMessage.message);
 
 	const handleSubmit = (e) => {
@@ -40,7 +43,7 @@ function EditForm({ oldMessage, socket, setShowModal, messages, setMessages }) {
 	};
 
 	return (
-		<form className="edit-form" onSubmit={handleSubmit}>
+		<form autoComplete='off' className="edit-form" onSubmit={handleSubmit}>
 			<label>
 				Message
 				<input

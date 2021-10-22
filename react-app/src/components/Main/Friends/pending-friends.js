@@ -1,15 +1,20 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Socket } from '../../context/socket';
 
-function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setResults, value, setValue, results, friendAdded }) {
+import './friends.css';
+
+function PendingFriends({ setFriendAdded, pendingFriends, user, setPendingFriends, setResults, value, setValue, results, friendAdded }) {
+    const socket = Socket();
 
     const friends = useSelector(state => state.session.friends);
     const friendIds = friends.map(friend => friend.id);
 
     useEffect(() => {
 
-        socket.on('search-friend', results => {
+        
 
+        socket.on('search-for-friend', results => {
             if (!value) {
                 setResults('');
             } else {
@@ -17,8 +22,10 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
             }
         })
 
-        return () => socket.off('search-friend')
-    }, [setResults, socket, value])
+        return () => socket.off('search-for-friend')
+    })
+
+    // , [results, setResults, socket, value]
 
 
     const addFriend = (result) => {
@@ -28,11 +35,17 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
         }
 
         socket.emit('add-friend', data)
+        setValue('');
+        setResults('');
+        setFriendAdded(!friendAdded);
+        setTimeout(() => {
+            setFriendAdded(false)
+        }, 2000)
     }
 
 
     const confirmFriend = (friend) => {
-        friend.current_user = user.id
+        friend.current_user = user.id;
         socket.emit('confirm-friend', friend);
         setPendingFriends(pendingFriends.filter(pendingFriend => pendingFriend.id !== friend.id))
     }
@@ -52,24 +65,24 @@ function PendingFriends({ pendingFriends, socket, user, setPendingFriends, setRe
     return (
         <div className='friends'>
             <div id='friend-search'>
-            <form onSubmit={handleSearch}>
-                <input id='search-bar' value={value} onChange={(e) => {
-                    setValue(e.target.value);
-                    socket.emit('search-friend', value);
-                }} placeholder='Add friends'></input>
-            </form>
-            <ul id='list'>
-                { results && results.filter(result => !friendIds.includes(result.sender_id) && !friendIds.includes(result.receiver_id)).map(result => (
-                    <li className='list-item' onClick={() => addFriend(result)} key={result.id}>
-                        <img src={result.profile_picture} alt='serve'></img>
-                        <p>{result.username}</p>
-                    </li>
-                ))}
-                { friendAdded && (
-                    <p>Friend request sent!</p>
-                )}
-            </ul>
-        </div>
+                <form autoComplete='off' onSubmit={handleSearch}>
+                    <input value={value} onChange={(e) => {
+                        socket.emit('search-friend', e.target.value);
+                        setValue(e.target.value);
+                    }} placeholder='Add friends'></input>
+                </form>
+                <ul id='friend-list'>
+                    { results && results.map(result => (
+                        <li className='list-item' onClick={() => addFriend(result)} key={result.id}>
+                            <img src={result.profile_picture} alt='serve'></img>
+                            <p>{result.username}</p>
+                        </li>
+                    ))}
+                    { friendAdded && (
+                        <p>Friend request sent!</p>
+                    )}
+                </ul>
+            </div>
             { pendingFriends && pendingFriends.map(friend => (
                 <div key={friend.id} className='friend'>
                     <img alt='profile' src={friend.profile_picture}></img>

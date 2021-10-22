@@ -1,4 +1,8 @@
-
+.error {
+    color: rgb(247, 78, 78);
+    margin: 0;
+    padding: 0;
+}
 
 .splash-log {
     height: 75%;
@@ -14,6 +18,7 @@
     border-radius: 10px;
     overflow: hidden;
     overflow-y: scroll;
+    padding: 15px;
 }
 
 .logs {
@@ -42,10 +47,10 @@
 .log-form {
     display: flex;
     flex-direction: column;
-    gap: 25px;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.5em;
+    gap: 5px;
 }
 
 .log-form > label {
@@ -59,7 +64,7 @@
     text-align: center;
 }
 
-.log-form > input:focus {
+input:focus {
     outline: none;
 }
 
@@ -76,6 +81,7 @@
     text-decoration: none;
     color: white;
     font-size: 1.5rem;
+    margin-top: 10px;
 }
 
 .log-form > button:hover {
@@ -85,7 +91,7 @@
 @media screen and (max-width: 760px) {
 
     .splash-log {
-        height: 80%;
+        height: fit-content;
         width: 90%;
         display: flex;
         flex-direction: column;
@@ -94,8 +100,8 @@
         box-shadow: inset 5px 5px 10px #da6969,
         inset -5px -5px 10px rgb(140, 140, 242);
         border-radius: 10px;
-        overflow: hidden;
-        overflow-y: scroll;
+        overflow: scroll;
+        padding: 25px;
     }
 
     .log-form>input {

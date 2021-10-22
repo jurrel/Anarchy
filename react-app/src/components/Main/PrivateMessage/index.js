@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Modal } from '../../context/Modal/Modal';
+import { Socket } from '../../context/socket';
 import PrivateMessage from './private-message';
 
 
-function PrivateMessageModal({ socket, friend }) {
+function PrivateMessageModal({ friend }) {
+  const socket = Socket();
   
   const [showModal, setShowModal] = useState(false);
   const [unread, setUnread] = useState(false);
@@ -12,6 +14,7 @@ function PrivateMessageModal({ socket, friend }) {
 
 
   useEffect(() => {
+
     socket.on('private-message', (message) => {
       setMessages([...messages, message]);
       if (message.user_id === friend.id) {
@@ -20,7 +23,9 @@ function PrivateMessageModal({ socket, friend }) {
     });
 
   return () => socket.off('private-message');
-}, [friend.id, messages, setUnread, socket]);
+});
+
+// , [friend.id, messages, setUnread, socket]
 
 
 
@@ -30,7 +35,7 @@ function PrivateMessageModal({ socket, friend }) {
       {showModal && (
       <Modal className='message-modal' onClose={() => setShowModal(false)}>
         <>
-          <PrivateMessage message={message} setMessage={setMessage} messages={messages} setMessages={setMessages} setUnread={setUnread} setShowModal={setShowModal} socket={socket} friend={friend} />
+          <PrivateMessage message={message} setMessage={setMessage} messages={messages} setMessages={setMessages} setUnread={setUnread} setShowModal={setShowModal} friend={friend} />
         </>
         </Modal>
       )}

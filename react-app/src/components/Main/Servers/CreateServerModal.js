@@ -1,8 +1,10 @@
 import { Modal } from '../../context/Modal/Modal';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Socket } from '../../context/socket';
 
-function CreateServerModal({ socket }) {
+function CreateServerModal() {
+	const socket = Socket();
 	const user = useSelector((state) => state.session.user);
 	const servers = useSelector((state) => state.session.servers);
 	const [showModal, setShowModal] = useState(false);
@@ -24,7 +26,7 @@ function CreateServerModal({ socket }) {
 			setJoinServer([...joinServer, serverJoin]);
 		});
 		return () => {
-			socket.off();
+			;
 		};
 	})
 
@@ -41,7 +43,7 @@ function CreateServerModal({ socket }) {
 		return;
 	};
 
-	const handleCancle = async (e) => {
+	const handleCancel = async (e) => {
 		e.preventDefault();
 		setShowModal(false);
 		return;
@@ -63,6 +65,7 @@ function CreateServerModal({ socket }) {
 			{showModal && (
 				<Modal onClose={() => setShowModal(false)}>
 					<form
+						autoComplete='off'
 						className="create-channel-modal"
 						onSubmit={(e) => handleCreateServer(e)}
 					>
@@ -70,25 +73,28 @@ function CreateServerModal({ socket }) {
 						<div className="text-under-channel-modal">Give your server a personality! </div>
 						<div className="text-under-channel-modal">If it sucks... you can always change it</div>
 
-						<div className="server-name-header">
+						<div className='form-divs'>
 							<label className='create-server-name-input'>Server Name</label>
 							<input
 								type="text"
 								placeholder="Server name"
+								required
+								autoComplete="off"
 								onChange={(e) => updateServerName(e)}
 							></input>
 						</div>
 
-						<div className="server-name-header">
+						<div className='form-divs'>
 							<label className='image-Url-input'>Image Url</label>
 							<input className="channel_photo_upload_modal"
                             type="text"
                             placeholder="Image Url here.."
                             value={imageUrl}
+							required 
                             onChange={updateServerImage} />
 						</div>
-						<div>
-							<button className="cancel_button" type="button" onClick={handleCancle}>
+						<div className='buttons'>
+							<button className="cancel_button" type="button" onClick={handleCancel}>
 								Cancel
 							</button>
 							<button className="create_button" type="submit">Create</button>

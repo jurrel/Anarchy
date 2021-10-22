@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import EditFormModal from './EditFormModal';
+import { v4 as uuidv4 } from 'uuid';
 
 import './messages.css';
+import { Socket } from '../../context/socket';
 
-const Messages = ({ socket, channel, server}) => {
+const Messages = ({ channel, server, channels, unread, setUnread }) => {
+	const dispatch = useDispatch();
+	const socket = Socket();
+
 	const [serverId, channelId] = [channel?.server_id, channel?.id];
-
+	
 	const user = useSelector((state) => state.session.user);
-
+	
 	const [messages, setMessages] = useState(
-		channel
-			? channel.messages.sort(
-					(a, b) =>
-						a.id - b.id
-			  )
-			: []
-	);
+		channel ? channel.messages.sort((a, b) => a.id - b.id) : []);
+		
 	const [message, setMessage] = useState('');
 
 	const dateConverter = (dateStr) => {
@@ -48,15 +48,19 @@ const Messages = ({ socket, channel, server}) => {
 		return '';
 	};
 
-	useEffect(() => {
-		socket.on('message', (message) => {
-			if (message.channel_id === channel.id) {
-				setMessages([...messages, message]);
-			}
-		});
+	// useEffect(() => {
+	// 	return () => setUnread(false);
+	// })
+	
+	// useEffect(() => {
+	// 	socket.on('message', (message) => {
+	// 		if (message.channel_id === channel.id) {
+	// 			setMessages([...messages, message]);
+	// 		} 
+	// 	});
 
-		return () => socket.off('message');
-	}, [channel?.id, messages, messages.length, socket]);
+	// 	return () => socket.off('message');
+	// }, [channel?.id, channels, dispatch, messages, messages.length, socket, user.id]);
 
 	useEffect(() => {
 		setMessages(channel ? channel.messages : []);
@@ -66,9 +70,12 @@ const Messages = ({ socket, channel, server}) => {
 				boxes[i].scrollTo(0, boxes[i].scrollHeight);
 			}
 		}
-	}, [channel, channelId, serverId]);
-
+	}, [channel, channelId, serverId, setUnread, unread]);
+	
 	useEffect(() => {
+		if (unread === channel?.id) {
+			setUnread(false)
+		}
 		const boxes = document.querySelectorAll('.messages-container');
 		if (boxes) {
 			for (let i = 0; i < boxes.length; i++) {
@@ -80,11 +87,15 @@ const Messages = ({ socket, channel, server}) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const newMessage = {
+			id: uuidv4(),
 			message: message,
 			user_id: user.id,
 			channel_id: channelId,
 			imageUrl: null,
+			createdAt: new Date(),
+			updatedAt: new Date()
 		};
+		setMessages([...messages, newMessage])
 		socket.emit('message', newMessage);
 		setMessage('');
 	};
@@ -128,70 +139,72 @@ const Messages = ({ socket, channel, server}) => {
 							<div key={message.id}>
 								<li className="message">
 									<div className="message-info">
-										<div className="image-container">
-											<img
-												className="message-user-profile-pic"
-												alt="temp"
-												src={
-													server?.users.find(
-														(user) => user.id === message.user_id
-													)?.profile_picture
+										<div className="message-user">
+											<div className="image-container">
+												<img
+													className="message-user-profile-pic"
+													alt="temp"
+													src={
+														server?.users.find(
+															(user) => user.id === message.user_id
+														)?.profile_picture
+													}
+												/>
+											</div>
+											<h3>
+												{
+													server?.users.find((user) => user.id === message.user_id)
+														?.username
 												}
-											/>
+											</h3>
 										</div>
-										<h3>
-											{
-												server?.users.find((user) => user.id === message.user_id)
-													?.username
-											}
-										</h3>
+											{user.id === message.user_id && (
+												<i
+													className="fas fa-ellipsis-h message-elipsis"
+													id={`elipsis-${message.id}`}
+													onClick={handleButtonClick}
+												></i>
+											)}
+										<div className={`edit-buttons a${message.id}`}>
+											{Number(user?.id) === Number(message?.user_id) && (
+												<>
+													<EditFormModal
+														oldMessage={message}
+														messages={messages}
+														setMessages={setMessages}
+													/>
+													<button
+														className="del-message"
+														onClick={handleDelete}
+														id={`del-${message.id}`}
+													>
+														<i className="fas fa-trash-alt m2"></i>
+														Delete
+													</button>
+												</>
+											)}
+										</div>
+									</div>
+									<div className="message-content">
 										<p>
 											{dateConverter(message?.createdAt) +
 												' ' +
 												editCheck(message)}
 										</p>
-										{user.id === message.user_id && (
-											<i
-												className="fas fa-ellipsis-h message-elipsis"
-												id={`elipsis-${message.id}`}
-												onClick={handleButtonClick}
-											></i>
-										)}
-									</div>
-									<div className="message-content">
 										<p>{message?.message}</p>
-									</div>
-									<div className={`edit-buttons a${message.id}`}>
-										{Number(user?.id) === Number(message?.user_id) && (
-											<>
-												<EditFormModal
-													oldMessage={message}
-													socket={socket}
-													messages={messages}
-													setMessages={setMessages}
-												/>
-												<button
-													className="del-message"
-													onClick={handleDelete}
-													id={`del-${message.id}`}
-												>
-													<i className="fas fa-trash-alt m2"></i>
-													Delete
-												</button>
-											</>
-										)}
 									</div>
 								</li>
 							</div>
 						))}
 				</ul>
 			</div>
-			<form className="messages-box" onSubmit={handleSubmit}>
+			<form autoComplete='off' className="messages-box" onSubmit={handleSubmit}>
 				<input
 					id="message-box"
 					type="text"
 					placeholder={`Message #${channel?.name}`}
 					value={message}
+					required
 					onChange={updateMessage}
 				></input>
 			</form>

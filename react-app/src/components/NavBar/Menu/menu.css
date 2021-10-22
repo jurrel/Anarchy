@@ -9,9 +9,15 @@
 	align-items: center;
 	position: absolute;
 	right: 0;
-	top: 10vh;
+	top: 5vh;
 	border-radius: 15px;
 	padding-bottom: 15px;
+}
+
+#modal-content.menu-modal {
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 .menu-modal > * {
@@ -72,7 +78,7 @@
 }
 
 @media screen and (max-width: 760px) {
-	.menu-modal {
+	#menu-modal {
 		background-image: linear-gradient(to right, #434343 0%, black 100%);
 		height: 20vh;
 		min-height: 200px;
@@ -115,6 +121,9 @@
 		border: none;
 		padding: 5px;
 		padding-right: 10px;
+		position: relative;
+		left: 10%;
+		top:0;
 	}
 
 	.logout {

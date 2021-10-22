@@ -84,9 +84,9 @@ def connection():
         id_list = [ user.id for user in user_list ]
 
         friends = Friend.query.filter(Friend.sender_id not in id_list).filter(Friend.receiver_id not in id_list).all()
-        users = [ user.to_dict() for user in user_list ]
+        frands = [ user.to_dict() for user in user_list ]
 
-        for user in users:
+        for user in frands:
             for friend in friends:
                 if friend.sender_id == user['id'] or friend.receiver_id == user['id']:
                     user['isFriend'] = friend.isFriend
@@ -96,7 +96,7 @@ def connection():
                     user['messages'] = []
 
         
-        emit('search-friend', users, broadcast=True)
+        emit('search-for-friend', frands, broadcast=True)
         return None 
 
     @socketio.on('add-friend')
@@ -119,6 +119,7 @@ def connection():
         user['sender_id'] = friend.sender_id
         user['receiver_id'] = friend.receiver_id 
         user['isFriend'] = False 
+        user['friend_id'] = friend.id
         
 
         emit('add-friend', user, broadcast=True)
@@ -250,6 +251,7 @@ def connection():
         db.session.commit()
         returnMessage = message.to_dict()
         send(returnMessage, broadcast=True)
+        emit('unread-message', returnMessage, broadcast=True)
         return None
 
     @socketio.on('edit-message')

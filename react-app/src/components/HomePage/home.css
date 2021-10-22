@@ -1,5 +1,10 @@
 @media screen and (min-width: 760px) {
 
+    .splash {
+        padding: 25px;
+        height: fit-content;
+    }
+
     .return-button {
         padding: 15px;
         border-radius: 15px;
@@ -9,21 +14,27 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        font-size: 1em;
+        gap: 1em;
+        margin-top: 10px;
     }
 
     .return-button:hover {
         cursor: pointer;
     }
+
+    .return-button > p {
+        margin: 0;
+    }
     
     .return-header {
-        font-size: 50px;
+        font-size: 2em;
         color: white;
         text-decoration: none;
-
     }
 
     .home {
-        height: 100vh !important;
+        /* height: 100vh !important; */
         width: 80vw;
         padding: 0;
         margin: 0;
@@ -37,8 +48,8 @@
     }
 
     .splash {
-        height: 75%;
         width: 80%;
+        max-width: 600px;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -47,6 +58,7 @@
         box-shadow: inset 5px 5px 10px #da6969,
                     inset -5px -5px 10px rgb(140, 140, 242);
         border-radius: 10px;
+        height: fit-content;
     }
 
     .splash > h1 {
@@ -81,21 +93,33 @@
 @media screen and (max-width: 760px) {
 
     .home {
-        height: 100vh !important;
+        height: 80vh !important;
         width: 90vw;
         padding: 0;
         margin: 0;
-        position: relative;
+        position: absolute;
         left: 5vw;
-        top: 5vw;
+        top: 10vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-
     }
 
+    .home.servers {
+        height: 80vh !important;
+        width: 90vw;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        left: 12vw;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
     .splash {
-        height: 100%;
+        height: fit-content;
         width: 90%;
         display: flex;
         flex-direction: column;
@@ -103,14 +127,13 @@
         align-items: center;
         word-wrap: break-word;
         box-shadow: inset 5px 5px 10px #da6969,
-            inset -5px -5px 10px rgb(140, 140, 242);
+        inset -5px -5px 10px rgb(140, 140, 242);
         border-radius: 10px;
-        overflow: hidden;
-        overflow-y: scroll;
+        overflow: scroll;
     }
-
+    
     .splash > h1 {
-        font-size: 1.5rem;
+        font-size: 1em;
         margin: 0;
     }
 
@@ -124,9 +147,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 25px;
+        gap: 15px;
         text-align: center;
-        flex-direction: column;
+        /* flex-direction: column; */
+        font-size: .75em;
+        padding: 10px;
     }
 
     .dev-links {
@@ -135,5 +160,29 @@
         align-items: center;
         gap: 25px;
 
+    }
+
+    .return-button {
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: inset 5px 5px 10px #da6969,
+            inset -5px -5px 10px rgb(140, 140, 242);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1em;
+        gap: 1em;
+        margin-top: 10px;
+    }
+
+    .return-header {
+        font-size: 2em;
+    }
+
+    .return-header {
+        font-size: 2em;
+        color: white;
+        text-decoration: none;
     }
 }

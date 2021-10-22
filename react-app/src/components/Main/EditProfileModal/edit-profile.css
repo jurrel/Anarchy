@@ -1,19 +1,19 @@
 #edit-profile {
     position: absolute;
-    left: 100px;
-    bottom: 275px;
+    left: 10vw;
+    bottom: 35vh;
     z-index: 5;
     height: 450px;
-    width: 220px;
+    width: 25vw;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
     align-items: center;
     font-size: 1rem;
     background-color: #36393f;
+    /* padding: 25px 0; */
 }
-
 
 #edit-profile>label {
     border-bottom: 1px solid gray;
@@ -23,13 +23,14 @@
     border-radius: 15px;
     width: 200px;
     text-align: center;
+    padding: 5px;
 }
 
 #edit-profile>input:focus {
     outline: none;
 }
 
-#edit-profile>button {
+#edit-profile>button:not(#close-settings) {
     background-color: transparent;
     box-shadow: inset 5px 5px 10px #da6969,
         inset -5px -5px 10px rgb(140, 140, 242);
@@ -50,11 +51,15 @@
 
 #close-settings {
     position: absolute;
-    bottom: 700px;
-    left: 290px;
+    top: 0;
+    right: 0;
+    /* bottom: 700px;
+    left: 32vw; */
+    /* right: 0; */
     z-index: 6;
     background-color: transparent;
     border: none;
+    color: white;
 }
 
 #close-settings:hover {
@@ -65,4 +70,85 @@
     height: 100px;
     width: 100px;
     padding-bottom: 50px;
+}
+
+#close-modal {
+    color: white;
+}
+
+@media screen and (max-width: 750px) {
+    #edit-profile {
+        position: absolute;
+        left: 45vw;
+        bottom: 25vh;
+        z-index: 5;
+        height: 450px;
+        width: 50vw;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;
+        background-color: #36393f;
+        /* padding: 25px 0; */
+    }
+
+    #edit-profile>label {
+        border-bottom: 1px solid gray;
+    }
+
+    #edit-profile>input {
+        border-radius: 15px;
+        width: 200px;
+        text-align: center;
+        padding: 5px;
+    }
+
+    #edit-profile>input:focus {
+        outline: none;
+    }
+
+    #edit-profile>button:not(#close-settings) {
+        background-color: transparent;
+        box-shadow: inset 5px 5px 10px #da6969,
+            inset -5px -5px 10px rgb(140, 140, 242);
+        border-radius: 15px;
+        border: none;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        font-size: 1rem;
+    }
+
+    #edit-profile>button:hover {
+        cursor: pointer;
+    }
+
+    #close-settings {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 6;
+        background-color: transparent;
+        border: none;
+        color: white;
+    }
+
+    #close-settings:hover {
+        cursor: pointer;
+    }
+
+    #file-upload {
+        height: 100px;
+        width: 100px;
+        padding-bottom: 50px;
+    }
+
+    #close-modal {
+        color: white;
+    }
 }

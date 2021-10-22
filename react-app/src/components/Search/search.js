@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Socket } from '../context/socket';
 
-function Search({ socket, setServers, setShowModal, servers }) {
+function Search({ setServers, setShowModal, servers }) {
+    const socket = Socket();
 
     const user = useSelector(state => state.session.user);
 
@@ -9,6 +11,8 @@ function Search({ socket, setServers, setShowModal, servers }) {
     const [value, setValue] = useState('');
 
     useEffect(() => {
+
+        
 
         socket.on('search', results => {
             if (!value) {
@@ -19,9 +23,13 @@ function Search({ socket, setServers, setShowModal, servers }) {
         })
 
         return () => socket.off('search')
-    }, [socket, value])
+    })
+
+    // , [socket, value]
 
     useEffect(() => {
+
+        
 
         const closeModal = (e) => {
             if (!e.target.closest('#search-modal')) {
@@ -30,10 +38,12 @@ function Search({ socket, setServers, setShowModal, servers }) {
         }
         document.addEventListener('click', closeModal)
 
-        return () => document.removeEventListener('click', closeModal)
+        // return () => document.removeEventListener('click', closeModal)
     }, [setShowModal])
 
     useEffect(() => {
+
+        
 
         socket.on('join-server', result => {
             const server = servers.filter(server => server.id === result.id);
@@ -43,7 +53,9 @@ function Search({ socket, setServers, setShowModal, servers }) {
         } )
 
         return () => socket.off('join-server')
-    }, [servers, setServers, socket, user])
+    })
+
+    // , [servers, setServers, socket, user]
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -62,7 +74,7 @@ function Search({ socket, setServers, setShowModal, servers }) {
 
     return (
         <div id='search-modal'>
-            <form onSubmit={handleSearch}>
+            <form autoComplete='off' onSubmit={handleSearch}>
                 <input id='search-bar' value={value} onChange={(e) => {
                     setValue(e.target.value);
                     socket.emit('search', value);

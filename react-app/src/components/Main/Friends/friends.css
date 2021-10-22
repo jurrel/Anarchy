@@ -99,40 +99,54 @@
             inset -5px -5px 10px rgb(140, 140, 242);
     }
 
+    #friend-search {
+        width: 90%;
+    }
+
+    #friend-list {
+        margin: 0;
+        padding: 10px 0;
+    }
+
 
 }
 
 @media screen and (max-width: 760px) {
     .friends-container {
-        width: 20vw;
-        height: 80vh;
-        position: absolute;
-        right: 0;
         display: flex;
         flex-direction: column;
         gap: 25px;
-        border-left: 1px solid lightgray;
-        border-top: 1px solid lightgray;
-        border-bottom: 1px solid lightgray;
         border-radius: 5px;
         overflow-y: scroll;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 35vw;
+        background-color: #2f3136;
+        z-index: 2;
+        overflow-x: hidden;
     }
 
     .friends-nav {
         display: flex;
-        gap: 15px;
+        /* gap: 15px; */
         justify-content: center;
         align-items: center;
         border-bottom: 1px solid lightgray;
         position: sticky;
         top: 0;
-        background-color: lightgray;
-        color: black
+        font-size: 3vw;
     }
 
     .friends-nav>* {
-        color: black;
-        font-size: 1.5em;
+        font-size: 3vw;
+        background-color: transparent;
+        border: none;
+    }
+
+    .friends-nav>*:hover {
+        cursor: pointer;
     }
 
     .friends {
@@ -141,12 +155,13 @@
         justify-content: center;
         align-items: center;
         width: 100%;
+        font-size: 3vw;
     }
 
     .friends>h3 {
         padding: 0;
         margin: 0;
-        font-size: 1.5rem;
+        font-size: 4vw;
         background: -webkit-linear-gradient(rgb(88, 11, 140), rgb(250, 14, 14));
         background-clip: border-box;
         -webkit-background-clip: text;
@@ -174,26 +189,44 @@
     }
 
     .friend>img {
-        height: 75px;
-        width: 75px;
+        height: 4vh;
+        width: 8vw;
         border-radius: 50px;
     }
 
     .friend-buttons {
         display: flex;
-        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .friend-buttons>*:hover {
+        cursor: pointer;
+        align-items: center;
     }
 
     .friend-buttons>* {
         border-radius: 15px;
-        height: 25px;
-        width: 25px;
+        height: 3vh;
+        width: 6vw;
         padding: 5px;
         background-color: transparent;
         border: none;
         color: white;
         box-shadow: inset 5px 5px 10px #da6969,
             inset -5px -5px 10px rgb(140, 140, 242);
+    }
+
+    #friend-search {
+        width: 90%;
+        position: relative;
+    }
+
+    #friend-list {
+        margin: 0;
+        padding: 10px 0;
+        width: 100%;
     }
 
 

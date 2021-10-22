@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal } from '../../../context/Modal/Modal';
 import EditForm from './EditForm';
 
-function EditFormModal({ oldMessage, socket, messages, setMessages }) {
+function EditFormModal({ oldMessage, messages, setMessages }) {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -19,7 +19,6 @@ function EditFormModal({ oldMessage, socket, messages, setMessages }) {
 				<Modal onClose={() => setShowModal(false)}>
 					<EditForm
 						oldMessage={oldMessage}
-						socket={socket}
 						showModal={showModal}
 						setShowModal={setShowModal}
 						messages={messages}

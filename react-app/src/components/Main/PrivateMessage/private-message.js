@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { Socket } from '../../context/socket';
+
 
 import EditFormModal from '../Messages/EditFormModal';
 import './privates.css';
 
-function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, setMessages, message, setMessage }) {
+function PrivateMessage({ friend, setShowModal, setUnread, messages, setMessages, message, setMessage }) {
+	const socket = Socket();
 
     const user = useSelector(state => state.session.user);
 
@@ -72,10 +76,14 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
     const handleSubmit = (e) => {
 		e.preventDefault();
 		const newMessage = {
+			id: uuidv4(),
 			message: message,
 			user_id: user.id,
-            receiver_id: friend.id
+            receiver_id: friend.id,
+			createdAt: new Date(),
+			updatedAt: new Date()
 		};
+		setMessages([...messages, newMessage]);
 		socket.emit('private-message', newMessage);
 		setMessage('');
 	};
@@ -83,7 +91,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
     useEffect(() => {
 
         const closeModal = (e) => {
-            if (!e.target.closest('#private')) {
+            if (!e.target.closest('#modal')) {
                 setShowModal(false)
             }
         }
@@ -97,33 +105,34 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
         if (message.channel_id === null && message.user_id === user.id) {
             return (
                 <div key={message.id}>
-                    <div className='message-info'>
-                        <div className="image-container">
-                            <img className="message-user-profile-pic" alt="temp" src={user.profile_picture} />
-                        </div>
-                        <h3>{user.username}</h3>
-                        <p>{dateConverter(message?.createdAt) + ' ' + editCheck(message)}</p>
-                        <i className="fas fa-ellipsis-h message-elipsis" id={`elipsis-${message.id}`} onClick={handleButtonClick}></i>
+                    <div className='message-info private'>
+						<div className='message-user'>
+							<div className="image-container">
+								<img className="message-user-profile-pic" alt="temp" src={user.profile_picture} />
+							</div>
+							<h3>{user.username}</h3>
+							<i className="fas fa-ellipsis-h message-elipsis" id={`elipsis-${message.id}`} onClick={handleButtonClick}></i>
+							<div className={`edit-buttons a${message.id}`}>
+								<EditFormModal
+									oldMessage={message}
+									messages={messages}
+									setMessages={setMessages}
+								/>
+								<button
+									className="del-message"
+									onClick={handleDelete}
+									id={`del-${message.id}`}
+								>
+									<i className="fas fa-trash-alt m2"></i>
+									Delete
+								</button>
+							</div>
+						</div>
                     </div>
                     <li className="message">
-                        <div className="message-content">
+                        <div className="message-content private">
+                        	<p>{dateConverter(message?.createdAt) + ' ' + editCheck(message)}</p>
                             <p>{message?.message}</p>
-                        </div>
-                        <div className={`edit-buttons a${message.id}`}>
-                            <EditFormModal
-                                oldMessage={message}
-                                socket={socket}
-                                messages={messages}
-                                setMessages={setMessages}
-                            />
-                            <button
-                                className="del-message"
-                                onClick={handleDelete}
-                                id={`del-${message.id}`}
-                            >
-                                <i className="fas fa-trash-alt m2"></i>
-                                Delete
-                            </button>
                         </div>
                     </li>
                 </div>
@@ -133,13 +142,15 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
                 <div key={message.id}>
                     <li className="message">
                         <div className='message-info'>
-                            <div className="image-container">
-                                <img className="message-user-profile-pic" alt="temp" src={friend.profile_picture} />
-                            </div>
-                            <h3>{friend.username}</h3>
-                            <p>{dateConverter(message?.createdAt) + ' ' + editCheck(message)}</p>
+							<div className='message-user'>
+								<div className="image-container">
+									<img className="message-user-profile-pic" alt="temp" src={friend.profile_picture} />
+								</div>
+								<h3>{friend.username}</h3>
+							</div>
                         </div>
                         <div className="message-content">
+                            <p>{dateConverter(message?.createdAt) + ' ' + editCheck(message)}</p>
                             <p>{message?.message}</p>
                             {!messages.length && (<p>No messages yet!</p>)}
                         </div>
@@ -158,7 +169,7 @@ function PrivateMessage({ friend, socket, setShowModal, setUnread, messages, set
 						messages.map((message) => ( whatToDisplay(message, friend) ))}
 				</ul>
 			</div>
-			<form id='messages-box' onSubmit={handleSubmit}>
+			<form autoComplete='off' id='messages-box' onSubmit={handleSubmit}>
 				<input
 					id="private-box"
 					type="text"

@@ -1,11 +1,11 @@
 import { Link, useHistory } from 'react-router-dom';
 import './home.css';
 
-function Home() {
+function Home({ servers }) {
     const history = useHistory();
 
     return (
-        <div className='home'>
+        <div className={servers ? 'home servers' : 'home'}>
             <div className='splash'>
                 <div onClick={() => history.push('/')} className='return-button'>
                     <Link className='return-header' to='/'>Return to Anarchy!</Link>
@@ -16,7 +16,7 @@ function Home() {
                     The tech stack for this application uses Python/Flask on the back end, Javascript/React 
                     on the front end and is deployed on Heroku creating environments with Docker. We had 1 week
                     to build out the application. In the meantime we taught ourselves how to implement Web Sockets
-                    and Video Chat using WebRTC on top of meeting our minimum viable product. Enjoy the demo of the site, if you have any questions reach out to 
+                    and Video Chat using a PeerJS server on top of meeting our minimum viable product. Enjoy the demo of the site, if you have any questions reach out to 
                     us at one of the links below!
                 </p>
                 <div className='dev-team'>

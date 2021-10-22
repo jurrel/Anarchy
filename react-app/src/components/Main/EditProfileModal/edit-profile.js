@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signUp } from '../../../store/session';
+import reducer, { signUp } from '../../../store/session';
+import { Socket } from '../../context/socket';
 
-function EditProfile({ setEditProfile, socket }) {
+function EditProfile({ setEditProfile }) {
 	const dispatch = useDispatch();
+    const socket = Socket();
 
 	const user = useSelector((state) => state.session.user);
 
@@ -13,23 +15,31 @@ function EditProfile({ setEditProfile, socket }) {
 	const [password, setPassword] = useState('');
 	const [repeatPassword, setRepeatPassword] = useState('');
 	const [file, setFile] = useState();
+    const [editDemo, setEditDemo] = useState(false);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const data = await dispatch(signUp(username, email, password, file))
-        if (data) {
-				setErrors(data);
+        if (user.username === 'Demo') {
+            setEditDemo(true);
         } else {
-            setEditProfile(false);
+            const data = await dispatch(signUp(username, email, password, file))
+            if (data) {
+                    setErrors(data);
+            } else {
+                setEditProfile(false);
+            }
         }
     }
 
     return (
         <>
-            <button id='close-settings' onClick={() => setEditProfile(false)}><i className="fas fa-times fa-2x"/></button>
-            <form id='edit-profile' onSubmit={handleSubmit}>
+            <form autoComplete='off' id='edit-profile' onSubmit={handleSubmit}>
+                <button id='close-settings' onClick={(e) => {
+                    e.preventDefault();
+                    setEditProfile(false)
+                }}><i className="fas fa-times fa-2x"/></button>
                 <div>
                     {errors.map((error, ind) => (
                         <div key={ind}>{error}</div>
@@ -39,6 +49,7 @@ function EditProfile({ setEditProfile, socket }) {
                 <input
                     type="text"
                     name="username"
+                    required
                     onChange={(e) => setUsername(e.target.value)}
                     value={username}
                 ></input>
@@ -46,6 +57,7 @@ function EditProfile({ setEditProfile, socket }) {
                 <input
                     type="text"
                     name="email"
+                    required
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                 ></input>
@@ -53,6 +65,7 @@ function EditProfile({ setEditProfile, socket }) {
                 <input
                     type="password"
                     name="password"
+                    required
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                 ></input>
@@ -64,7 +77,7 @@ function EditProfile({ setEditProfile, socket }) {
                             name="repeat_password"
                             onChange={(e) => setRepeatPassword(e.target.value)}
                             value={repeatPassword}
-                            required={true}
+                            required
                         ></input>
                     </>
                 )}
@@ -73,10 +86,13 @@ function EditProfile({ setEditProfile, socket }) {
                     type="file"
                     name="file"
                     onChange={(e) => setFile(e.target.files[0])}
-                    required={false}
                     id='file-upload'
                 ></input>
-                <button type="submit">Save Changes</button>
+                {!editDemo && (
+                    <button type="submit">Save Changes</button>
+                )} {editDemo && (
+                    <p style={{color: 'red'}}>No no no, leave Demo alone. <br />Create your own account to customize.</p>
+                )}
             </form>
         </>
     )
