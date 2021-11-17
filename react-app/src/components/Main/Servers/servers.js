@@ -34,7 +34,7 @@ function Servers() {
 
 	useEffect(() => {
 
-		
+
 
 		socket.on('unread-message', (message) => {
 			const channel = channels.find(chan => chan.id === message.channel_id);
@@ -50,9 +50,8 @@ function Servers() {
 	// , [channels, selectedServer, servers, socket, unread, user.id]
 
 
-	return ( 
-        <div className="side_bar_main">
-            <div className="align_the_side_bar">
+	return (
+        <div className="server-sidebar">
                 <>
                     <div
                         className={
@@ -76,36 +75,34 @@ function Servers() {
                             <CreateServerModal />
                         </div>
                     </div>
-						{servers?.map((server) => (
-							<div key={server.id}>
-								<div className={unread === server.id ? "server-icon unread" : "server-icon"} onClick={(e) => setServer(server)}>
-									<div
-										className={selectedServer.id === server.id ? 'active' : ''}
-									>
-										<img
-											src={server.imageUrl}
-											alt=""
-											className="server_img_container"
-										/>
-									</div>
-								</div>
-								<div className={selectedServer.id === server.id ? "channel_list" : 'hidden'}>
-									{selectedServer && (
-										<Channels
-											server={selectedServer}
-											channels={selectedServer.channels}
-											unread={unread}
-											setUnread={setUnread}
-										/>
-									)}
+				</>
+					{servers?.map((server) => (
+						<div key={server.id}>
+							<div className={unread === server.id ? "server-icon unread" : "server-icon"} onClick={(e) => setServer(server)}>
+								<div
+									className={selectedServer.id === server.id ? 'active' : ''}
+								>
+									<img
+										src={server.imageUrl}
+										alt=""
+										className="server_img_container"
+									/>
 								</div>
 							</div>
-						))}
-				</>
-			</div>
+							<div className={selectedServer.id === server.id ? "channel_list" : 'hidden'}>
+								{selectedServer && (
+									<Channels
+										server={selectedServer}
+										channels={selectedServer.channels}
+										unread={unread}
+										setUnread={setUnread}
+									/>
+								)}
+							</div>
+						</div>
+					))}
 		</div>
 	);
 }
 
 export default Servers;
-

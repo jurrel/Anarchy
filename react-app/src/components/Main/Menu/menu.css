@@ -8,8 +8,8 @@
 	align-items: center;
 	position: absolute;
 	z-index: 5;
-	left: 10vw;
-	bottom: 10vh;
+	left: 8%;
+	bottom: 5%;
 	padding-bottom: 15px;
 }
 
@@ -79,6 +79,8 @@
 	color: white;
 	text-decoration: none;
 }
+
+
 
 @media screen and (max-width: 750px) {
 	#menu-modal {

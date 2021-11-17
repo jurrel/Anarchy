@@ -5,12 +5,12 @@ import './menu.css';
 
 
 function MenuModal() {
-  
+
   const [showModal, setShowModal] = useState(false);
 
 
   return (
-    <>
+    <div>
       <button className='settings' onClick={() => setShowModal(!showModal)} ><i className="fa fa-gear fa-2x" /></button>
       {showModal && (
       <Modal className='menu-modal' onClose={() => setShowModal(false)}>
@@ -19,12 +19,8 @@ function MenuModal() {
         </>
         </Modal>
       )}
-    </>
+    </div>
   );
 }
 
 export default MenuModal;
-
-
-
-                  

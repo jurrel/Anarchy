@@ -47,15 +47,16 @@
 
 .messages-container {
 	font-family: sans-serif;
-	height: 87.5%;
-	width: 50vw;
 	position: absolute;
 	overflow: scroll;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	top: 5%;
-	left: 25vw;
 	background-color: #36393f;
+	height: 87.5%;
+	width: 50vw;
+	left: 100%;
+	top: 0;
+	padding: 5px;
 }
 
 .messages-container > * {
@@ -71,8 +72,6 @@
 .message-box {
 	position: absolute;
 	bottom: 0;
-	left: 35vw;
-	width: 50vw;
 }
 
 #message-box {
@@ -86,7 +85,7 @@
 	padding-left: 20px;
 	position: absolute;
 	bottom: 0;
-	left: 25vw;
+	left: 100.5%;
 }
 
 #message-box::placeholder {
@@ -99,16 +98,17 @@
 
 .channel-header {
 	position: absolute;
-	z-index: 1;
-	top: -1%;
-	left: 100%;
-	color: #dcddde;
 	font-family: 'Roboto Mono', monospace;
+	z-index: 1;
+	top: -10%;
+	left: 23%;
+	color: #dcddde;
 	letter-spacing: 2px;
 	font-size: 14px;
 	width: 50vw;
 	padding: 0;
 	margin-bottom: 0px;
+	background-color: cadetblue;
 }
 
 .channel-header-text::before {

@@ -18,11 +18,12 @@
 	top: 0;
 	left: 0;
 	bottom: 0;
-	z-index: 2;
+	/* z-index: 2; */
 	width: 10vw;
 	/* min-width: 75px; */
 	height: 100vh;
-	background-color: #202225;
+	/* background-color: green; */
+
 }
 
 .server-icon:hover {
@@ -30,11 +31,43 @@
 }
 
 .server_name_header {
-	font-size: 3vw;
-	z-index: 2;
-	height: 5vh;
-	transform: translate(10%, -65%);
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 10px;
+	align-content: center;
+  left: 0%;
+  height: 3%;
+  width: 100%;
+	top:0%;
+	font-size: 30px;
+  /* border-bottom: 4px dotted blue; */
+	z-index: 10;
+
+	/* text-align: center; */
+	/* background-color: #2f3136; */
+	/* background-color: green; */
+	/* z-index: -10; */
 }
+.server_name_header_line_break {
+	padding-top: 15px;
+	border-bottom: 1.5px solid white;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	align-content: center;
+  left: 0%;
+  height: 3%;
+  width: 100%;
+	top:0%;
+	font-size: 30px;
+  /* border-bottom: 4px dotted blue; */
+	z-index: 10;
+
+}
+
 
 .server-icon {
 	display: flex;
@@ -42,8 +75,9 @@
 	align-items: center;
 	justify-content: center;
 	padding-top: 5px;
-	height: 5vh;
+	height: 5.5vh;
 	width: 5vw;
+	border-radius: 100%;
 	/* min-height: 50px;
 	min-width: 50px; */
 }
@@ -137,14 +171,13 @@
 }
 
 .server-name-header {
-  margin-top: 15px;
-  width: 400px;
-  height: 100px;
-  margin-left: 40px;
   display: flex;
   flex-direction: column;
   position: relative;
+	align-items: center;
+	width: 15%;
 }
+
 
 .buttons {
 	display: flex;
@@ -219,10 +252,7 @@ input {
 #search-button:hover {
 	cursor: pointer;
 }
-.server_name_bottom_bar {
-	border-bottom: 1px solid gray;
-	transform: translate(-10%, -550%);
-}
+
 
 .align_the_side_bar {
 	height: 100vh;
@@ -230,7 +260,25 @@ input {
 	flex-direction: column;
 	align-items: center;
 	gap: 10px;
+
 }
+
+.server-sidebar {
+	width: 8%;
+	left:0;
+  height: 100%;
+	scroll-padding-bottom: 12em;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	background-color: #202225;
+	/* background-color: rgb(255, 0, 128); */
+}
+
+
+
+
+
 
 @media screen and (max-width: 750px) {
 	.server_img_container {

@@ -10,20 +10,22 @@ const Channels = ({ channels, server, socket, unread, setUnread }) => {
 		if (!server.channels) return;
 		setSelectedChannel(server?.channels[0]?.id ? server.channels[0].id : 1);
 	}, [channels, server, server.channels])
-	
+
 	return (
 		<>
 			<div className="server_name_header">
-				<p id='server_name_tag'>{server.name}</p>
-				<div className="server_name_bottom_bar"></div>
+				{server.name}
 			</div>
-			{channels && channels?.map((channel) => (
-				<div key={channel.id} className={channel.id === selectedChannel ? "align_the_side_bar_channel selected" : "align_the_side_bar_channel"}>
-					<h2 onClick={(e) => setSelectedChannel(channel.id)}>
-						{channel.name}
-					</h2>
-				</div>
-			))}
+			<div className="server_name_header_line_break"/>
+			<div className="server_list_channel_name_container">
+				{channels && channels?.map((channel) => (
+					<div key={channel.id} className={channel.id === selectedChannel ? "align_the_side_bar_channel selected" : "align_the_side_bar_channel"}>
+						<h2 onClick={(e) => setSelectedChannel(channel.id)}>
+							{channel.name}
+						</h2>
+					</div>
+				))}
+			</div>
 			{selectedChannel && (
 				<Messages
 					channel={channels?.find(

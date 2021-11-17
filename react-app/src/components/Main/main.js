@@ -35,7 +35,7 @@ function Main() {
 
     //     // if (size.width > 750) return;
     //     setShowFriends(size.width > 750 ? true : false);
-        
+
     // }, [size])
 
     useEffect(() => {
@@ -43,7 +43,7 @@ function Main() {
             Redirect('/about')
         }
     })
-    
+
 
 	return (
         <div className="main-container">
@@ -67,7 +67,6 @@ function Main() {
                         className="user_profile_photo"
                     />
                     <p>{user.username}</p>
-                </div>
                 <div className='menu-buttons'>
                     <button
                         onClick={() => setShowFriends(!showFriends)}
@@ -79,6 +78,7 @@ function Main() {
                             <i className="far fa-comment-alt fa-2x"></i>
                         )}
                     </button>
+                </div>
                     <MenuModal />
                 </div>
             </div>
